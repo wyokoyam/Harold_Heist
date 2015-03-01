@@ -1,36 +1,38 @@
 package com.Harold_Heist.View;
 
+import com.Harold_Heist.*;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+//import com.badlogic.gdx.graphics.g2d.Sprite.batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class GameScreen implements ApplicationListener{
+
+public class GameScreen implements Screen{
 	
+	private final Main game;
 	private Texture tableIMG; // table image
 	private Texture protagIMG; // protag image
-	private SpriteBatch batch;
 	private OrthographicCamera camera;
 	private Rectangle table;
 	private Rectangle protag; 
-
-	@Override
-	public void create() {
+	
+	public GameScreen(final Main game) {
+		this.game = game;
 		tableIMG = new Texture(Gdx.files.internal("tableImage.png"));
 		protagIMG = new Texture(Gdx.files.internal("marioImage.png"));
 		
 		// create camera
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 800, 480);
-		batch = new SpriteBatch();
 		
 		// create rectangles hard code, design Table Class
 		table = new Rectangle();
@@ -45,31 +47,36 @@ public class GameScreen implements ApplicationListener{
 		protag.y = 240;
 		protag.width = 4;
 		protag.height = 8;
-
 	}
 	
+//	@Override
+//	public void create() {
+//
+//
+//	}
+	
 	@Override
-	public void render() {
+	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		// update camera matrices
 		camera.update();
 		
-		batch.setProjectionMatrix(camera.combined);
+		game.batch.setProjectionMatrix(camera.combined);
 		
 		// hard-code tables until design Table Class, table.x, table.y, simple for loop
-		batch.begin();
-		batch.draw(tableIMG, 100, 300); 
-		batch.draw(tableIMG, 200, 100);
-		batch.draw(tableIMG, 70,  150);
-		batch.draw(tableIMG, 600, 350);
-		batch.end();
+		game.batch.begin();
+		game.batch.draw(tableIMG, 100, 300); 
+		game.batch.draw(tableIMG, 200, 100);
+		game.batch.draw(tableIMG, 70,  150);
+		game.batch.draw(tableIMG, 600, 350);
+		game.batch.end();
 		
 		//render Protagonist
-		batch.begin();
-		batch.draw(protagIMG, protag.x, protag.y);
-		batch.end();
+		game.batch.begin();
+		game.batch.draw(protagIMG, protag.x, protag.y);
+		game.batch.end();
 		
 		//
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) protag.x -= 200 * Gdx.graphics.getDeltaTime();
@@ -92,6 +99,18 @@ public class GameScreen implements ApplicationListener{
 	}
 
 	@Override
+	public void show() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
 		
@@ -106,7 +125,8 @@ public class GameScreen implements ApplicationListener{
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
+		tableIMG.dispose();
+		protagIMG.dispose();
 	}
 
 }

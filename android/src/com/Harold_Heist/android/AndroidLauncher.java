@@ -4,13 +4,16 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import com.Harold_Heist.Harold_Heist_Main;
+import com.Harold_Heist.View.GameScreen;
+import com.Harold_Heist.Main;;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new Harold_Heist_Main(), config);
+		config.useAccelerometer = false;
+		config.useCompass = false;
+		initialize(new Main(), config);
 	}
 }
