@@ -14,4 +14,16 @@ public class Table {
 		this.bounds.width = SIZE;
 		this.bounds.height = SIZE;
 	}
+	
+	public Rectangle getBounds() {
+		return bounds;
+	}
+	
+	public Vector2 getPosition() {
+		return position;
+	}
+	
+	public static float getSize() {
+		return SIZE;
+	}
 }

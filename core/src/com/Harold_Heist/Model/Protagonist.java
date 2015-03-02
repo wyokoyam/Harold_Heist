@@ -3,7 +3,7 @@ package com.Harold_Heist.Model;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Protagonist {
+public class Protagonist extends Rectangle {
 	public enum State {
 		IDLE, WALKING, JUMPING, DYING
 	}
@@ -23,5 +23,25 @@ public class Protagonist {
 		this.position = position;
 		this.bounds.height = SIZE;
 		this.bounds.width = SIZE;
+	}
+	
+	public Vector2 getPosition() {
+		return position;
+	}
+	
+	public Rectangle getBounds() {
+		return bounds;
+	}
+	
+	public static float getSpeed() {
+		return SPEED;
+	}
+	
+	public static float getJumpVelocity() {
+		return JUMP_VELOCITY;
+	}
+	
+	public static float getSize() {
+		return SIZE;
 	}
 }
