@@ -2,8 +2,6 @@
 
 local.properties
 
-*.classpath
-*/*.classpath
 android/.settings/*
 android/bin/*
 desktop/.settings/*
