@@ -62,7 +62,7 @@ public class CafeMacRenderer {
 	
 	private void loadTextures() {
 		tableTexture = new Texture(Gdx.files.internal("tableImage.png"));
-		protagTexture = new Texture(Gdx.files.internal("marioImage.png"));
+		protagTexture = new Texture(Gdx.files.internal("protagonist.png"));
 	}
 
 	public void render() {
