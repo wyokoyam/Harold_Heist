@@ -23,7 +23,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameScreen implements Screen{
 	
-//	private final Main game;
+	private final HaroldHeist game;
 	private CafeMac cafeMac;
 	private CafeMacRenderer renderer;
 	private CharacterController controller;
@@ -33,6 +33,9 @@ public class GameScreen implements Screen{
 	private Table table;
 	private Protagonist protag;
 	
+	public GameScreen(HaroldHeist game) {
+		this.game = game;
+	}
 	
 //	public GameScreen(final Main game) {
 //		this.game = game;
@@ -153,11 +156,39 @@ public class GameScreen implements Screen{
 	    if(Gdx.input.isKeyPressed(Keys.DOWN)) protag.getPosition().y-= 2 * Gdx.graphics.getDeltaTime();
 	    if(Gdx.input.isKeyPressed(Keys.UP)) protag.getPosition().y += 2 * Gdx.graphics.getDeltaTime();
 	    
+	    for (Table table: cafeMac.getTables()) {
+	    	float protagX = protag.getPosition().x;
+	    	float protagY = protag.getPosition().y;
+	    	float tableX = table.getPosition().x;
+	    	float tableY = table.getPosition().y;
+	    	
+	    	// handle collision left of table
+	    	if (protagX + 0.5f > tableX && protagX + 0.5f < tableX + 0.1f && protagY >= tableY - 0.5f && protagY <= tableY + 1) {
+	    		protag.getPosition().x = tableX - 0.5f;
+	    	}
+	    	
+	    	// handle collision right of table
+	    	else if (protagX < tableX + 1 && protagX > tableX + 0.9f && protagY >= tableY - 0.5f && protagY <= tableY + 1) {
+	    		protag.getPosition().x = tableX + 1;
+	    	}
+	    	
+	    	//handle collision below table
+	    	else if (protagX + 0.5f > tableX + 0.1 && protagX < tableX + 1 && protagY + 0.5f > tableY && protagY + 0.5f < tableY + 0.1) {
+	    		protag.getPosition().y = tableY - 0.5f;
+	    	}
+	    	
+	    	//handle collision above table
+	    	else if (protagX + 0.5f > tableX + 0.1 && protagX < tableX + 1 && protagY < tableY + 1 && protagY > tableY + 0.9f) {
+	    		protag.getPosition().y = tableY + 1;
+	    	}
+	    }
+	    
 	     //protag stays within the screen bounds
-	    if(protag.getPosition().x < 0) protag.getPosition().x = 0;
-	    if(protag.getPosition().x > 9) protag.getPosition().x = 9;
-	    if(protag.getPosition().y < 0) protag.getPosition().y = 0;
-	    if(protag.getPosition().y > 6) protag.getPosition().y = 6;
+	    
+	    if(protag.getPosition().x < 0f) protag.getPosition().x = 0f;
+	    if(protag.getPosition().x > 9.5f) protag.getPosition().x = 9.5f;
+	    if(protag.getPosition().y < 0f) protag.getPosition().y = 0f;
+	    if(protag.getPosition().y > 6.5f) protag.getPosition().y = 6.5f;
 	}
 
 }

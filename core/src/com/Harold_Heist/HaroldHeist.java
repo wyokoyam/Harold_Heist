@@ -14,13 +14,14 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.Harold_Heist.View.GameScreen;
+import com.Harold_Heist.View.MainMenuScreen;
 
-public class Main extends Game {
+public class HaroldHeist extends Game {
 	
 	public SpriteBatch batch;
 	public BitmapFont font;
-	Texture protagTexture;
-	Sprite protagSprite;
+//	Texture protagTexture;
+//	Sprite protagSprite;
 	
 	@Override
 	public void create() {
@@ -44,7 +45,7 @@ public class Main extends Game {
 //        Fixture fixture = body.createFixture(fixtureDef);
 //        shape.dispose();
 		
-		setScreen(new GameScreen());
+		this.setScreen(new MainMenuScreen(this));
 	}
 	
 	public void render() {

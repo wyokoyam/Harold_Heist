@@ -83,7 +83,7 @@ public class CafeMacRenderer {
 		Protagonist protag = cafeMac.getProtagonist();
 		float xCoordinate = protag.getPosition().x * ppuX;
 		float yCoordinate = protag.getPosition().y * ppuY;
-		spriteBatch.draw(protagTexture, xCoordinate, yCoordinate, Protagonist.getSize() * ppuX, Table.getSize() * ppuY);
+		spriteBatch.draw(protagTexture, xCoordinate, yCoordinate, Protagonist.getSize() * ppuX, Protagonist.getSize() * ppuY);
 	}
 	
 	private void drawDebug() {
