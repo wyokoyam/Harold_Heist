@@ -9,6 +9,8 @@ public class CafeMac {
 	Array<Table> tableArray = new Array<Table>();
 	/** Our player controlled hero **/
 	Protagonist protag;
+	/** Our heroes autonomous nemesis **/
+	Antagonist antag;
 
 	// Getters -----------
 	public Array<Table> getTables() {
@@ -16,6 +18,9 @@ public class CafeMac {
 	}
 	public Protagonist getProtagonist() {
 		return protag;
+	}
+	public Antagonist getAntagonist(){
+		return antag;
 	}
 	// --------------------
 
@@ -25,6 +30,7 @@ public class CafeMac {
 
 	private void createCafeMac() {
 		protag = new Protagonist(new Vector2(7, 2));
+		antag = new Antagonist(new Vector2(1, 1));
 		Random rand = new Random();
 
 		for (int i = 0; i < 10; i++) { 			 			

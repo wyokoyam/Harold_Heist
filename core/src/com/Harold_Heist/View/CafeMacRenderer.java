@@ -2,6 +2,7 @@ package com.Harold_Heist.View;
 
 import com.Harold_Heist.Model.Table;
 import com.Harold_Heist.Model.Protagonist;
+import com.Harold_Heist.Model.Antagonist;
 import com.Harold_Heist.Model.CafeMac;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -29,11 +30,13 @@ public class CafeMacRenderer {
 	private CafeMac cafeMac;
 	private OrthographicCamera cam;
 	private Sprite protagSprite;
+	private Sprite antagSprite;
 
 	/** for debug rendering **/
 	ShapeRenderer debugRenderer = new ShapeRenderer();
 	
 	private Texture protagTexture;
+	private Texture antagTexture;
 	private Texture tableTexture;
 	
 	private SpriteBatch spriteBatch;
@@ -63,12 +66,14 @@ public class CafeMacRenderer {
 	private void loadTextures() {
 		tableTexture = new Texture(Gdx.files.internal("tableImage.png"));
 		protagTexture = new Texture(Gdx.files.internal("protagonist.png"));
+		antagTexture =  new Texture(Gdx.files.internal("antagonist.png"));
 	}
 
 	public void render() {
 		spriteBatch.begin();
 		drawTables();
 		drawProtag();
+		drawAntag();
 		spriteBatch.end();
 		if (debug) drawDebug();
 	}
@@ -84,6 +89,14 @@ public class CafeMacRenderer {
 		float xCoordinate = protag.getPosition().x * ppuX;
 		float yCoordinate = protag.getPosition().y * ppuY;
 		spriteBatch.draw(protagTexture, xCoordinate, yCoordinate, Protagonist.getSize() * ppuX, Protagonist.getSize() * ppuY);
+	}
+	
+	private void drawAntag(){
+		Antagonist antag = cafeMac.getAntagonist();
+		float xCoordinate = antag.getPosition().x * ppuX;
+		float yCoordinate = antag.getPosition().y * ppuY;
+		spriteBatch.draw(antagTexture, xCoordinate, yCoordinate, Protagonist.getSize() * ppuX, Protagonist.getSize() * ppuY);
+		
 	}
 	
 	private void drawDebug() {
@@ -106,5 +119,15 @@ public class CafeMacRenderer {
 		debugRenderer.setColor(new Color(0, 1, 0, 1));
 		debugRenderer.rect(x1, y1, rect.width, rect.height);
 		debugRenderer.end();
+		
+		// render antagonist
+		Antagonist antag = cafeMac.getAntagonist();
+		Rectangle Arect = protag.getBounds();
+		float Ax1 = protag.getPosition().x + rect.x;
+		float Ay1 = protag.getPosition().y + rect.y;
+		debugRenderer.setColor(new Color(0, 1, 0, 1));
+		debugRenderer.rect(Ax1, Ay1, Arect.width, Arect.height);
+		debugRenderer.end();
+		
 	}
 }
