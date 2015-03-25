@@ -29,9 +29,11 @@ public class GameScreen implements Screen{
 	private CharacterController controller;
 	private Texture tableIMG; // table image
 	private Texture protagIMG; // protag image
+	private Texture antagIMG; // antag image
 	private OrthographicCamera camera;
 	private Table table;
 	private Protagonist protag;
+	private Antagonist antag; 
 	
 	public GameScreen(HaroldHeist game) {
 		this.game = game;
@@ -122,6 +124,7 @@ public class GameScreen implements Screen{
 		// TODO Auto-generated method stub
 		cafeMac = new CafeMac();
 		protag = cafeMac.getProtagonist();
+		antag = cafeMac.getAntagonist();
 		renderer = new CafeMacRenderer(cafeMac, false);
 	}
 		
@@ -148,6 +151,7 @@ public class GameScreen implements Screen{
 		// TODO Auto-generated method stub
 		tableIMG.dispose();
 		protagIMG.dispose();
+		antagIMG.dispose();
 	}
 	
 	private void keyboardControls() {
@@ -159,6 +163,8 @@ public class GameScreen implements Screen{
 	    for (Table table: cafeMac.getTables()) {
 	    	float protagX = protag.getPosition().x;
 	    	float protagY = protag.getPosition().y;
+	    	float antagX = antag.getPosition().x;
+	    	float antagY = antag.getPosition().x;
 	    	float tableX = table.getPosition().x;
 	    	float tableY = table.getPosition().y;
 	    	
@@ -180,6 +186,26 @@ public class GameScreen implements Screen{
 	    	//handle collision above table
 	    	else if (protagX + 0.5f > tableX + 0.1 && protagX < tableX + 1 && protagY < tableY + 1 && protagY > tableY + 0.9f) {
 	    		protag.getPosition().y = tableY + 1;
+	    	}
+	    	
+	    	// handle protag antag collision L
+	    	if (protagX + 0.5f > antagX && protagX + 0.5f < antagX + 0.1f && protagY >= antagY - 0.5f && protagY <= antagY + 1) {
+	    		protag.getPosition().x = antagX - 0.5f;
+	    	}
+	    	
+	    	// handle protag antag collision R
+	    	else if (protagX < antagX + 1 && protagX > antagX + 0.9f && protagY >= antagY - 0.5f && protagY <= antagY + 1) {
+	    		protag.getPosition().x = antagX + 1;
+	    	}
+	    	
+	    	// handle protag antag collision B
+	    	else if (protagX + 0.5f > antagX + 0.1 && protagX < antagX + 1 && protagY + 0.5f > antagY && protagY + 0.5f < antagY + 0.1) {
+	    		protag.getPosition().y = antagY - 0.5f;
+	    	}
+	    	
+	    	// handle protag antag collision A
+	    	else if (protagX + 0.5f > antagX + 0.1 && protagX < antagX + 1 && protagY < antagY + 1 && protagY > antagY + 0.9f) {
+	    		protag.getPosition().y = antagY + 1;
 	    	}
 	    }
 	    
