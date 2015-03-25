@@ -125,22 +125,26 @@ public class GameScreen implements Screen{
 	    	
 	    	// handle protag antag collision L
 	    	if (protagX + 0.5f > antagX && protagX + 0.5f < antagX + 0.1f && protagY >= antagY - 0.5f && protagY <= antagY + 1) {
-	    		protag.getPosition().x = antagX - 0.5f;
+//	    		protag.getPosition().x = antagX - 0.5f;
+	        	game.setScreen(new GameOverScreen(game));
 	    	}
 	    	
 	    	// handle protag antag collision R
-	    	else if (protagX < antagX + 1 && protagX > antagX + 0.9f && protagY >= antagY - 0.5f && protagY <= antagY + 1) {
-	    		protag.getPosition().x = antagX + 1;
+	    	else if (protagX < antagX + 0.5f && protagX > antagX + 0.1f && protagY >= antagY - 0.5f && protagY <= antagY + 1) {
+//	    		protag.getPosition().x = antagX + 1;
+	        	game.setScreen(new GameOverScreen(game));
 	    	}
 	    	
 	    	// handle protag antag collision B
 	    	else if (protagX + 0.5f > antagX + 0.1 && protagX < antagX + 1 && protagY + 0.5f > antagY && protagY + 0.5f < antagY + 0.1) {
-	    		protag.getPosition().y = antagY - 0.5f;
+//	    		protag.getPosition().y = antagY - 0.5f;
+	        	game.setScreen(new GameOverScreen(game));
 	    	}
 	    	
 	    	// handle protag antag collision A
-	    	else if (protagX + 0.5f > antagX + 0.1 && protagX < antagX + 1 && protagY < antagY + 1 && protagY > antagY + 0.9f) {
-	    		protag.getPosition().y = antagY + 1;
+	    	else if (protagX + 0.5f > antagX + 0.1 && protagX < antagX + 1 && protagY < antagY + 0.5f && protagY > antagY + 0.1f) {
+//	    		protag.getPosition().y = antagY + 0.5f;
+	        	game.setScreen(new GameOverScreen(game));
 	    	}
 	    }
 	    
