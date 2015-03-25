@@ -64,12 +64,13 @@ public class CafeMacRenderer {
 	}
 	
 	private void loadTextures() {
-		tableTexture = new Texture(Gdx.files.internal("tableImage.png"));
-		protagTexture = new Texture(Gdx.files.internal("protagonist.png"));
-		antagTexture =  new Texture(Gdx.files.internal("antagonist.png"));
+		tableTexture = new Texture(Gdx.files.internal("tableImage2.png"));
+		protagTexture = new Texture(Gdx.files.internal("protagonist2.png"));
+		antagTexture =  new Texture(Gdx.files.internal("antagonist2.png"));
 	}
 
 	public void render() {
+		spriteBatch.enableBlending();
 		spriteBatch.begin();
 		drawTables();
 		drawProtag();

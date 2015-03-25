@@ -5,7 +5,7 @@ import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.Harold_Heist.View.GameScreen;
-import com.Harold_Heist.Main;;
+import com.Harold_Heist.HaroldHeist;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
@@ -14,6 +14,6 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useAccelerometer = false;
 		config.useCompass = false;
-		initialize(new Main(), config);
+		initialize(new HaroldHeist(), config);
 	}
 }
