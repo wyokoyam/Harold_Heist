@@ -27,24 +27,6 @@ public class HaroldHeist extends Game {
 	public void create() {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
-		
-//		testing collision detection
-//		protagTexture = new Texture(Gdx.files.internal("marioImage.png"));
-//		protagSprite = new Sprite(protagTexture);
-//		World world = new World(new Vector2(0, -1), true);
-//		BodyDef bodyDef = new BodyDef();
-//		bodyDef.type = BodyDef.BodyType.DynamicBody;
-//		protagSprite.setPosition(xCoordinate, yCoordinate);
-//		bodyDef.position.set(protagSprite.getX(), protagSprite.getY());
-//		Body body = world.createBody(bodyDef);
-//		PolygonShape shape = new PolygonShape();
-//		shape.setAsBox(protagSprite.getWidth()/2, protagSprite.getHeight()/2);
-//        FixtureDef fixtureDef = new FixtureDef();
-//        fixtureDef.shape = shape;
-//        fixtureDef.density = 1f;
-//        Fixture fixture = body.createFixture(fixtureDef);
-//        shape.dispose();
-		
 		this.setScreen(new MainMenuScreen(this));
 	}
 	
