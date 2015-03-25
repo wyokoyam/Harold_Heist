@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 public class Antagonist extends Rectangle{
 	
 	static final float SPEED = 2f; 
-	static final float SIZE = .05f; 
+	static final float SIZE = 0.5f; 
 	
 	Vector2 	position = new Vector2();
 	Vector2 	acceleration = new Vector2();
