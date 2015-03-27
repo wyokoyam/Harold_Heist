@@ -29,43 +29,15 @@ public class GameScreen implements Screen{
 	private CharacterController controller;
 	private Texture tableIMG; // table image
 	private Texture protagIMG; // protag image
+	private Texture antagIMG; // antag image
 	private OrthographicCamera camera;
 	private Table table;
 	private Protagonist protag;
+	private Antagonist antag; 
 	
 	public GameScreen(HaroldHeist game) {
 		this.game = game;
 	}
-	
-//	public GameScreen(final Main game) {
-//		this.game = game;
-//		tableIMG = new Texture(Gdx.files.internal("tableImage.png"));
-//		protagIMG = new Texture(Gdx.files.internal("marioImage.png"));
-//		
-//		// create camera
-//		camera = new OrthographicCamera();
-//		camera.setToOrtho(false, 800, 480);
-//		
-//		// create rectangles hard code, design Table Class
-////		table = new Rectangle();
-////		table.x = 300;
-////		table.y = 40;
-////		table.width = 0;
-////		table.height = 0;
-//		
-//		// create protagonist hard code, design Protagonist Class
-//		protag = new Rectangle();
-//		protag.x = 400;
-//		protag.y = 240;
-//		protag.width = 4;
-//		protag.height = 8;
-//	}
-	
-//	@Override
-//	public void create() {
-//
-//
-//	}
 	
 	@Override
 	public void render(float delta) {
@@ -73,41 +45,6 @@ public class GameScreen implements Screen{
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		keyboardControls();
 		renderer.render();
-		
-		// update camera matrices
-//		camera.update();
-		
-//		game.batch.setProjectionMatrix(camera.combined);
-		
-//		ShapeRenderer debugRenderer = new ShapeRenderer();
-//		debugRenderer.setProjectionMatrix(camera.combined);
-//		debugRenderer.begin(ShapeType.Line);
-		
-		// hard-code tables until design Table Class, table.x, table.y, simple for loop
-//		game.batch.begin();
-//		game.batch.draw(new Table(), 100, 300); 
-//		game.batch.draw(tableIMG, 200, 100);
-//		game.batch.draw(tableIMG, 70,  150);
-//		game.batch.draw(tableIMG, 600, 350);
-//		game.batch.end();
-		
-		
-		//render Protagonist
-//		game.batch.begin();
-//		game.batch.draw(protagIMG, protag.x, protag.y);
-//		game.batch.end();
-		
-		//
-//		if(Gdx.input.isKeyPressed(Keys.LEFT)) protag.x -= 200 * Gdx.graphics.getDeltaTime();
-//	    if(Gdx.input.isKeyPressed(Keys.RIGHT)) protag.x += 200 * Gdx.graphics.getDeltaTime();
-//	    if(Gdx.input.isKeyPressed(Keys.DOWN)) protag.y-= 200 * Gdx.graphics.getDeltaTime();
-//	    if(Gdx.input.isKeyPressed(Keys.UP)) protag.y += 200 * Gdx.graphics.getDeltaTime();
-
-	      // protag stays within the screen bounds
-//	     if(protag.x < 0) protag.x = 0;
-//	     if(protag.x > 800 - 64) protag.x = 800 - 64;
-//	     if(protag.y < 0) protag.y = 0;
-//	     if(protag.y > 480 - 64) protag.y = 480 - 64;
 		
 	}
 
@@ -122,6 +59,7 @@ public class GameScreen implements Screen{
 		// TODO Auto-generated method stub
 		cafeMac = new CafeMac();
 		protag = cafeMac.getProtagonist();
+		antag = cafeMac.getAntagonist();
 		renderer = new CafeMacRenderer(cafeMac, false);
 	}
 		
@@ -148,6 +86,7 @@ public class GameScreen implements Screen{
 		// TODO Auto-generated method stub
 		tableIMG.dispose();
 		protagIMG.dispose();
+		antagIMG.dispose();
 	}
 	
 	private void keyboardControls() {
@@ -159,6 +98,8 @@ public class GameScreen implements Screen{
 	    for (Table table: cafeMac.getTables()) {
 	    	float protagX = protag.getPosition().x;
 	    	float protagY = protag.getPosition().y;
+	    	float antagX = antag.getPosition().x;
+	    	float antagY = antag.getPosition().x;
 	    	float tableX = table.getPosition().x;
 	    	float tableY = table.getPosition().y;
 	    	
@@ -180,6 +121,30 @@ public class GameScreen implements Screen{
 	    	//handle collision above table
 	    	else if (protagX + 0.5f > tableX + 0.1 && protagX < tableX + 1 && protagY < tableY + 1 && protagY > tableY + 0.9f) {
 	    		protag.getPosition().y = tableY + 1;
+	    	}
+	    	
+	    	// handle protag antag collision L
+	    	if (protagX + 0.5f > antagX && protagX + 0.5f < antagX + 0.1f && protagY >= antagY - 0.5f && protagY <= antagY + 1) {
+//	    		protag.getPosition().x = antagX - 0.5f;
+	        	game.setScreen(new GameOverScreen(game));
+	    	}
+	    	
+	    	// handle protag antag collision R
+	    	else if (protagX < antagX + 0.5f && protagX > antagX + 0.1f && protagY >= antagY - 0.5f && protagY <= antagY + 1) {
+//	    		protag.getPosition().x = antagX + 1;
+	        	game.setScreen(new GameOverScreen(game));
+	    	}
+	    	
+	    	// handle protag antag collision B
+	    	else if (protagX + 0.5f > antagX + 0.1 && protagX < antagX + 1 && protagY + 0.5f > antagY && protagY + 0.5f < antagY + 0.1) {
+//	    		protag.getPosition().y = antagY - 0.5f;
+	        	game.setScreen(new GameOverScreen(game));
+	    	}
+	    	
+	    	// handle protag antag collision A
+	    	else if (protagX + 0.5f > antagX + 0.1 && protagX < antagX + 1 && protagY < antagY + 0.5f && protagY > antagY + 0.1f) {
+//	    		protag.getPosition().y = antagY + 0.5f;
+	        	game.setScreen(new GameOverScreen(game));
 	    	}
 	    }
 	    
