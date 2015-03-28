@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 //import com.badlogic.gdx.graphics.g2d.Sprite.batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -44,6 +45,7 @@ public class GameScreen implements Screen{
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		keyboardControls();
+		collisionHandler();
 		renderer.render();
 		
 	}
@@ -95,65 +97,56 @@ public class GameScreen implements Screen{
 	    if(Gdx.input.isKeyPressed(Keys.DOWN)) protag.getPosition().y-= 2 * Gdx.graphics.getDeltaTime();
 	    if(Gdx.input.isKeyPressed(Keys.UP)) protag.getPosition().y += 2 * Gdx.graphics.getDeltaTime();
 	    
-	    for (Table table: cafeMac.getTables()) {
-	    	float protagX = protag.getPosition().x;
-	    	float protagY = protag.getPosition().y;
-	    	float antagX = antag.getPosition().x;
-	    	float antagY = antag.getPosition().x;
-	    	float tableX = table.getPosition().x;
-	    	float tableY = table.getPosition().y;
-	    	
-	    	// handle collision left of table
-	    	if (protagX + 0.5f > tableX && protagX + 0.5f < tableX + 0.1f && protagY >= tableY - 0.5f && protagY <= tableY + 1) {
-	    		protag.getPosition().x = tableX - 0.5f;
-	    	}
-	    	
-	    	// handle collision right of table
-	    	else if (protagX < tableX + 1 && protagX > tableX + 0.9f && protagY >= tableY - 0.5f && protagY <= tableY + 1) {
-	    		protag.getPosition().x = tableX + 1;
-	    	}
-	    	
-	    	//handle collision below table
-	    	else if (protagX + 0.5f > tableX + 0.1 && protagX < tableX + 1 && protagY + 0.5f > tableY && protagY + 0.5f < tableY + 0.1) {
-	    		protag.getPosition().y = tableY - 0.5f;
-	    	}
-	    	
-	    	//handle collision above table
-	    	else if (protagX + 0.5f > tableX + 0.1 && protagX < tableX + 1 && protagY < tableY + 1 && protagY > tableY + 0.9f) {
-	    		protag.getPosition().y = tableY + 1;
-	    	}
-	    	
-	    	// handle protag antag collision L
-	    	if (protagX + 0.5f > antagX && protagX + 0.5f < antagX + 0.1f && protagY >= antagY - 0.5f && protagY <= antagY + 1) {
-//	    		protag.getPosition().x = antagX - 0.5f;
-	        	game.setScreen(new GameOverScreen(game));
-	    	}
-	    	
-	    	// handle protag antag collision R
-	    	else if (protagX < antagX + 0.5f && protagX > antagX + 0.1f && protagY >= antagY - 0.5f && protagY <= antagY + 1) {
-//	    		protag.getPosition().x = antagX + 1;
-	        	game.setScreen(new GameOverScreen(game));
-	    	}
-	    	
-	    	// handle protag antag collision B
-	    	else if (protagX + 0.5f > antagX + 0.1 && protagX < antagX + 1 && protagY + 0.5f > antagY && protagY + 0.5f < antagY + 0.1) {
-//	    		protag.getPosition().y = antagY - 0.5f;
-	        	game.setScreen(new GameOverScreen(game));
-	    	}
-	    	
-	    	// handle protag antag collision A
-	    	else if (protagX + 0.5f > antagX + 0.1 && protagX < antagX + 1 && protagY < antagY + 0.5f && protagY > antagY + 0.1f) {
-//	    		protag.getPosition().y = antagY + 0.5f;
-	        	game.setScreen(new GameOverScreen(game));
-	    	}
-	    }
-	    
-	     //protag stays within the screen bounds
-	    
-	    if(protag.getPosition().x < 0f) protag.getPosition().x = 0f;
-	    if(protag.getPosition().x > 9.5f) protag.getPosition().x = 9.5f;
-	    if(protag.getPosition().y < 0f) protag.getPosition().y = 0f;
-	    if(protag.getPosition().y > 6.5f) protag.getPosition().y = 6.5f;
 	}
-
+	
+	private void collisionHandler() {
+	    for (Table table: cafeMac.getTables()) {
+	    	objectCollisionHandler(protag.getPosition(), table.getPosition(), false);
+	    	objectCollisionHandler(antag.getPosition(), table.getPosition(), false);
+	    	objectCollisionHandler(protag.getPosition(), antag.getPosition(), true);
+	    }    
+	    wallCollisionHandler(protag.getPosition());
+	    wallCollisionHandler(antag.getPosition());
+	}
+	
+	private void wallCollisionHandler(Vector2 object) {
+		float objectX = object.x;
+		float objectY = object.y;
+		
+	    if(objectX < 0f) object.x = 0f;
+	    if(objectX > 9.5f) object.x = 9.5f;
+	    if(objectY < 0f) object.y = 0f;
+	    if(objectY > 6.5f) object.y = 6.5f;
+	}
+	
+	private void objectCollisionHandler(Vector2 object1, Vector2 object2, boolean protagAndAntag) {
+		float object1X = object1.x;
+		float object1Y = object1.y;
+		float object2X = object2.x;
+		float object2Y = object2.y;
+		
+		// handle collision left of object2
+    	if (object1X + 0.5f > object2X && object1X + 0.5f < object2X + 0.1f && object1Y > object2Y - 0.45f && object1Y < object2Y + 0.45f) {
+    		if (protagAndAntag) game.setScreen(new GameOverScreen(game)); 
+    		else protag.getPosition().x = object2X - 0.5f;
+    	}
+    	
+    	// handle collision right of object2
+    	else if (object1X < object2X + 0.5f && object1X > object2X + 0.4f && object1Y > object2Y - 0.45f && object1Y < object2Y + 0.45f) {
+    		if (protagAndAntag) game.setScreen(new GameOverScreen(game));
+    		else protag.getPosition().x = object2X + 0.5f;
+    	}
+    	
+    	//handle collision below object2
+    	else if (object1X + 0.45f > object2X && object1X < object2X + 0.45f && object1Y + 0.5f > object2Y && object1Y + 0.5f < object2Y + 0.1f) {
+    		if (protagAndAntag) game.setScreen(new GameOverScreen(game));
+    		else protag.getPosition().y = object2Y - 0.5f;
+    	}
+    	
+    	//handle collision above object2
+    	else if (object1X + 0.45f > object2X && object1X < object2X + 0.45f && object1Y < object2Y + 0.5f && object1Y > object2Y + 0.4f) {
+    		if (protagAndAntag) game.setScreen(new GameOverScreen(game));
+    		else protag.getPosition().y = object2Y + 0.5f;
+    	}
+	}
 }

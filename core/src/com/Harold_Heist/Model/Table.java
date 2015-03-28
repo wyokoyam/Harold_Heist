@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Table {
-	static final float SIZE = 1f;
+	static final float SIZE = 0.5f;
 
 	Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();

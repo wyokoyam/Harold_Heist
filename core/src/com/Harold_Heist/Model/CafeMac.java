@@ -33,7 +33,7 @@ public class CafeMac {
 		antag = new Antagonist(new Vector2(1, 1));
 		Random rand = new Random();
 
-		for (int i = 0; i < 10; i++) { 			 			
+		for (int i = 0; i < 20; i++) { 			 			
 			tableArray.add(new Table(new Vector2(rand.nextInt(10), rand.nextInt(8))));
 		}
 	}
