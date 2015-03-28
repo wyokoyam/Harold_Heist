@@ -64,8 +64,8 @@ public class CafeMacRenderer {
 	}
 	
 	private void loadTextures() {
-		tableTexture = new Texture(Gdx.files.internal("tableImage.png"));
-		protagTexture = new Texture(Gdx.files.internal("protagonist.png"));
+		tableTexture = new Texture(Gdx.files.internal("hh table.png"));
+		protagTexture = new Texture(Gdx.files.internal("protagonist2.png"));
 		antagTexture =  new Texture(Gdx.files.internal("antagonist2.png"));
 	}
 
