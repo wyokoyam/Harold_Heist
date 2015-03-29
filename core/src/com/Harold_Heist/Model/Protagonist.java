@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Protagonist extends Rectangle {
 	public enum State {
-		IDLE, WALKING, JUMPING, DYING
+		FACELEFT, FACERIGHT, FACEUP, FACEDOWN;
 	}
 
 	static final float SPEED = 2f;	// unit per second
@@ -16,8 +16,8 @@ public class Protagonist extends Rectangle {
 	Vector2 	acceleration = new Vector2();
 	Vector2 	velocity = new Vector2();
 	Rectangle 	bounds = new Rectangle();
-	State		state = State.IDLE;
-	boolean		facingLeft = true;
+	State		state = State.FACERIGHT;
+//	boolean		facingLeft = true;
 
 	public Protagonist(Vector2 position) {
 		this.position = position;
@@ -37,6 +37,14 @@ public class Protagonist extends Rectangle {
 		return SPEED;
 	}
 	
+	public State getState() {
+		return state;
+	}
+	
+	public void setState(State state) {
+		this.state = state;
+	}
+	
 	public static float getJumpVelocity() {
 		return JUMP_VELOCITY;
 	}
@@ -44,4 +52,5 @@ public class Protagonist extends Rectangle {
 	public static float getSize() {
 		return SIZE;
 	}
+	
 }

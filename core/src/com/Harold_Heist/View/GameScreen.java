@@ -91,11 +91,22 @@ public class GameScreen implements Screen{
 	}
 	
 	private void keyboardControls() {
-		if(Gdx.input.isKeyPressed(Keys.LEFT)) protag.getPosition().x -= 2 * Gdx.graphics.getDeltaTime();
-	    if(Gdx.input.isKeyPressed(Keys.RIGHT)) protag.getPosition().x += 2 * Gdx.graphics.getDeltaTime();
-	    if(Gdx.input.isKeyPressed(Keys.DOWN)) protag.getPosition().y-= 2 * Gdx.graphics.getDeltaTime();
-	    if(Gdx.input.isKeyPressed(Keys.UP)) protag.getPosition().y += 2 * Gdx.graphics.getDeltaTime();
-	    
+		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
+			protag.setState(Protagonist.State.FACELEFT);
+			protag.getPosition().x -= 2 * Gdx.graphics.getDeltaTime();
+		}
+	    if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
+	    	protag.setState(Protagonist.State.FACERIGHT);
+	    	protag.getPosition().x += 2 * Gdx.graphics.getDeltaTime();
+	    }
+	    if(Gdx.input.isKeyPressed(Keys.DOWN)) {
+	    	protag.setState(Protagonist.State.FACEDOWN);
+	    	protag.getPosition().y-= 2 * Gdx.graphics.getDeltaTime();
+	    }
+	    if(Gdx.input.isKeyPressed(Keys.UP)) {
+	    	protag.setState(Protagonist.State.FACEUP);
+	    	protag.getPosition().y += 2 * Gdx.graphics.getDeltaTime();
+	    }
 	}
 	
 	private void collisionHandler() {

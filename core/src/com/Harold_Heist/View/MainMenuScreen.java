@@ -44,14 +44,10 @@ public class MainMenuScreen implements Screen {
         
         game.batch.begin();
         game.font.draw(game.batch, "Welcome to Harold Heist!!", 190, 200);
-        game.font.draw(game.batch, "Tap anywhere to begin", 190, 150);
+        game.font.draw(game.batch, "Click anywhere to begin", 190, 150);
         game.batch.draw(Settings.soundEnabled ? Assets.soundOn : Assets.soundOff, 0, 0, 20, 20);
         game.batch.end();
                 
-//        if (Gdx.input.isTouched()) {
-//        	game.setScreen(new GameScreen(game));
-//        	dispose();
-//        }
         update();
 	}
 	

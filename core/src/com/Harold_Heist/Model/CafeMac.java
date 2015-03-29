@@ -11,6 +11,7 @@ public class CafeMac {
 	Protagonist protag;
 	/** Our heroes autonomous nemesis **/
 	Antagonist antag;
+	
 
 	// Getters -----------
 	public Array<Table> getTables() {
