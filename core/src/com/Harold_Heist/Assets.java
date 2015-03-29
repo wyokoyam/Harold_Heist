@@ -22,7 +22,7 @@ public class Assets {
 		protagRight = new Texture(Gdx.files.internal("graphics/protagRight.png"));
 		protagLeft = new Texture(Gdx.files.internal("graphics/protagLeft.png"));
 		protagUp = new Texture(Gdx.files.internal("graphics/protagUp.png"));
-		protagDown = new Texture(Gdx.files.internal("graphics/protagUp.png"));
+		protagDown = new Texture(Gdx.files.internal("graphics/protagDown.png"));
 		
 		antagRight =  new Texture(Gdx.files.internal("graphics/antagRight.png"));
 		
