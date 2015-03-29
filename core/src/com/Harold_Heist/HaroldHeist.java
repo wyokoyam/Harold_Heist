@@ -27,6 +27,7 @@ public class HaroldHeist extends Game {
 	public void create() {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
+		Assets.load();
 		this.setScreen(new MainMenuScreen(this));
 	}
 	

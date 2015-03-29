@@ -1,10 +1,12 @@
 package com.Harold_Heist.View;
 
+import com.Harold_Heist.Assets;
 import com.Harold_Heist.Model.Table;
 import com.Harold_Heist.Model.Protagonist;
 import com.Harold_Heist.Model.Antagonist;
 import com.Harold_Heist.Model.CafeMac;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -29,8 +31,6 @@ public class CafeMacRenderer {
 
 	private CafeMac cafeMac;
 	private OrthographicCamera cam;
-	private Sprite protagSprite;
-	private Sprite antagSprite;
 
 	/** for debug rendering **/
 	ShapeRenderer debugRenderer = new ShapeRenderer();
@@ -38,6 +38,7 @@ public class CafeMacRenderer {
 	private Texture protagTexture;
 	private Texture antagTexture;
 	private Texture tableTexture;
+	private Music catchyMusic;
 	
 	private SpriteBatch spriteBatch;
 	private boolean debug = false;
@@ -60,13 +61,16 @@ public class CafeMacRenderer {
 		this.debug = debug;
 		spriteBatch = new SpriteBatch();
 
-		loadTextures();
+		load();
 	}
 	
-	private void loadTextures() {
-		tableTexture = new Texture(Gdx.files.internal("hh table.png"));
-		protagTexture = new Texture(Gdx.files.internal("protagonist2.png"));
-		antagTexture =  new Texture(Gdx.files.internal("antagonist2.png"));
+	private void load() {
+		tableTexture = new Texture(Gdx.files.internal("graphics/hh table.png"));
+		protagTexture = new Texture(Gdx.files.internal("graphics/protagonist2.png"));
+		antagTexture =  new Texture(Gdx.files.internal("graphics/antagonist2.png"));
+//		catchyMusic = Gdx.audio.newMusic(Gdx.files.internal("music/catchyMusic.mp3"));
+//		if (!catchyMusic.isLooping()) catchyMusic.play();
+//		catchyMusic.setLooping(true);
 	}
 
 	public void render() {
@@ -76,7 +80,7 @@ public class CafeMacRenderer {
 		drawProtag();
 		drawAntag();
 		spriteBatch.end();
-		if (debug) drawDebug();
+//		if (debug) drawDebug();
 	}
 	
 	private void drawTables() {
@@ -100,35 +104,34 @@ public class CafeMacRenderer {
 		
 	}
 	
-	private void drawDebug() {
-		// render blocks
-		debugRenderer.setProjectionMatrix(cam.combined);
-		debugRenderer.begin(ShapeType.Line);
-		for (Table table : cafeMac.getTables()) {
-			Rectangle rect = table.getBounds();
-			float x1 = table.getPosition().x + rect.x;
-			float y1 = table.getPosition().y + rect.y;
-			debugRenderer.setColor(new Color(1, 0, 0, 1));
-			debugRenderer.rect(x1, y1, rect.width, rect.height);
-		}
-		
-		// render protagonist
-		Protagonist protag = cafeMac.getProtagonist();
-		Rectangle rect = protag.getBounds();
-		float x1 = protag.getPosition().x + rect.x;
-		float y1 = protag.getPosition().y + rect.y;
-		debugRenderer.setColor(new Color(0, 1, 0, 1));
-		debugRenderer.rect(x1, y1, rect.width, rect.height);
-		debugRenderer.end();
-		
-		// render antagonist
-		Antagonist antag = cafeMac.getAntagonist();
-		Rectangle Arect = protag.getBounds();
-		float Ax1 = protag.getPosition().x + rect.x;
-		float Ay1 = protag.getPosition().y + rect.y;
-		debugRenderer.setColor(new Color(0, 1, 0, 1));
-		debugRenderer.rect(Ax1, Ay1, Arect.width, Arect.height);
-		debugRenderer.end();
-		
-	}
+//	private void drawDebug() {
+//		// render blocks
+//		debugRenderer.setProjectionMatrix(cam.combined);
+//		debugRenderer.begin(ShapeType.Line);
+//		for (Table table : cafeMac.getTables()) {
+//			Rectangle rect = table.getBounds();
+//			float x1 = table.getPosition().x + rect.x;
+//			float y1 = table.getPosition().y + rect.y;
+//			debugRenderer.setColor(new Color(1, 0, 0, 1));
+//			debugRenderer.rect(x1, y1, rect.width, rect.height);
+//		}
+//		
+//		// render protagonist
+//		Protagonist protag = cafeMac.getProtagonist();
+//		Rectangle rect = protag.getBounds();
+//		float x1 = protag.getPosition().x + rect.x;
+//		float y1 = protag.getPosition().y + rect.y;
+//		debugRenderer.setColor(new Color(0, 1, 0, 1));
+//		debugRenderer.rect(x1, y1, rect.width, rect.height);
+//		debugRenderer.end();
+//		
+//		// render antagonist
+//		Antagonist antag = cafeMac.getAntagonist();
+//		Rectangle Arect = protag.getBounds();
+//		float Ax1 = protag.getPosition().x + rect.x;
+//		float Ay1 = protag.getPosition().y + rect.y;
+//		debugRenderer.setColor(new Color(0, 1, 0, 1));
+//		debugRenderer.rect(Ax1, Ay1, Arect.width, Arect.height);
+//		debugRenderer.end();	
+//	}
 }

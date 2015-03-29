@@ -27,7 +27,6 @@ public class GameScreen implements Screen{
 	private final HaroldHeist game;
 	private CafeMac cafeMac;
 	private CafeMacRenderer renderer;
-	private CharacterController controller;
 	private Texture tableIMG; // table image
 	private Texture protagIMG; // protag image
 	private Texture antagIMG; // antag image
@@ -127,25 +126,37 @@ public class GameScreen implements Screen{
 		
 		// handle collision left of object2
     	if (object1X + 0.5f > object2X && object1X + 0.5f < object2X + 0.1f && object1Y > object2Y - 0.45f && object1Y < object2Y + 0.45f) {
-    		if (protagAndAntag) game.setScreen(new GameOverScreen(game)); 
+    		if (protagAndAntag) {
+//    			dispose();
+    			game.setScreen(new GameOverScreen(game)); 
+    		}
     		else protag.getPosition().x = object2X - 0.5f;
     	}
     	
     	// handle collision right of object2
     	else if (object1X < object2X + 0.5f && object1X > object2X + 0.4f && object1Y > object2Y - 0.45f && object1Y < object2Y + 0.45f) {
-    		if (protagAndAntag) game.setScreen(new GameOverScreen(game));
+    		if (protagAndAntag) {
+//    			dispose();
+    			game.setScreen(new GameOverScreen(game));
+    		}
     		else protag.getPosition().x = object2X + 0.5f;
     	}
     	
     	//handle collision below object2
     	else if (object1X + 0.45f > object2X && object1X < object2X + 0.45f && object1Y + 0.5f > object2Y && object1Y + 0.5f < object2Y + 0.1f) {
-    		if (protagAndAntag) game.setScreen(new GameOverScreen(game));
+    		if (protagAndAntag) {
+//    			dispose();
+    			game.setScreen(new GameOverScreen(game));
+    		}
     		else protag.getPosition().y = object2Y - 0.5f;
     	}
     	
     	//handle collision above object2
     	else if (object1X + 0.45f > object2X && object1X < object2X + 0.45f && object1Y < object2Y + 0.5f && object1Y > object2Y + 0.4f) {
-    		if (protagAndAntag) game.setScreen(new GameOverScreen(game));
+    		if (protagAndAntag) {
+//    			dispose();
+    			game.setScreen(new GameOverScreen(game));
+    		}
     		else protag.getPosition().y = object2Y + 0.5f;
     	}
 	}

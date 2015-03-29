@@ -31,10 +31,14 @@ public class CafeMac {
 	private void createCafeMac() {
 		protag = new Protagonist(new Vector2(7, 2));
 		antag = new Antagonist(new Vector2(1, 1));
+		
 		Random rand = new Random();
-
-		for (int i = 0; i < 20; i++) { 			 			
-			tableArray.add(new Table(new Vector2(rand.nextInt(10), rand.nextInt(8))));
+		for (int i = 0; i < 20; i++) {
+			Table table = new Table(new Vector2(rand.nextInt(10), rand.nextInt(8)));
+			while ((table.getPosition().x == 7 && table.getPosition().y == 2) || (table.getPosition().x == 1 && table.getPosition().y == 1)) {
+				table = new Table(new Vector2(rand.nextInt(10), rand.nextInt(8)));
+			}
+			tableArray.add(table);
 		}
 	}
 	
