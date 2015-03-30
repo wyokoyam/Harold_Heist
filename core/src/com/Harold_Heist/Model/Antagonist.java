@@ -13,8 +13,8 @@ public class Antagonist extends Rectangle{
 	static final float SIZE = 0.5f; 
 	
 	Vector2 	position = new Vector2();
-	Vector2 	acceleration = new Vector2();
-	Vector2 	velocity = new Vector2();
+//	Vector2 	acceleration = new Vector2();
+//	Vector2 	velocity = new Vector2();
 	Rectangle 	bounds = new Rectangle();
 	State state = State.FACERIGHT;
 	

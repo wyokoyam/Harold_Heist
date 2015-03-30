@@ -22,9 +22,7 @@ public class CafeMacRenderer {
 
 	/** for debug rendering **/
 	ShapeRenderer debugRenderer = new ShapeRenderer();
-	
-	private Music catchyMusic;
-	
+		
 	private SpriteBatch spriteBatch;
 	private boolean debug = false;
 	private int width;
@@ -45,10 +43,6 @@ public class CafeMacRenderer {
 		this.cam.update();
 		this.debug = debug;
 		spriteBatch = new SpriteBatch();
-		
-//		this.protagTexture = Assets.protagRight;
-//		this.antagTexture = Assets.antagRight;
-//		this.tableTexture = Assets.tableTexture;
 		
 	}
 

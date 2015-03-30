@@ -93,36 +93,36 @@ public class GameScreen implements Screen{
 	private void keyboardControls() {
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
 			protag.setState(Protagonist.State.FACELEFT);
-			protag.getPosition().x -= 2 * Gdx.graphics.getDeltaTime();
+			protag.getPosition().x -= Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
 		}
 	    if(Gdx.input.isKeyPressed(Keys.RIGHT)) {
 	    	protag.setState(Protagonist.State.FACERIGHT);
-	    	protag.getPosition().x += 2 * Gdx.graphics.getDeltaTime();
+	    	protag.getPosition().x += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
 	    }
 	    if(Gdx.input.isKeyPressed(Keys.DOWN)) {
 	    	protag.setState(Protagonist.State.FACEDOWN);
-	    	protag.getPosition().y-= 2 * Gdx.graphics.getDeltaTime();
+	    	protag.getPosition().y-= Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
 	    }
 	    if(Gdx.input.isKeyPressed(Keys.UP)) {
 	    	protag.setState(Protagonist.State.FACEUP);
-	    	protag.getPosition().y += 2 * Gdx.graphics.getDeltaTime();
+	    	protag.getPosition().y += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
 	    }
 	    
 		if(Gdx.input.isKeyPressed(Keys.A)) {
 			antag.setState(Antagonist.State.FACELEFT);
-			antag.getPosition().x -= 2 * Gdx.graphics.getDeltaTime();
+			antag.getPosition().x -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
 		}
 	    if(Gdx.input.isKeyPressed(Keys.D)) {
 	    	antag.setState(Antagonist.State.FACERIGHT);
-	    	antag.getPosition().x += 2 * Gdx.graphics.getDeltaTime();
+	    	antag.getPosition().x += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
 	    }
 	    if(Gdx.input.isKeyPressed(Keys.S)) {
 	    	antag.setState(Antagonist.State.FACEDOWN);
-	    	antag.getPosition().y-= 2 * Gdx.graphics.getDeltaTime();
+	    	antag.getPosition().y-= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
 	    }
 	    if(Gdx.input.isKeyPressed(Keys.W)) {
 	    	antag.setState(Antagonist.State.FACEUP);
-	    	antag.getPosition().y += 2 * Gdx.graphics.getDeltaTime();
+	    	antag.getPosition().y += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
 	    }
 	}
 	
@@ -155,7 +155,6 @@ public class GameScreen implements Screen{
 		// handle collision left of object2
     	if (object1X + 0.5f > object2X && object1X + 0.5f < object2X + 0.1f && object1Y > object2Y - 0.45f && object1Y < object2Y + 0.45f) {
     		if (protagAndAntag) {
-//    			dispose();
     			game.setScreen(new GameOverScreen(game)); 
     		}
     		else object1.x = object2X - 0.5f;
@@ -164,7 +163,6 @@ public class GameScreen implements Screen{
     	// handle collision right of object2
     	else if (object1X < object2X + 0.5f && object1X > object2X + 0.4f && object1Y > object2Y - 0.45f && object1Y < object2Y + 0.45f) {
     		if (protagAndAntag) {
-//    			dispose();
     			game.setScreen(new GameOverScreen(game));
     		}
     		else object1.x = object2X + 0.5f;
@@ -173,7 +171,6 @@ public class GameScreen implements Screen{
     	//handle collision below object2
     	else if (object1X + 0.45f > object2X && object1X < object2X + 0.45f && object1Y + 0.5f > object2Y && object1Y + 0.5f < object2Y + 0.1f) {
     		if (protagAndAntag) {
-//    			dispose();
     			game.setScreen(new GameOverScreen(game));
     		}
     		else object1.y = object2Y - 0.5f;
@@ -182,7 +179,6 @@ public class GameScreen implements Screen{
     	//handle collision above object2
     	else if (object1X + 0.45f > object2X && object1X < object2X + 0.45f && object1Y < object2Y + 0.5f && object1Y > object2Y + 0.4f) {
     		if (protagAndAntag) {
-//    			dispose();
     			game.setScreen(new GameOverScreen(game));
     		}
     		else object1.y = object2Y + 0.5f;
