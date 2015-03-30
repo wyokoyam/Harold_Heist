@@ -94,6 +94,15 @@ public class CafeMacRenderer {
 		if (antag.getState() == Antagonist.State.FACERIGHT) {
 			spriteBatch.draw(Assets.antagRight, xCoordinate, yCoordinate, Protagonist.getSize() * ppuX, Protagonist.getSize() * ppuY);
 		}
+		else if (antag.getState() == Antagonist.State.FACELEFT) {
+			spriteBatch.draw(Assets.antagLeft, xCoordinate, yCoordinate, Antagonist.getSize() * ppuX, Antagonist.getSize() * ppuY);
+		}
+		else if (antag.getState() == Antagonist.State.FACEUP) {
+			spriteBatch.draw(Assets.antagUp, xCoordinate, yCoordinate, Antagonist.getSize() * ppuX, Antagonist.getSize() * ppuY);
+		} 
+		else if (antag.getState() == Antagonist.State.FACEDOWN) {
+			spriteBatch.draw(Assets.antagDown, xCoordinate, yCoordinate, Antagonist.getSize() * ppuX, Antagonist.getSize() * ppuY);
+		}
 	}
 	
 //	private void drawDebug() {

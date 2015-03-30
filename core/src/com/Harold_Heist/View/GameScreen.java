@@ -107,6 +107,23 @@ public class GameScreen implements Screen{
 	    	protag.setState(Protagonist.State.FACEUP);
 	    	protag.getPosition().y += 2 * Gdx.graphics.getDeltaTime();
 	    }
+	    
+		if(Gdx.input.isKeyPressed(Keys.A)) {
+			antag.setState(Antagonist.State.FACELEFT);
+			antag.getPosition().x -= 2 * Gdx.graphics.getDeltaTime();
+		}
+	    if(Gdx.input.isKeyPressed(Keys.D)) {
+	    	antag.setState(Antagonist.State.FACERIGHT);
+	    	antag.getPosition().x += 2 * Gdx.graphics.getDeltaTime();
+	    }
+	    if(Gdx.input.isKeyPressed(Keys.S)) {
+	    	antag.setState(Antagonist.State.FACEDOWN);
+	    	antag.getPosition().y-= 2 * Gdx.graphics.getDeltaTime();
+	    }
+	    if(Gdx.input.isKeyPressed(Keys.W)) {
+	    	antag.setState(Antagonist.State.FACEUP);
+	    	antag.getPosition().y += 2 * Gdx.graphics.getDeltaTime();
+	    }
 	}
 	
 	private void collisionHandler() {
@@ -141,7 +158,7 @@ public class GameScreen implements Screen{
 //    			dispose();
     			game.setScreen(new GameOverScreen(game)); 
     		}
-    		else protag.getPosition().x = object2X - 0.5f;
+    		else object1.x = object2X - 0.5f;
     	}
     	
     	// handle collision right of object2
@@ -150,7 +167,7 @@ public class GameScreen implements Screen{
 //    			dispose();
     			game.setScreen(new GameOverScreen(game));
     		}
-    		else protag.getPosition().x = object2X + 0.5f;
+    		else object1.x = object2X + 0.5f;
     	}
     	
     	//handle collision below object2
@@ -159,7 +176,7 @@ public class GameScreen implements Screen{
 //    			dispose();
     			game.setScreen(new GameOverScreen(game));
     		}
-    		else protag.getPosition().y = object2Y - 0.5f;
+    		else object1.y = object2Y - 0.5f;
     	}
     	
     	//handle collision above object2
@@ -168,7 +185,7 @@ public class GameScreen implements Screen{
 //    			dispose();
     			game.setScreen(new GameOverScreen(game));
     		}
-    		else protag.getPosition().y = object2Y + 0.5f;
+    		else object1.y = object2Y + 0.5f;
     	}
 	}
 }

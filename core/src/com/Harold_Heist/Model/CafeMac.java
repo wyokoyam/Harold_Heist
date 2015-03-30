@@ -1,8 +1,14 @@
 package com.Harold_Heist.Model;
+import java.util.List;
 import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+
+import org.xguzm.pathfinding.NavigationGraph;
+import org.xguzm.pathfinding.grid.GridCell;
+import org.xguzm.pathfinding.grid.NavigationGrid;
+import org.xguzm.pathfinding.grid.finders.AStarGridFinder;
 
 public class CafeMac {
 	/** The tableArray making up the world **/
@@ -28,6 +34,7 @@ public class CafeMac {
 	public CafeMac() {
 		createCafeMac();
 	}
+
 
 	private void createCafeMac() {
 		protag = new Protagonist(new Vector2(7, 2));

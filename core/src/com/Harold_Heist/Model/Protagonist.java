@@ -17,7 +17,6 @@ public class Protagonist extends Rectangle {
 	Vector2 	velocity = new Vector2();
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.FACERIGHT;
-//	boolean		facingLeft = true;
 
 	public Protagonist(Vector2 position) {
 		this.position = position;

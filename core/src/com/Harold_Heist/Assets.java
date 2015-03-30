@@ -8,8 +8,13 @@ public class Assets {
 	public static Texture protagRight;
 	public static Texture protagLeft;
 	public static Texture protagUp;
-	public static Texture antagRight;
 	public static Texture protagDown;
+
+	public static Texture antagRight;
+	public static Texture antagLeft;
+	public static Texture antagUp;
+	public static Texture antagDown;
+	
 	public static Texture tableTexture;
 	public static Texture soundOn;
 	public static Texture soundOff;
@@ -25,6 +30,9 @@ public class Assets {
 		protagDown = new Texture(Gdx.files.internal("graphics/protagDown.png"));
 		
 		antagRight =  new Texture(Gdx.files.internal("graphics/antagRight.png"));
+		antagLeft = new Texture(Gdx.files.internal("graphics/antagLeft.png"));
+		antagUp = new Texture(Gdx.files.internal("graphics/antagUp.png"));
+		antagDown = new Texture(Gdx.files.internal("graphics/antagDown.png"));
 		
 		soundOn = new Texture(Gdx.files.internal("graphics/soundOn.png"));
 		soundOff = new Texture(Gdx.files.internal("graphics/soundOff.png"));
