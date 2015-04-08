@@ -8,12 +8,10 @@ public class Protagonist extends Rectangle {
 		FACELEFT, FACERIGHT, FACEUP, FACEDOWN;
 	}
 
-	static final float SPEED = 2f;	// unit per second
-	static final float SIZE = 0.5f; // half a unit
+	static final float SIZE = 32;
+    static final float SPEED = SIZE * 2.5f;	// unit per second
 
-	Vector2 	position = new Vector2();
-//	Vector2 	acceleration = new Vector2();
-//	Vector2 	velocity = new Vector2();
+    Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.FACERIGHT;
 

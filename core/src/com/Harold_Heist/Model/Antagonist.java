@@ -9,17 +9,15 @@ public class Antagonist extends Rectangle{
 		FACELEFT, FACERIGHT, FACEUP, FACEDOWN;
 	}
 	
-	static final float SPEED = 2f; 
-	static final float SIZE = 0.5f; 
-	
-	Vector2 	position = new Vector2();
-//	Vector2 	acceleration = new Vector2();
-//	Vector2 	velocity = new Vector2();
+	static final float SIZE = 32;
+    static final float SPEED = SIZE * 2.5f;
+
+    Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();
 	State state = State.FACERIGHT;
 	
 	public Antagonist(Vector2 position){
-		this.position = position; 
+		this.position = position;
 		this.bounds.height = SIZE;
 		this.bounds.width = SIZE;
 		

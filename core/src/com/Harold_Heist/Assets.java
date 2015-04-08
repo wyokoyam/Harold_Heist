@@ -10,7 +10,8 @@ public class Assets {
 	public static Texture protagUp;
 	public static Texture protagDown;
 
-	public static Texture antagRight;
+
+    public static Texture antagRight;
 	public static Texture antagLeft;
 	public static Texture antagUp;
 	public static Texture antagDown;
@@ -23,15 +24,15 @@ public class Assets {
 	
 	public static void load() {
 		tableTexture = new Texture(Gdx.files.internal("graphics/table.png"));
-		
-		protagRight = new Texture(Gdx.files.internal("graphics/protagRight.png"));
-		protagLeft = new Texture(Gdx.files.internal("graphics/protagLeft.png"));
-		protagUp = new Texture(Gdx.files.internal("graphics/protagUp.png"));
-		protagDown = new Texture(Gdx.files.internal("graphics/protagDown.png"));
-		
-		antagRight =  new Texture(Gdx.files.internal("graphics/antagRight.png"));
-		antagLeft = new Texture(Gdx.files.internal("graphics/antagLeft.png"));
-		antagUp = new Texture(Gdx.files.internal("graphics/antagUp.png"));
+
+        protagRight = new Texture(Gdx.files.internal("graphics/protagRight.png"));
+        protagLeft = new Texture(Gdx.files.internal("graphics/protagLeft.png"));
+        protagUp = new Texture(Gdx.files.internal("graphics/protagUp.png"));
+        protagDown = new Texture(Gdx.files.internal("graphics/protagDown.png"));
+
+        antagRight =  new Texture(Gdx.files.internal("graphics/antagRight.png"));
+        antagLeft = new Texture(Gdx.files.internal("graphics/antagLeft.png"));
+        antagUp = new Texture(Gdx.files.internal("graphics/antagUp.png"));
 		antagDown = new Texture(Gdx.files.internal("graphics/antagDown.png"));
 		
 		soundOn = new Texture(Gdx.files.internal("graphics/soundOn.png"));

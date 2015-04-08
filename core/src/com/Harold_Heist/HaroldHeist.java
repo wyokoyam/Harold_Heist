@@ -20,8 +20,6 @@ public class HaroldHeist extends Game {
 	
 	public SpriteBatch batch;
 	public BitmapFont font;
-//	Texture protagTexture;
-//	Sprite protagSprite;
 	
 	@Override
 	public void create() {

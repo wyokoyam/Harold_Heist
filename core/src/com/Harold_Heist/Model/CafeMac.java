@@ -1,31 +1,21 @@
 package com.Harold_Heist.Model;
-import java.util.List;
-import java.util.Random;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 
-import org.xguzm.pathfinding.NavigationGraph;
-import org.xguzm.pathfinding.grid.GridCell;
-import org.xguzm.pathfinding.grid.NavigationGrid;
-import org.xguzm.pathfinding.grid.finders.AStarGridFinder;
 
 public class CafeMac {
-	/** The tableArray making up the world **/
-	Array<Table> tableArray = new Array<Table>();
 	/** Our player controlled hero **/
 	Protagonist protag;
 	/** Our heroes autonomous nemesis **/
 	Antagonist antag;
-	
+
 
 	// Getters -----------
-	public Array<Table> getTables() {
-		return tableArray;
-	}
+
 	public Protagonist getProtagonist() {
 		return protag;
 	}
+
 	public Antagonist getAntagonist(){
 		return antag;
 	}
@@ -34,20 +24,10 @@ public class CafeMac {
 	public CafeMac() {
 		createCafeMac();
 	}
-
-
+//
+//
 	private void createCafeMac() {
-		protag = new Protagonist(new Vector2(7, 2));
+		protag = new Protagonist(new Vector2(40, 40));
 		antag = new Antagonist(new Vector2(1, 1));
-		
-		Random rand = new Random();
-		for (int i = 0; i < 20; i++) {
-			Table table = new Table(new Vector2(rand.nextInt(10), rand.nextInt(8)));
-			while ((table.getPosition().x == 7 && table.getPosition().y == 2) || (table.getPosition().x == 1 && table.getPosition().y == 1)) {
-				table = new Table(new Vector2(rand.nextInt(10), rand.nextInt(8)));
-			}
-			tableArray.add(table);
-		}
 	}
-	
 }
