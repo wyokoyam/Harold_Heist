@@ -37,6 +37,25 @@ public class GameScreen implements Screen{
 		
 	}
 
+    private void keyboardControls() {
+        if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+            protag.setState(Protagonist.State.FACELEFT);
+            protag.getPosition().x -= Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        }
+        if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+            protag.setState(Protagonist.State.FACERIGHT);
+            protag.getPosition().x += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        }
+        if (Gdx.input.isKeyPressed(Keys.DOWN)) {
+            protag.setState(Protagonist.State.FACEDOWN);
+            protag.getPosition().y -= Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        }
+        if (Gdx.input.isKeyPressed(Keys.UP)) {
+            protag.setState(Protagonist.State.FACEUP);
+            protag.getPosition().y += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        }
+    }
+
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
@@ -72,23 +91,4 @@ public class GameScreen implements Screen{
 		// TODO Auto-generated method stub
 	}
 
-	
-	private void keyboardControls() {
-        if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-            protag.setState(Protagonist.State.FACELEFT);
-            protag.getPosition().x -= Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-            protag.setState(Protagonist.State.FACERIGHT);
-            protag.getPosition().x += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Keys.DOWN)) {
-            protag.setState(Protagonist.State.FACEDOWN);
-            protag.getPosition().y -= Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-        }
-        if (Gdx.input.isKeyPressed(Keys.UP)) {
-            protag.setState(Protagonist.State.FACEUP);
-            protag.getPosition().y += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-        }
-	}
 }
