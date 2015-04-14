@@ -15,7 +15,8 @@ public class Assets {
 	public static Texture antagLeft;
 	public static Texture antagUp;
 	public static Texture antagDown;
-	
+
+    public static Texture fruitTexture;
 	public static Texture tableTexture;
 	public static Texture soundOn;
 	public static Texture soundOff;
@@ -24,6 +25,7 @@ public class Assets {
 	
 	public static void load() {
 		tableTexture = new Texture(Gdx.files.internal("graphics/table.png"));
+        fruitTexture = new Texture(Gdx.files.internal("graphics/fruitBanana.png"));
 
         protagRight = new Texture(Gdx.files.internal("graphics/protagRight.png"));
         protagLeft = new Texture(Gdx.files.internal("graphics/protagLeft.png"));

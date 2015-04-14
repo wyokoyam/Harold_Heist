@@ -3,6 +3,7 @@ package com.Harold_Heist.View;
 import com.Harold_Heist.Assets;
 import com.Harold_Heist.HaroldHeist;
 import com.Harold_Heist.Model.CafeMac;
+import com.Harold_Heist.Model.Fruit;
 import com.Harold_Heist.Model.Protagonist;
 import com.Harold_Heist.Model.Antagonist;
 import com.badlogic.gdx.Gdx;
@@ -24,6 +25,7 @@ import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 
 import java.util.ArrayList;
@@ -54,6 +56,7 @@ public class CafeMacRenderer {
 
     private Protagonist protag;
     private Antagonist antag;
+    private Array<Fruit> fruits;
 
     private ArrayList<Shape2D> collisionShapes;
     private MapLayer objectLayer;
@@ -61,6 +64,7 @@ public class CafeMacRenderer {
     public CafeMacRenderer(CafeMac cafeMac, boolean debug) {
         protag = cafeMac.getProtagonist();
         antag = cafeMac.getAntagonist();
+        fruits = cafeMac.getFruitArray();
         this.cafeMac = cafeMac;
 		
 		tiledMap = new TmxMapLoader().load("graphics/cafeMacMap.tmx");
@@ -122,6 +126,7 @@ public class CafeMacRenderer {
 		spriteBatch.begin();
 		drawProtag();
 		drawAntag();
+        drawFruits();
         spriteBatch.end();
         collisionHandler();
 	}
@@ -292,6 +297,11 @@ public class CafeMacRenderer {
 		}
 	}
 
+    private void drawFruits() {
+        for (Fruit fruit: fruits) {
+            spriteBatch.draw(Assets.fruitTexture, fruit.getPosition().x, fruit.getPosition().y, fruit.getSize(), fruit.getSize());
+        }
+    }
 //	private void drawDebug() {
 //        // render blocks
 //        debugRenderer.setProjectionMatrix(cam.combined);
