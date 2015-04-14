@@ -108,7 +108,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
-        compile "com.github.xaguzman:pathfinding:0.2.4"
+        compile "com.github.xaguzman:pathfinding:0.2.5"
     }
 }
 
