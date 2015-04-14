@@ -1,7 +1,6 @@
 package com.Harold_Heist.View;
 
 import com.Harold_Heist.Assets;
-import com.Harold_Heist.HaroldHeist;
 import com.Harold_Heist.Model.CafeMac;
 import com.Harold_Heist.Model.Fruit;
 import com.Harold_Heist.Model.Protagonist;
@@ -45,6 +44,10 @@ public class CafeMacRenderer {
 	private float height;
     private ShapeRenderer debugRenderer;
     private ShapeRenderer shapeRenderer;
+    private int gameScore;
+    private String gameScoreName;
+    BitmapFont scoreFont;
+
 
 	public void setSize (float w, float h) {
 		this.width = w;
@@ -79,6 +82,10 @@ public class CafeMacRenderer {
 		this.debug = debug;
 		spriteBatch = new SpriteBatch();
         font = new BitmapFont();
+
+        gameScore = 0;
+        gameScoreName = "Score: 0";
+        scoreFont = new BitmapFont();
 
         debugRenderer = new ShapeRenderer();
 
@@ -127,6 +134,8 @@ public class CafeMacRenderer {
 		drawProtag();
 		drawAntag();
         drawFruits();
+        scoreFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        scoreFont.draw(spriteBatch, gameScoreName, 730, 20);
         spriteBatch.end();
         collisionHandler();
 	}

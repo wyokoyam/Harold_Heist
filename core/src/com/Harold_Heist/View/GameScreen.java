@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 
 public class GameScreen implements Screen{
@@ -17,7 +18,8 @@ public class GameScreen implements Screen{
 	private OrthographicCamera cam;
 	private Protagonist protag;
 	private Antagonist antag;
-	
+
+
 	public GameScreen(HaroldHeist game) {
         this.game = game;
         cafeMac = new CafeMac();
@@ -25,9 +27,12 @@ public class GameScreen implements Screen{
         antag = cafeMac.getAntagonist();
         renderer = new CafeMacRenderer(cafeMac, false);
         cam = new OrthographicCamera();
+
+
+
     }
 
-	
+
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
