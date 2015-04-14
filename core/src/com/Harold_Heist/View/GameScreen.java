@@ -33,9 +33,15 @@ public class GameScreen implements Screen{
 		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		keyboardControls();
+        update();
 		renderer.render();
-		
 	}
+
+    private void update() {
+        if (cafeMac.getState() == CafeMac.State.STATE_GAMEOVER) {
+            game.setScreen(new GameOverScreen(game));
+        }
+    }
 
     private void keyboardControls() {
         if (Gdx.input.isKeyPressed(Keys.LEFT)) {

@@ -1,28 +1,29 @@
 package com.Harold_Heist.View;
 
 import com.Harold_Heist.Assets;
+import com.Harold_Heist.HaroldHeist;
 import com.Harold_Heist.Model.CafeMac;
 import com.Harold_Heist.Model.Protagonist;
 import com.Harold_Heist.Model.Antagonist;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Shape2D;
+import com.badlogic.gdx.math.Vector2;
 
 
 import java.util.ArrayList;
@@ -49,12 +50,12 @@ public class CafeMacRenderer {
 	}
 	
 	private TiledMap tiledMap;
-	private TiledMapRenderer tiledMapRenderer;
+	private BatchTiledMapRenderer tiledMapRenderer;
 
-    public Protagonist protag;
-    public Antagonist antag;
+    private Protagonist protag;
+    private Antagonist antag;
 
-    private ArrayList<Rectangle> collisionRects;
+    private ArrayList<Shape2D> collisionShapes;
     private MapLayer objectLayer;
 
     public CafeMacRenderer(CafeMac cafeMac, boolean debug) {
@@ -79,15 +80,20 @@ public class CafeMacRenderer {
 
         objectLayer = tiledMap.getLayers().get("Collision");
         MapObjects collisionObjects = objectLayer.getObjects();
-        collisionRects = new ArrayList<Rectangle>();
+        collisionShapes = new ArrayList<Shape2D>();
 
         for (MapObject obj: collisionObjects) {
-            RectangleMapObject rectObj = (RectangleMapObject)obj;
-            Rectangle rect = rectObj.getRectangle();
-            collisionRects.add(rect);
+            if (obj.getClass() == RectangleMapObject.class) {
+                RectangleMapObject rectObj = (RectangleMapObject)obj;
+                Rectangle rect = rectObj.getRectangle();
+                collisionShapes.add(rect);
+            } else {
+                EllipseMapObject ellipseObj = (EllipseMapObject)obj;
+                Ellipse ellip = ellipseObj.getEllipse();
+                collisionShapes.add(ellip);
+            }
         }
 	}
-
 
 	public void render() {
 
@@ -95,10 +101,20 @@ public class CafeMacRenderer {
         tiledMapRenderer.setView(this.cam);
         tiledMapRenderer.render();
         if (debug) {
+
             debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-            for (Rectangle rect: collisionRects) {
-                debugRenderer.setColor(new Color(0, 1, 0, 1));
-                debugRenderer.rect(rect.getX(), rect.getY(), rect.width, rect.height);
+            for (Shape2D shape: collisionShapes) {
+                if (shape.getClass() == Rectangle.class) {
+                    Rectangle rect = (Rectangle) shape;
+                    debugRenderer.setColor(new Color(0, 1, 0, 1));
+                    debugRenderer.rect(rect.getX(), rect.getY(), rect.width, rect.height);
+
+                } else {
+                    Ellipse ellip = (Ellipse) shape;
+                    debugRenderer.setColor(new Color(0, 1, 0, 1));
+                    debugRenderer.rect(ellip.x, ellip.y, ellip.width, ellip.height);
+                }
+
             }
             debugRenderer.end();
         }
@@ -111,43 +127,114 @@ public class CafeMacRenderer {
 	}
 
     private void collisionHandler() {
-        for (int i = 0; i < collisionRects.size(); i++) {
-            float protagX = protag.getPosition().x;
-            float protagY = protag.getPosition().y;
-            float protagSize = protag.getSize();
-            Rectangle rect = collisionRects.get(i);
-            float rectX = rect.getX();
-            float rectY = rect.getY();
-            float rectWidth = rect.getWidth();
-            float rectHeight = rect.getHeight();
+        for (int i = 0; i < collisionShapes.size(); i++) {
+            Shape2D shape = collisionShapes.get(i);
+            objectCollisionHandler(protag.getPosition(), shape, true);
+            objectCollisionHandler(antag.getPosition(), shape, false);
+        }
+        wallCollisionHandler(protag.getPosition(), true);
+        wallCollisionHandler(antag.getPosition(), false);
+        characterCollisionHandler(protag.getPosition(), antag.getPosition());
+
+    }
+
+    private void objectCollisionHandler(Vector2 character, Shape2D shape, boolean isProtag) {
+        float charX = character.x;
+        float charY = character.y;
+        float charSize;
+        if (isProtag) {
+            charSize = protag.getSize();
+        } else {
+            charSize = antag.getSize();
+        }
+
+        float shapeX;
+        float shapeY;
+        float shapeWidth;
+        float shapeHeight;
+        Rectangle rect;
+        Ellipse ellip;
+
+        if (shape.getClass() == Rectangle.class) {
+            rect = (Rectangle) shape;
+            shapeX = rect.getX();
+            shapeY = rect.getY();
+            shapeWidth = rect.getWidth();
+            shapeHeight = rect.getHeight();
+
+        } else {
+            ellip = (Ellipse) shape;
+            shapeX = ellip.x;
+            shapeY = ellip.y;
+            shapeWidth = ellip.width;
+            shapeHeight = ellip.height;
+        }
 
 //            collision left of object
-            if (protagX + protagSize > rectX && protagX + protagSize < rectX + 10 && protagY + protagSize > rectY && protagY < rectY + rectHeight) {
-                protag.getPosition().x = rectX - protagSize;
-            }
+        if (charX + charSize > shapeX && charX + charSize < shapeX + 10 && charY + charSize > shapeY && charY < shapeY + shapeHeight) {
+            character.x = shapeX - charSize;
+        }
 
 //            collision right of object
-            else if (protagX < rectX + rectWidth && protagX > rectX + rectWidth - 10 && protagY + protagSize > rectY && protagY < rectY + rectHeight) {
-                protag.getPosition().x = rectX + rectWidth;
-            }
+        else if (charX < shapeX + shapeWidth && charX > shapeX + shapeWidth - 10 && charY + charSize > shapeY && charY < shapeY + shapeHeight) {
+            character.x = shapeX + shapeWidth;
+        }
 
-            //collision top of object
-            else if (protagX + protagSize> rectX && protagX < rectX + rectWidth && protagY < rectY + rectHeight && protagY > rectY + rectHeight - 10) {
-                protag.getPosition().y = rectY + rectHeight;
-            }
+        //collision top of object
+        else if (charX + charSize> shapeX && charX < shapeX + shapeWidth && charY < shapeY + shapeHeight && charY > shapeY + shapeHeight - 10) {
+            character.y = shapeY + shapeHeight;
+        }
 
-            //collision below object
-            else if (protagX + protagSize > rectX && protagX < rectX + rectWidth && protagY + protagSize > rectY && protagY + protagSize < rectY + 10) {
-                protag.getPosition().y = rectY - protagSize;
-            }
+        //collision below object
+        else if (charX + charSize > shapeX && charX < shapeX + shapeWidth && charY + charSize > shapeY && charY + charSize < shapeY + 10) {
+            character.y = shapeY - charSize;
+        }
+    }
 
-            //wall collisions
-            if (protagX < 0) protag.getPosition().x = 0;
-            if (protagX + protagSize > width) protag.getPosition().x = width - protagSize;
+    private void wallCollisionHandler(Vector2 character, boolean isProtag) {
+        float charX = character.x;
+        float charY = character.y;
+        float charSize;
+        if (isProtag) {
+            charSize = protag.getSize();
+        } else {
+            charSize = antag.getSize();
+        }
 
-            if (protagY < 0) protag.getPosition().y = 0;
-            if (protagY + protagSize > height) protag.getPosition().y = height - protagSize;
+        if (charX < 0) protag.getPosition().x = 0;
+        if (charX + charSize > width) character.x = width - charSize;
 
+        if (charY < 0) protag.getPosition().y = 0;
+        if (charY + charSize > height) character.y = height - charSize;
+    }
+
+    private void characterCollisionHandler(Vector2 protagPosition, Vector2 antagPosition) {
+        float protagX = protagPosition.x;
+        float protagY = protagPosition.y;
+        float protagSize = protag.getSize();
+
+        float antagX = antagPosition.x;
+        float antagY = antagPosition.y;
+        float antagSize = antag.getSize();
+
+        // collision left of antag
+        if (protagX + protagSize > antagX && protagX + protagSize < antagX + 10 && protagY + protagSize > antagY && protagY < antagY + antagSize) {
+            cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
+        }
+
+        // collision right of antag
+        else if (protagX < antagX + antagSize && protagX > antagX + antagSize - 10 && protagY + protagSize > antagY && protagY < antagY + antagSize) {
+            cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
+        }
+
+        // collision top of antag
+        else if (protagX + protagSize> antagX && protagX < antagX + antagSize && protagY < antagY + antagSize && protagY > antagY + antagSize - 10) {
+            cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
+        }
+
+        // collision below antag
+        else if (protagX + protagSize > antagX && protagX < antagX + antagSize && protagY + protagSize > antagY && protagY + protagSize < antagY + 10) {
+            cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
         }
     }
 
@@ -155,6 +242,7 @@ public class CafeMacRenderer {
 		float xCoordinate = protag.getPosition().x ;
 		float yCoordinate = protag.getPosition().y ;
         float protagSize = Protagonist.getSize();
+
         if (debug) {
             debugRenderer.begin(ShapeRenderer.ShapeType.Line);
             Rectangle rect = protag.getBounds();
@@ -163,10 +251,8 @@ public class CafeMacRenderer {
             debugRenderer.end();
         }
 
-
         if (protag.getState() == Protagonist.State.FACERIGHT) {
             spriteBatch.draw(Assets.protagRight, xCoordinate, yCoordinate, protagSize, protagSize);
-
         }
 		else if (protag.getState() == Protagonist.State.FACELEFT) {
 			spriteBatch.draw(Assets.protagLeft, xCoordinate, yCoordinate, protagSize, protagSize);
@@ -183,6 +269,14 @@ public class CafeMacRenderer {
 		float xCoordinate = antag.getPosition().x ;
 		float yCoordinate = antag.getPosition().y ;
         float antagSize = Antagonist.getSize();
+
+        if (debug) {
+            debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+            Rectangle rect = antag.getBounds();
+            debugRenderer.setColor(new Color(0, 1, 0, 1));
+            debugRenderer.rect(xCoordinate, yCoordinate, rect.width, rect.height);
+            debugRenderer.end();
+        }
 
         if (antag.getState() == Antagonist.State.FACERIGHT) {
 			spriteBatch.draw(Assets.antagRight, xCoordinate, yCoordinate, antagSize, antagSize);
@@ -203,7 +297,7 @@ public class CafeMacRenderer {
 //        debugRenderer.setProjectionMatrix(cam.combined);
 //        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
 ////        for (Table table : cafeMac.getTables()) {
-//        for (Rectangle rect: collisionRects) {
+//        for (Rectangle rect: collisionShapes) {
 ////            Rectangle rect = table.getBounds();
 ////            float x1 = table.getPosition().x + rect.x;
 ////            float y1 = table.getPosition().y + rect.y;
