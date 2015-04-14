@@ -27,6 +27,7 @@ import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import org.xguzm.pathfinding.gdxbridge.NavTmxMapLoader;
 
 import java.util.ArrayList;
 
@@ -67,7 +68,7 @@ public class CafeMacRenderer {
         fruits = cafeMac.getFruitArray();
         this.cafeMac = cafeMac;
 		
-		tiledMap = new TmxMapLoader().load("graphics/cafeMacMap.tmx");
+		tiledMap = new NavTmxMapLoader().load("graphics/cafeMacMap.tmx");
 		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/32f);
 
         width = Gdx.graphics.getWidth();
