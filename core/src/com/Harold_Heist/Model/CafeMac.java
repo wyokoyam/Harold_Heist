@@ -62,4 +62,12 @@ public class CafeMac {
             fruitArray.add(fruit);
         }
     }
+
+    public void removeFruit(Vector2 fruitPosition) {
+        for (int i = 0; i < fruitArray.size; i++) {
+            if (fruitArray.get(i).getPosition().equals(fruitPosition)) {
+                fruitArray.removeIndex(i);
+            }
+        }
+    }
 }

@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Harold Heist";
 		config.width = 800;
-		config.height = 460;
+		config.height = 480;
 		new LwjglApplication(new HaroldHeist(), config);
 	}
 }

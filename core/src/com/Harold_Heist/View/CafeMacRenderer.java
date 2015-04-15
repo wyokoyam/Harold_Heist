@@ -71,12 +71,19 @@ public class CafeMacRenderer {
         this.cafeMac = cafeMac;
 		
 		tiledMap = new TmxMapLoader().load("graphics/cafeMacMap.tmx");
-		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/32f);
+//		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/32f);
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
-        this.cam = new OrthographicCamera(CAMERA_WIDTH, CAMERA_WIDTH * (height/width));
-        this.cam.position.set(CAMERA_WIDTH/2, CAMERA_WIDTH * (height/width)/2, 0);
+
+        //tiled map is shown correctly, but size of characters and fruits are wrong
+//        this.cam = new OrthographicCamera();
+//        this.cam.setToOrtho(false, CAMERA_WIDTH, CAMERA_WIDTH * (height/width));
+
+        //map is small, but the objects are at the right place
+        this.cam = new OrthographicCamera();
+        this.cam.setToOrtho(false, width, height);
 
 		this.cam.update();
 		this.debug = debug;
@@ -84,7 +91,7 @@ public class CafeMacRenderer {
         font = new BitmapFont();
 
         gameScore = 0;
-        gameScoreName = "Score: 0";
+        gameScoreName = "Score: " + gameScore;
         scoreFont = new BitmapFont();
 
         debugRenderer = new ShapeRenderer();
@@ -141,18 +148,20 @@ public class CafeMacRenderer {
 	}
 
     private void collisionHandler() {
-        for (int i = 0; i < collisionShapes.size(); i++) {
-            Shape2D shape = collisionShapes.get(i);
-            objectCollisionHandler(protag.getPosition(), shape, true);
-            objectCollisionHandler(antag.getPosition(), shape, false);
+        for (Shape2D shape : collisionShapes) {
+            obstacleCollisionHandler(protag.getPosition(), shape, true);
+            obstacleCollisionHandler(antag.getPosition(), shape, false);
         }
         wallCollisionHandler(protag.getPosition(), true);
         wallCollisionHandler(antag.getPosition(), false);
-        characterCollisionHandler(protag.getPosition(), antag.getPosition());
+        objectCollisionHandler(protag.getPosition(), antag.getPosition(), true);
+        for (Fruit fruit : cafeMac.getFruitArray()) {
+            objectCollisionHandler(protag.getPosition(), fruit.getPosition(), false);
+        }
 
     }
 
-    private void objectCollisionHandler(Vector2 character, Shape2D shape, boolean isProtag) {
+    private void obstacleCollisionHandler(Vector2 character, Shape2D shape, boolean isProtag) {
         float charX = character.x;
         float charY = character.y;
         float charSize;
@@ -222,33 +231,57 @@ public class CafeMacRenderer {
         if (charY + charSize > height) character.y = height - charSize;
     }
 
-    private void characterCollisionHandler(Vector2 protagPosition, Vector2 antagPosition) {
-        float protagX = protagPosition.x;
-        float protagY = protagPosition.y;
-        float protagSize = protag.getSize();
 
-        float antagX = antagPosition.x;
-        float antagY = antagPosition.y;
-        float antagSize = antag.getSize();
+    /** If protagAndAntag is true, handle collision between protagonist and antagonist. If false, handle collision
+     * between protagonist and fruit.
+     */
+    private void objectCollisionHandler(Vector2 object1Position, Vector2 object2Position, boolean protagAndAntag) {
+        float object1X = object1Position.x;
+        float object1Y = object1Position.y;
+        float object1Size = 32;
 
-        // collision left of antag
-        if (protagX + protagSize > antagX && protagX + protagSize < antagX + 10 && protagY + protagSize > antagY && protagY < antagY + antagSize) {
-            cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
+        float object2X = object2Position.x;
+        float object2Y = object2Position.y;
+        float object2Size = 32;
+
+        // collision left of object
+        if (object1X + object1Size > object2X && object1X + object1Size < object2X + 10 && object1Y + object1Size > object2Y && object1Y < object2Y + object2Size) {
+            if (protagAndAntag) cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
+            else {
+                cafeMac.removeFruit(object2Position);
+                gameScore++;
+                gameScoreName = "Score: " + gameScore;
+            }
         }
 
-        // collision right of antag
-        else if (protagX < antagX + antagSize && protagX > antagX + antagSize - 10 && protagY + protagSize > antagY && protagY < antagY + antagSize) {
-            cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
+        // collision right of object
+        else if (object1X < object2X + object2Size && object1X > object2X + object2Size - 10 && object1Y + object1Size > object2Y && object1Y < object2Y + object2Size) {
+            if (protagAndAntag) cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
+            else {
+                cafeMac.removeFruit(object2Position);
+                gameScore++;
+                gameScoreName = "Score: " + gameScore;
+            }
         }
 
-        // collision top of antag
-        else if (protagX + protagSize> antagX && protagX < antagX + antagSize && protagY < antagY + antagSize && protagY > antagY + antagSize - 10) {
-            cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
+        // collision top of object
+        else if (object1X + object1Size> object2X && object1X < object2X + object2Size && object1Y < object2Y + object2Size && object1Y > object2Y + object2Size - 10) {
+            if (protagAndAntag) cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
+            else {
+                cafeMac.removeFruit(object2Position);
+                gameScore++;
+                gameScoreName = "Score: " + gameScore;
+            }
         }
 
-        // collision below antag
-        else if (protagX + protagSize > antagX && protagX < antagX + antagSize && protagY + protagSize > antagY && protagY + protagSize < antagY + 10) {
-            cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
+        // collision below object
+        else if (object1X + object1Size > object2X && object1X < object2X + object2Size && object1Y + object1Size > object2Y && object1Y + object1Size < object2Y + 10) {
+            if (protagAndAntag) cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
+            else {
+                cafeMac.removeFruit(object2Position);
+                gameScore++;
+                gameScoreName = "Score: " + gameScore;
+            }
         }
     }
 
