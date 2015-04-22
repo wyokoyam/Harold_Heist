@@ -322,6 +322,8 @@ public class CafeMacRenderer {
             float fruitX = fruit.getPosition().x/widthRatio;
             float fruitY = fruit.getPosition().y/heightRatio;
             float fruitSize = fruit.getSize();
+            int foodIndex = fruit.getFoodIndex();
+
             for (Shape2D shape : collisionShapes) {
                 float shapeX;
                 float shapeY;
@@ -360,16 +362,27 @@ public class CafeMacRenderer {
                 if ((fruitX + fruitSize >= shapeX && fruitX + fruitSize <= shapeX + shapeWidth) && (fruitY + fruitSize >= shapeY && fruitY + fruitSize <= shapeY + shapeHeight)) {
                     cafeMac.removeFruit(fruit.getPosition());
                 }
-                Random random = new Random();
-                Array<Texture> fruits = new Array<Texture>();
-                fruits.add(Assets.fruitApple);
-                fruits.add(Assets.fruitTexture);
-                fruits.add(Assets.fruitGrapes);
-                Texture randomFruit = fruits.get(random.nextInt(3));
-
-                spriteBatch.draw(randomFruit, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
-
             }
+//            Random random = new Random();
+//            Array<Texture> fruits = new Array<Texture>();
+//            fruits.add(Assets.foodApple);
+//            fruits.add(Assets.foodBanana);
+//            fruits.add(Assets.foodBacon);
+//            fruits.add(Assets.foodCake);
+//            Texture randomFruit = fruits.get(random.nextInt(4));
+
+//            switch(foodIndex) {
+//                case 0: spriteBatch.draw(Assets.foodApple, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
+//                case 1: spriteBatch.draw(Assets.foodBanana, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
+//                case 2: spriteBatch.draw(Assets.foodBacon, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
+//                case 3: spriteBatch.draw(Assets.foodCake, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
+//            }
+
+            if (foodIndex == 0) spriteBatch.draw(Assets.foodApple, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
+            else if (foodIndex == 1) spriteBatch.draw(Assets.foodBanana, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
+            else if (foodIndex == 2) spriteBatch.draw(Assets.foodBacon, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
+            else if (foodIndex == 3) spriteBatch.draw(Assets.foodCake, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
+
         }
     }
 

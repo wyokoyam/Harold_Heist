@@ -13,11 +13,13 @@ public class Fruit  {
 
     Vector2 position = new Vector2();
     Rectangle bounds = new Rectangle();
+    int foodIndex; // 0 = banana, 1 = apple, 2 = bacon, 3 = cake
 
-    public Fruit(Vector2 position) {
+    public Fruit(Vector2 position, int foodIndex) {
         this.position = position;
         this.bounds.height = SIZE;
         this.bounds.width = SIZE;
+        this.foodIndex = foodIndex;
     }
 
     public Vector2 getPosition() {
@@ -27,6 +29,8 @@ public class Fruit  {
     public Rectangle getBounds() {
         return bounds;
     }
+
+    public int getFoodIndex() {return foodIndex;}
 
     public static float getSize() {
         return SIZE;

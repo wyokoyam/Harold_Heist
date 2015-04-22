@@ -16,14 +16,22 @@ public class Assets {
 	public static Texture antagUp;
 	public static Texture antagDown;
 
-    public static Texture fruitTexture;
-	public static Texture soundOn;
+    public static Texture foodBanana;
+    public static Texture foodApple;
+    public static Texture foodBacon;
+    public static Texture foodCake;
+
+
+    public static Texture soundOn;
 	public static Texture soundOff;
 	
 	public static Music catchyMusic;
 	
 	public static void load() {
-        fruitTexture = new Texture(Gdx.files.internal("graphics/fruitBanana.png"));
+        foodBanana = new Texture(Gdx.files.internal("graphics/foodBanana.png"));
+        foodApple = new Texture(Gdx.files.internal("graphics/foodApple.png"));
+        foodBacon = new Texture(Gdx.files.internal("graphics/foodBacon.png"));
+        foodCake = new Texture(Gdx.files.internal("graphics/foodCake.png"));
 
         protagRight = new Texture(Gdx.files.internal("graphics/protagRight.png"));
         protagLeft = new Texture(Gdx.files.internal("graphics/protagLeft.png"));
