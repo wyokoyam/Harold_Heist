@@ -55,12 +55,22 @@ public class CafeMac {
         antag = new Antagonist(new Vector2(1, 1));
 
         Random rand = new Random();
+
         ArrayList<Vector2> fruitPositions = new ArrayList<Vector2>();
         for (int i = 0; i < 20; i++) {
             Vector2 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
-            if (fruitPositions.contains(position)) {
+            Vector2 upperLeft = new Vector2(position.x, position.y + Fruit.SIZE);
+            Vector2 upperRight = new Vector2(position.x + Fruit.SIZE, position.y + Fruit.SIZE);
+            Vector2 bottomRight = new Vector2(position.x + Fruit.SIZE, position.y);
+
+            while (fruitPositions.contains(position) || fruitPositions.contains(upperLeft) || fruitPositions.contains(upperRight) || fruitPositions.contains(bottomRight)) {
                 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
-            } else {
+                upperLeft = new Vector2(position.x, position.y + Fruit.SIZE);
+                upperRight = new Vector2(position.x + Fruit.SIZE, position.y + Fruit.SIZE);
+                bottomRight = new Vector2(position.x + Fruit.SIZE, position.y);
+            }
+
+            if (!fruitPositions.contains(position) || (!fruitPositions.contains(upperLeft)) || (!fruitPositions.contains(upperRight)) || (!fruitPositions.contains(bottomRight))) {
                 for (int x = 0; x < Fruit.SIZE; x++) {
                     for (int y = 0; y < Fruit.SIZE; y++) {
                         fruitPositions.add(new Vector2(position.x + x, position.y + y));
@@ -69,6 +79,10 @@ public class CafeMac {
             }
 
             Fruit fruit = new Fruit(position);
+//            } else {
+//                }
+//            }
+
 
             while ((fruit.getPosition().x == 40 && fruit.getPosition().y == 40) || (fruit.getPosition().x == 1 && fruit.getPosition().y == 1)) {
                 fruit = new Fruit(new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight())));
