@@ -8,6 +8,7 @@ import com.Harold_Heist.Model.Antagonist;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -359,8 +360,14 @@ public class CafeMacRenderer {
                 if ((fruitX + fruitSize >= shapeX && fruitX + fruitSize <= shapeX + shapeWidth) && (fruitY + fruitSize >= shapeY && fruitY + fruitSize <= shapeY + shapeHeight)) {
                     cafeMac.removeFruit(fruit.getPosition());
                 }
+                Random random = new Random();
+                Array<Texture> fruits = new Array<Texture>();
+                fruits.add(Assets.fruitApple);
+                fruits.add(Assets.fruitTexture);
+                fruits.add(Assets.fruitGrapes);
+                Texture randomFruit = fruits.get(random.nextInt(3));
 
-                spriteBatch.draw(Assets.fruitTexture, fruitX, fruitY, fruit.getSize()/widthRatio, fruit.getSize()/widthRatio);
+                spriteBatch.draw(randomFruit, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
 
             }
         }
