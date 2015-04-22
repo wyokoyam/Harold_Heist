@@ -41,4 +41,8 @@ public class Assets {
 		catchyMusic.setLooping(true);
 		catchyMusic.play();
 	}
+
+//    public static void dispose() {
+//        te
+//    }
 }

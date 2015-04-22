@@ -30,7 +30,7 @@ public class GameScreen implements Screen{
         cafeMac = new CafeMac();
         protag = cafeMac.getProtagonist();
         antag = cafeMac.getAntagonist();
-        renderer = new CafeMacRenderer(cafeMac, false);
+        renderer = new CafeMacRenderer(cafeMac, true);
         cam = new OrthographicCamera();
         viewport = new ScreenViewport(cam);
     }
@@ -64,6 +64,7 @@ public class GameScreen implements Screen{
             protag.setState(Protagonist.State.FACEDOWN);
             protag.getPosition().y -= Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
         }
+
         if (Gdx.input.isKeyPressed(Keys.UP)) {
             protag.setState(Protagonist.State.FACEUP);
             protag.getPosition().y += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();

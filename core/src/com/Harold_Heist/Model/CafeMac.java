@@ -1,5 +1,6 @@
 package com.Harold_Heist.Model;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
@@ -54,8 +55,21 @@ public class CafeMac {
         antag = new Antagonist(new Vector2(1, 1));
 
         Random rand = new Random();
+        ArrayList<Vector2> fruitPositions = new ArrayList<Vector2>();
         for (int i = 0; i < 20; i++) {
-            Fruit fruit = new Fruit(new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight())));
+            Vector2 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+            if (fruitPositions.contains(position)) {
+                position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+            } else {
+                for (int x = 0; x < Fruit.SIZE; x++) {
+                    for (int y = 0; y < Fruit.SIZE; y++) {
+                        fruitPositions.add(new Vector2(position.x + x, position.y + y));
+                    }
+                }
+            }
+
+            Fruit fruit = new Fruit(position);
+
             while ((fruit.getPosition().x == 40 && fruit.getPosition().y == 40) || (fruit.getPosition().x == 1 && fruit.getPosition().y == 1)) {
                 fruit = new Fruit(new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight())));
             }

@@ -28,11 +28,14 @@ import com.badlogic.gdx.utils.Array;
 
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class CafeMacRenderer {
 
     private static final float CAMERA_WIDTH = 25f;
+    public static final int GAMEWIDTH = 800;
+    public static final int GAMEHEIGHT = 480;
 
     private CafeMac cafeMac;
     private OrthographicCamera cam;
@@ -40,18 +43,20 @@ public class CafeMacRenderer {
     private SpriteBatch spriteBatch;
     private BitmapFont font;
     private boolean debug = false;
-    private float width;
-    private float height;
+    private float screenWidth;
+    private float screenHeight;
     private ShapeRenderer debugRenderer;
     private ShapeRenderer shapeRenderer;
     private int gameScore;
     private String gameScoreName;
     BitmapFont scoreFont;
+    private float widthRatio;
+    private float heightRatio;
 
 
     public void setSize(float w, float h) {
-        this.width = w;
-        this.height = h;
+        this.screenWidth = w;
+        this.screenHeight = h;
     }
 
     private TiledMap tiledMap;
@@ -72,19 +77,22 @@ public class CafeMacRenderer {
         this.cafeMac = cafeMac;
 
         tiledMap = new TmxMapLoader().load("graphics/cafeMacMap.tmx");
-//		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, 1/32f);
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 
-        width = Gdx.graphics.getWidth();
-        height = Gdx.graphics.getHeight();
+        screenWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
 
-        //tiled map is shown correctly, but size of characters and fruits are wrong
-//        this.cam = new OrthographicCamera();
-//        this.cam.setToOrtho(false, CAMERA_WIDTH, CAMERA_WIDTH * (height/width));
+        widthRatio = screenWidth / GAMEWIDTH;
+        heightRatio = screenHeight / GAMEHEIGHT;
 
         //map is small, but the objects are at the right place
+
         this.cam = new OrthographicCamera();
-        this.cam.setToOrtho(false, width, height);
+        this.cam.setToOrtho(false, screenWidth, screenHeight);
+
+        //tiled map is shown correctly, but size of characters and fruits are wrong
+        this.cam = new OrthographicCamera();
+        this.cam.setToOrtho(false, 800, 480);
 
         this.cam.update();
         this.debug = debug;
@@ -143,7 +151,9 @@ public class CafeMacRenderer {
         drawAntag();
         drawFruits();
         scoreFont.setColor(0, 0, 1, 0.8f);
-        scoreFont.draw(spriteBatch, gameScoreName, 710, 20);
+        scoreFont.draw(spriteBatch, gameScoreName, 710/widthRatio, 460/heightRatio);
+//        scoreFont.draw(spriteBatch, gameScoreName, 710, 460);
+
         spriteBatch.end();
     }
 
@@ -268,10 +278,10 @@ public class CafeMacRenderer {
         }
 
         if (charX < 0) protag.getPosition().x = 0;
-        if (charX + charSize > width) character.x = width - charSize;
+        if (charX + charSize > screenWidth) character.x = screenWidth - charSize;
 
         if (charY < 0) protag.getPosition().y = 0;
-        if (charY + charSize > height) character.y = height - charSize;
+        if (charY + charSize > screenHeight) character.y = screenHeight - charSize;
     }
 
     private void drawProtag() {
@@ -308,36 +318,82 @@ public class CafeMacRenderer {
 
     private void drawFruits() {
         for (Fruit fruit : fruits) {
-            spriteBatch.draw(Assets.fruitTexture, fruit.getPosition().x, fruit.getPosition().y, fruit.getSize(), fruit.getSize());
+            float fruitX = fruit.getPosition().x/widthRatio;
+            float fruitY = fruit.getPosition().y/heightRatio;
+            float fruitSize = fruit.getSize();
+            for (Shape2D shape : collisionShapes) {
+                float shapeX;
+                float shapeY;
+                float shapeWidth;
+                float shapeHeight;
+                Rectangle rect;
+                Ellipse ellip;
+
+                if (shape.getClass() == Rectangle.class) {
+                    rect = (Rectangle) shape;
+                    shapeX = rect.getX();
+                    shapeY = rect.getY();
+                    shapeWidth = rect.getWidth();
+                    shapeHeight = rect.getHeight();
+
+                } else {
+                    ellip = (Ellipse) shape;
+                    shapeX = ellip.x;
+                    shapeY = ellip.y;
+                    shapeWidth = ellip.width;
+                    shapeHeight = ellip.height;
+                }
+
+                if ((fruitX >= shapeX && fruitX <= shapeX + shapeWidth) && (fruitY >= shapeY && fruitY <= shapeY + shapeHeight)) {
+                    cafeMac.removeFruit(fruit.getPosition());
+                }
+
+                if ((fruitX + fruitSize >= shapeX && fruitX + fruitSize <= shapeX + shapeWidth) && (fruitY >= shapeY && fruitY <= shapeY + shapeHeight)) {
+                    cafeMac.removeFruit(fruit.getPosition());
+                }
+
+                if ((fruitX >= shapeX && fruitX <= shapeX + shapeWidth) && (fruitY + fruitSize >= shapeY && fruitY + fruitSize <= shapeY + shapeHeight)) {
+                    cafeMac.removeFruit(fruit.getPosition());
+                }
+
+                if ((fruitX + fruitSize >= shapeX && fruitX + fruitSize <= shapeX + shapeWidth) && (fruitY + fruitSize >= shapeY && fruitY + fruitSize <= shapeY + shapeHeight)) {
+                    cafeMac.removeFruit(fruit.getPosition());
+                }
+
+                spriteBatch.draw(Assets.fruitTexture, fruitX, fruitY, fruit.getSize()/widthRatio, fruit.getSize()/widthRatio);
+
+            }
         }
     }
 
     private void drawDebug() {
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        debugRenderer.setColor(new Color(0, 1, 0, 1));
+
+        //Outline the fruits
+        for (Fruit fruit: fruits) {
+            debugRenderer.rect(fruit.getPosition().x/widthRatio, fruit.getPosition().y/heightRatio, fruit.getSize()/widthRatio, fruit.getSize()/widthRatio);
+        }
 
         // Outline the shapes
         for (Shape2D shape : collisionShapes) {
             if (shape.getClass() == Rectangle.class) {
                 Rectangle rect = (Rectangle) shape;
-                debugRenderer.setColor(new Color(0, 1, 0, 1));
                 debugRenderer.rect(rect.getX(), rect.getY(), rect.width, rect.height);
 
             } else {
                 Ellipse ellip = (Ellipse) shape;
-                debugRenderer.setColor(new Color(0, 1, 0, 1));
                 debugRenderer.rect(ellip.x, ellip.y, ellip.width, ellip.height);
             }
         }
 
         // Outline protagonist
         Rectangle protagBounds = protag.getBounds();
-        debugRenderer.setColor(new Color(0, 1, 0, 1));
-        debugRenderer.rect(protag.getPosition().x, protag.getPosition().y, protagBounds.width, protagBounds.height);
+        debugRenderer.rect(protag.getPosition().x/widthRatio, protag.getPosition().y/heightRatio, protagBounds.width, protagBounds.height);
 
         // Outline antagonist
         Rectangle antagBounds = antag.getBounds();
-        debugRenderer.setColor(new Color(0, 1, 0, 1));
-        debugRenderer.rect(antag.getPosition().x, antag.getPosition().y, antagBounds.width, antagBounds.height);
+        debugRenderer.rect(antag.getPosition().x/widthRatio, antag.getPosition().y/heightRatio, antagBounds.width, antagBounds.height);
 
         debugRenderer.end();
     }
