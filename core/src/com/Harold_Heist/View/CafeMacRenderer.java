@@ -74,9 +74,9 @@ public class CafeMacRenderer {
         antag = cafeMac.getAntagonist();
         foods = cafeMac.getFoodArray();
         this.cafeMac = cafeMac;
-
-        tiledMap = new TmxMapLoader().load("graphics/cafeMacMap.tmx");
+        tiledMap = cafeMac.getTiledMap();
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+        collisionShapes = cafeMac.getCollisonShapes();
 
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
@@ -103,21 +103,6 @@ public class CafeMacRenderer {
 
         debugRenderer = new ShapeRenderer();
 
-        objectLayer = tiledMap.getLayers().get("Collision");
-        MapObjects collisionObjects = objectLayer.getObjects();
-        collisionShapes = new ArrayList<Shape2D>();
-
-        for (MapObject obj : collisionObjects) {
-            if (obj.getClass() == RectangleMapObject.class) {
-                RectangleMapObject rectObj = (RectangleMapObject) obj;
-                Rectangle rect = rectObj.getRectangle();
-                collisionShapes.add(rect);
-            } else {
-                EllipseMapObject ellipseObj = (EllipseMapObject) obj;
-                Ellipse ellip = ellipseObj.getEllipse();
-                collisionShapes.add(ellip);
-            }
-        }
     }
 
     public void render() {
@@ -230,6 +215,7 @@ public class CafeMacRenderer {
                 cafeMac.removeFood(object2Position);
                 gameScore++;
                 gameScoreName = "SCORE: " + gameScore;
+                cafeMac.addFood();
             }
         }
 
@@ -240,6 +226,7 @@ public class CafeMacRenderer {
                 cafeMac.removeFood(object2Position);
                 gameScore++;
                 gameScoreName = "SCORE: " + gameScore;
+                cafeMac.addFood();
             }
         }
 
@@ -250,6 +237,7 @@ public class CafeMacRenderer {
                 cafeMac.removeFood(object2Position);
                 gameScore++;
                 gameScoreName = "SCORE: " + gameScore;
+                cafeMac.addFood();
             }
         }
 
@@ -260,6 +248,7 @@ public class CafeMacRenderer {
                 cafeMac.removeFood(object2Position);
                 gameScore++;
                 gameScoreName = "SCORE: " + gameScore;
+                cafeMac.addFood();
             }
         }
     }
