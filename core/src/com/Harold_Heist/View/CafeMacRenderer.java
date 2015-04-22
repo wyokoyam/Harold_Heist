@@ -335,18 +335,23 @@ public class CafeMacRenderer {
 
                 if ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
                     cafeMac.removeFood(food.getPosition());
+                    cafeMac.addFood();
                 }
 
                 if ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
                     cafeMac.removeFood(food.getPosition());
+                    cafeMac.addFood();
                 }
 
                 if ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
                     cafeMac.removeFood(food.getPosition());
+                    cafeMac.addFood();
                 }
 
                 if ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
                     cafeMac.removeFood(food.getPosition());
+                    cafeMac.addFood();
+
                 }
             }
 
