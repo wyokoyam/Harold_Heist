@@ -298,6 +298,7 @@ public class CafeMacRenderer {
 		}
 	}
 
+
     private void drawFruits() {
         for (Fruit fruit: fruits) {
             spriteBatch.draw(Assets.fruitTexture, fruit.getPosition().x, fruit.getPosition().y, fruit.getSize(), fruit.getSize());
