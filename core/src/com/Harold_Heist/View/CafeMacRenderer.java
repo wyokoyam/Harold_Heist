@@ -216,6 +216,7 @@ public class CafeMacRenderer {
                 gameScore++;
                 gameScoreName = "SCORE: " + gameScore;
                 cafeMac.addFood();
+//                Assets.eatingSound.play();
             }
         }
 
@@ -227,6 +228,7 @@ public class CafeMacRenderer {
                 gameScore++;
                 gameScoreName = "SCORE: " + gameScore;
                 cafeMac.addFood();
+//                Assets.eatingSound.play();
             }
         }
 
@@ -238,6 +240,7 @@ public class CafeMacRenderer {
                 gameScore++;
                 gameScoreName = "SCORE: " + gameScore;
                 cafeMac.addFood();
+//                Assets.eatingSound.play();
             }
         }
 
@@ -249,6 +252,7 @@ public class CafeMacRenderer {
                 gameScore++;
                 gameScoreName = "SCORE: " + gameScore;
                 cafeMac.addFood();
+//                Assets.eatingSound.play();
             }
         }
     }

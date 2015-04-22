@@ -30,7 +30,7 @@ public class GameScreen implements Screen{
         cafeMac = new CafeMac();
         protag = cafeMac.getProtagonist();
         antag = cafeMac.getAntagonist();
-        renderer = new CafeMacRenderer(cafeMac, true);
+        renderer = new CafeMacRenderer(cafeMac, false);
         cam = new OrthographicCamera();
         viewport = new ScreenViewport(cam);
     }

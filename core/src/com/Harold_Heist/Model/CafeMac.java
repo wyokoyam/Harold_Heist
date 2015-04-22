@@ -88,9 +88,10 @@ public class CafeMac {
 //        avoidCollisionShapes();
         addCollisionShapes();
         avoidProtagAntagPositions();
+        avoidWalls();
 
         for (int foodIndex = 0; foodIndex < 4; foodIndex++) {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 3; i++) {
                 Vector2 position = getFreePosition();
                 Food food = new Food(position, foodIndex);
                 foodArray.add(food);
@@ -160,6 +161,27 @@ public class CafeMac {
             for (int y = 0; y < Protagonist.SIZE; y++) {
                 takenPositions.add(new Vector2(protag.x + x, protag.y + y));
                 takenPositions.add(new Vector2(antag.x + x, antag.y + y));
+            }
+        }
+    }
+
+    private void avoidWalls() {
+        float screenWidth = Gdx.graphics.getWidth();
+        float screenHeight = Gdx.graphics.getHeight();
+        for (float x = 0; x < screenWidth; x++) {
+            for (float y = 0; y < Food.SIZE; y++) {
+                takenPositions.add(new Vector2(x, y));
+            }
+            for (float y = screenHeight; y > screenHeight - Food.SIZE; y--) {
+                takenPositions.add(new Vector2(x, y));
+            }
+        }
+        for (float y = 0; y < screenHeight; y++) {
+            for (float x = 0; x < Food.SIZE; x++) {
+                takenPositions.add(new Vector2(x, y));
+            }
+            for (float x = screenWidth; x > screenWidth - Food.SIZE; x--) {
+                takenPositions.add(new Vector2(x, y));
             }
         }
     }

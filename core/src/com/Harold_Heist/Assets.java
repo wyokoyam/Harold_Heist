@@ -2,6 +2,7 @@ package com.Harold_Heist;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 
 public class Assets {
@@ -26,6 +27,7 @@ public class Assets {
 	public static Texture soundOff;
 	
 	public static Music catchyMusic;
+    public static Sound eatingSound;
 	
 	public static void load() {
         foodBanana = new Texture(Gdx.files.internal("graphics/foodBanana.png"));
@@ -45,7 +47,9 @@ public class Assets {
 		
 		soundOn = new Texture(Gdx.files.internal("graphics/soundOn.png"));
 		soundOff = new Texture(Gdx.files.internal("graphics/soundOff.png"));
-		catchyMusic = Gdx.audio.newMusic(Gdx.files.internal("music/catchyMusic.mp3"));
+//        eatingSound = Gdx.audio.newSound(Gdx.files.internal("music/eatingSound.mp3"));
+        catchyMusic = Gdx.audio.newMusic(Gdx.files.internal("music/catchyMusic.mp3"));
+
 		catchyMusic.setLooping(true);
 		catchyMusic.play();
 	}
