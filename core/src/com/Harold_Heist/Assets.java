@@ -50,7 +50,7 @@ public class Assets {
 		catchyMusic.play();
 	}
 
-//    public static void dispose() {
-//        te
-//    }
+    public static void dispose() {
+
+    }
 }

@@ -2,13 +2,12 @@ package com.Harold_Heist.View;
 
 import com.Harold_Heist.Assets;
 import com.Harold_Heist.Model.CafeMac;
-import com.Harold_Heist.Model.Fruit;
+import com.Harold_Heist.Model.Food;
 import com.Harold_Heist.Model.Protagonist;
 import com.Harold_Heist.Model.Antagonist;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -29,7 +28,6 @@ import com.badlogic.gdx.utils.Array;
 
 
 import java.util.ArrayList;
-import java.util.Random;
 
 
 public class CafeMacRenderer {
@@ -65,8 +63,8 @@ public class CafeMacRenderer {
 
     private Protagonist protag;
     private Antagonist antag;
-    private Fruit fruit;
-    private Array<Fruit> fruits;
+    private Food food;
+    private Array<Food> foods;
 
     private ArrayList<Shape2D> collisionShapes;
     private MapLayer objectLayer;
@@ -74,7 +72,7 @@ public class CafeMacRenderer {
     public CafeMacRenderer(CafeMac cafeMac, boolean debug) {
         protag = cafeMac.getProtagonist();
         antag = cafeMac.getAntagonist();
-        fruits = cafeMac.getFruitArray();
+        foods = cafeMac.getFoodArray();
         this.cafeMac = cafeMac;
 
         tiledMap = new TmxMapLoader().load("graphics/cafeMacMap.tmx");
@@ -91,7 +89,6 @@ public class CafeMacRenderer {
         this.cam = new OrthographicCamera();
         this.cam.setToOrtho(false, screenWidth, screenHeight);
 
-        //tiled map is shown correctly, but size of characters and fruits are wrong
         this.cam = new OrthographicCamera();
         this.cam.setToOrtho(false, 800, 480);
 
@@ -141,8 +138,8 @@ public class CafeMacRenderer {
         wallCollisionHandler(protag.getPosition(), true);
         wallCollisionHandler(antag.getPosition(), false);
         objectCollisionHandler(protag.getPosition(), antag.getPosition(), true);
-        for (Fruit fruit : cafeMac.getFruitArray()) {
-            objectCollisionHandler(protag.getPosition(), fruit.getPosition(), false);
+        for (Food food : cafeMac.getFoodArray()) {
+            objectCollisionHandler(protag.getPosition(), food.getPosition(), false);
         }
     }
 
@@ -150,7 +147,7 @@ public class CafeMacRenderer {
         spriteBatch.begin();
         drawProtag();
         drawAntag();
-        drawFruits();
+        drawFoods();
         scoreFont.setColor(0, 0, 1, 0.8f);
         scoreFont.draw(spriteBatch, gameScoreName, 710/widthRatio, 460/heightRatio);
 //        scoreFont.draw(spriteBatch, gameScoreName, 710, 460);
@@ -213,7 +210,7 @@ public class CafeMacRenderer {
 
     /**
      * If protagAndAntag is true, handle collision between protagonist and antagonist. If false, handle collision
-     * between protagonist and fruit.
+     * between protagonist and food.
      */
     private void objectCollisionHandler(Vector2 object1Position, Vector2 object2Position, boolean protagAndAntag) {
         float object1X = object1Position.x;
@@ -224,13 +221,13 @@ public class CafeMacRenderer {
         float object2Y = object2Position.y;
         float object2Size;
         if (protagAndAntag) object2Size = antag.getSize();
-        else object2Size = fruit.getSize();
+        else object2Size = food.getSize();
 
         // collision left of object
         if (object1X + object1Size > object2X && object1X + object1Size < object2X + 10 && object1Y + object1Size > object2Y && object1Y < object2Y + object2Size) {
             if (protagAndAntag) cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
             else {
-                cafeMac.removeFruit(object2Position);
+                cafeMac.removeFood(object2Position);
                 gameScore++;
                 gameScoreName = "SCORE: " + gameScore;
             }
@@ -240,7 +237,7 @@ public class CafeMacRenderer {
         else if (object1X < object2X + object2Size && object1X > object2X + object2Size - 10 && object1Y + object1Size > object2Y && object1Y < object2Y + object2Size) {
             if (protagAndAntag) cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
             else {
-                cafeMac.removeFruit(object2Position);
+                cafeMac.removeFood(object2Position);
                 gameScore++;
                 gameScoreName = "SCORE: " + gameScore;
             }
@@ -250,7 +247,7 @@ public class CafeMacRenderer {
         else if (object1X + object1Size > object2X && object1X < object2X + object2Size && object1Y < object2Y + object2Size && object1Y > object2Y + object2Size - 10) {
             if (protagAndAntag) cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
             else {
-                cafeMac.removeFruit(object2Position);
+                cafeMac.removeFood(object2Position);
                 gameScore++;
                 gameScoreName = "SCORE: " + gameScore;
             }
@@ -260,7 +257,7 @@ public class CafeMacRenderer {
         else if (object1X + object1Size > object2X && object1X < object2X + object2Size && object1Y + object1Size > object2Y && object1Y + object1Size < object2Y + 10) {
             if (protagAndAntag) cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
             else {
-                cafeMac.removeFruit(object2Position);
+                cafeMac.removeFood(object2Position);
                 gameScore++;
                 gameScoreName = "SCORE: " + gameScore;
             }
@@ -317,12 +314,12 @@ public class CafeMacRenderer {
         }
     }
 
-    private void drawFruits() {
-        for (Fruit fruit : fruits) {
-            float fruitX = fruit.getPosition().x/widthRatio;
-            float fruitY = fruit.getPosition().y/heightRatio;
-            float fruitSize = fruit.getSize();
-            int foodIndex = fruit.getFoodIndex();
+    private void drawFoods() {
+        for (Food food : foods) {
+            float foodX = food.getPosition().x/widthRatio;
+            float foodY = food.getPosition().y/heightRatio;
+            float foodSize = food.getSize();
+            int foodIndex = food.getFoodIndex();
 
             for (Shape2D shape : collisionShapes) {
                 float shapeX;
@@ -347,41 +344,27 @@ public class CafeMacRenderer {
                     shapeHeight = ellip.height;
                 }
 
-                if ((fruitX >= shapeX && fruitX <= shapeX + shapeWidth) && (fruitY >= shapeY && fruitY <= shapeY + shapeHeight)) {
-                    cafeMac.removeFruit(fruit.getPosition());
+                if ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
+                    cafeMac.removeFood(food.getPosition());
                 }
 
-                if ((fruitX + fruitSize >= shapeX && fruitX + fruitSize <= shapeX + shapeWidth) && (fruitY >= shapeY && fruitY <= shapeY + shapeHeight)) {
-                    cafeMac.removeFruit(fruit.getPosition());
+                if ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
+                    cafeMac.removeFood(food.getPosition());
                 }
 
-                if ((fruitX >= shapeX && fruitX <= shapeX + shapeWidth) && (fruitY + fruitSize >= shapeY && fruitY + fruitSize <= shapeY + shapeHeight)) {
-                    cafeMac.removeFruit(fruit.getPosition());
+                if ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
+                    cafeMac.removeFood(food.getPosition());
                 }
 
-                if ((fruitX + fruitSize >= shapeX && fruitX + fruitSize <= shapeX + shapeWidth) && (fruitY + fruitSize >= shapeY && fruitY + fruitSize <= shapeY + shapeHeight)) {
-                    cafeMac.removeFruit(fruit.getPosition());
+                if ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
+                    cafeMac.removeFood(food.getPosition());
                 }
             }
-//            Random random = new Random();
-//            Array<Texture> fruits = new Array<Texture>();
-//            fruits.add(Assets.foodApple);
-//            fruits.add(Assets.foodBanana);
-//            fruits.add(Assets.foodBacon);
-//            fruits.add(Assets.foodCake);
-//            Texture randomFruit = fruits.get(random.nextInt(4));
 
-//            switch(foodIndex) {
-//                case 0: spriteBatch.draw(Assets.foodApple, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
-//                case 1: spriteBatch.draw(Assets.foodBanana, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
-//                case 2: spriteBatch.draw(Assets.foodBacon, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
-//                case 3: spriteBatch.draw(Assets.foodCake, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
-//            }
-
-            if (foodIndex == 0) spriteBatch.draw(Assets.foodApple, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
-            else if (foodIndex == 1) spriteBatch.draw(Assets.foodBanana, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
-            else if (foodIndex == 2) spriteBatch.draw(Assets.foodBacon, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
-            else if (foodIndex == 3) spriteBatch.draw(Assets.foodCake, fruitX, fruitY, fruit.getSize() / widthRatio, fruit.getSize() / widthRatio);
+            if (foodIndex == 0) spriteBatch.draw(Assets.foodApple, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);
+            else if (foodIndex == 1) spriteBatch.draw(Assets.foodBanana, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);
+            else if (foodIndex == 2) spriteBatch.draw(Assets.foodBacon, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);
+            else if (foodIndex == 3) spriteBatch.draw(Assets.foodCake, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);
 
         }
     }
@@ -390,9 +373,9 @@ public class CafeMacRenderer {
         debugRenderer.begin(ShapeRenderer.ShapeType.Line);
         debugRenderer.setColor(new Color(0, 1, 0, 1));
 
-        //Outline the fruits
-        for (Fruit fruit: fruits) {
-            debugRenderer.rect(fruit.getPosition().x/widthRatio, fruit.getPosition().y/heightRatio, fruit.getSize()/widthRatio, fruit.getSize()/widthRatio);
+        //Outline the foods
+        for (Food food : foods) {
+            debugRenderer.rect(food.getPosition().x/widthRatio, food.getPosition().y/heightRatio, food.getSize()/widthRatio, food.getSize()/widthRatio);
         }
 
         // Outline the shapes

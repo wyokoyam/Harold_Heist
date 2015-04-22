@@ -19,8 +19,8 @@ public class CafeMac {
     Protagonist protag;
 	/** Our heroes autonomous nemesis **/
 	Antagonist antag;
-    /** Fruits **/
-    Array<Fruit> fruitArray = new Array<Fruit>();
+    /** Foods **/
+    Array<Food> foodArray = new Array<Food>();
 
     State state = State.STATE_RUNNING;
 
@@ -34,8 +34,8 @@ public class CafeMac {
 		return antag;
 	}
 
-    public Array<Fruit> getFruitArray() {
-        return fruitArray;
+    public Array<Food> getFoodArray() {
+        return foodArray;
     }
 
     public State getState() {return state;}
@@ -56,44 +56,44 @@ public class CafeMac {
 
         Random rand = new Random();
 
-        ArrayList<Vector2> fruitPositions = new ArrayList<Vector2>();
+        ArrayList<Vector2> foodPositions = new ArrayList<Vector2>();
         for (int foodIndex = 0; foodIndex < 4; foodIndex++) {
             for (int i = 0; i < 5; i++) {
                 Vector2 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
-                Vector2 upperLeft = new Vector2(position.x, position.y + Fruit.SIZE);
-                Vector2 upperRight = new Vector2(position.x + Fruit.SIZE, position.y + Fruit.SIZE);
-                Vector2 bottomRight = new Vector2(position.x + Fruit.SIZE, position.y);
+                Vector2 upperLeft = new Vector2(position.x, position.y + Food.SIZE);
+                Vector2 upperRight = new Vector2(position.x + Food.SIZE, position.y + Food.SIZE);
+                Vector2 bottomRight = new Vector2(position.x + Food.SIZE, position.y);
 
-                while (fruitPositions.contains(position) || fruitPositions.contains(upperLeft) || fruitPositions.contains(upperRight) || fruitPositions.contains(bottomRight)) {
+                while (foodPositions.contains(position) || foodPositions.contains(upperLeft) || foodPositions.contains(upperRight) || foodPositions.contains(bottomRight)) {
                     position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
-                    upperLeft = new Vector2(position.x, position.y + Fruit.SIZE);
-                    upperRight = new Vector2(position.x + Fruit.SIZE, position.y + Fruit.SIZE);
-                    bottomRight = new Vector2(position.x + Fruit.SIZE, position.y);
+                    upperLeft = new Vector2(position.x, position.y + Food.SIZE);
+                    upperRight = new Vector2(position.x + Food.SIZE, position.y + Food.SIZE);
+                    bottomRight = new Vector2(position.x + Food.SIZE, position.y);
                 }
 
-                if (!fruitPositions.contains(position) || (!fruitPositions.contains(upperLeft)) || (!fruitPositions.contains(upperRight)) || (!fruitPositions.contains(bottomRight))) {
-                    for (int x = 0; x < Fruit.SIZE; x++) {
-                        for (int y = 0; y < Fruit.SIZE; y++) {
-                            fruitPositions.add(new Vector2(position.x + x, position.y + y));
+                if (!foodPositions.contains(position) || (!foodPositions.contains(upperLeft)) || (!foodPositions.contains(upperRight)) || (!foodPositions.contains(bottomRight))) {
+                    for (int x = 0; x < Food.SIZE; x++) {
+                        for (int y = 0; y < Food.SIZE; y++) {
+                            foodPositions.add(new Vector2(position.x + x, position.y + y));
                         }
                     }
                 }
 
-                Fruit fruit = new Fruit(position, foodIndex);
+                Food food = new Food(position, foodIndex);
 
-                while ((fruit.getPosition().x == 40 && fruit.getPosition().y == 40) || (fruit.getPosition().x == 1 && fruit.getPosition().y == 1)) {
-                    fruit = new Fruit(new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight())), foodIndex);
+                while ((food.getPosition().x == 40 && food.getPosition().y == 40) || (food.getPosition().x == 1 && food.getPosition().y == 1)) {
+                    food = new Food(new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight())), foodIndex);
                 }
-                fruitArray.add(fruit);
+                foodArray.add(food);
             }
         }
 
     }
 
-    public void removeFruit(Vector2 fruitPosition) {
-        for (int i = 0; i < fruitArray.size; i++) {
-            if (fruitArray.get(i).getPosition().equals(fruitPosition)) {
-                fruitArray.removeIndex(i);
+    public void removeFood(Vector2 foodPosition) {
+        for (int i = 0; i < foodArray.size; i++) {
+            if (foodArray.get(i).getPosition().equals(foodPosition)) {
+                foodArray.removeIndex(i);
             }
         }
     }

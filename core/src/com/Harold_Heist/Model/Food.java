@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Created by Reena on 4/13/15.
  */
-public class Fruit  {
+public class Food {
 
     static final float SIZE = 32;
 
@@ -15,7 +15,7 @@ public class Fruit  {
     Rectangle bounds = new Rectangle();
     int foodIndex; // 0 = banana, 1 = apple, 2 = bacon, 3 = cake
 
-    public Fruit(Vector2 position, int foodIndex) {
+    public Food(Vector2 position, int foodIndex) {
         this.position = position;
         this.bounds.height = SIZE;
         this.bounds.width = SIZE;
