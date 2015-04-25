@@ -14,6 +14,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
 
 public class GameScreen implements Screen{
 	
@@ -49,6 +51,65 @@ public class GameScreen implements Screen{
         if (cafeMac.getState() == CafeMac.State.STATE_GAMEOVER) {
             game.setScreen(new GameOverScreen(game));
         }
+        moveAntag();
+    }
+
+    private void moveAntag() {
+        double tanInRadians = Math.toRadians(antag.getPosition().y - protag.getPosition().y) / Math.toRadians(antag.getPosition().x - protag.getPosition().x);
+        double degree = Math.toDegrees(Math.atan(tanInRadians));
+        double unitCircleX = Math.cos(Math.toRadians(degree));
+        double unitCircleY = Math.sin(Math.toRadians(degree));
+
+        double northDotVector = 1 * unitCircleY;
+        double northEastDotVector = (Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
+        double eastDotVector = 1 * unitCircleX;
+        double southEastDotVector = (Math.sqrt(2)/2 * unitCircleX) + (-Math.sqrt(2)/2 * unitCircleY);
+        double southDotVector = -1 * unitCircleY;
+        double southWestDotVector = (-Math.sqrt(2)/2 * unitCircleX) + (-Math.sqrt(2)/2 * unitCircleY);
+        double westDotVector = -1 * unitCircleX;
+        double northWestDotVector = (-Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
+
+        ArrayList<Double> directionVectors = new ArrayList<Double>();
+        directionVectors.add(southDotVector);
+        directionVectors.add(southWestDotVector);
+        directionVectors.add(westDotVector);
+        directionVectors.add(northWestDotVector);
+        directionVectors.add(northDotVector);
+        directionVectors.add(northEastDotVector);
+        directionVectors.add(eastDotVector);
+        directionVectors.add(southEastDotVector);
+
+        double max = Integer.MIN_VALUE;
+        for (Double directionVector : directionVectors) {
+            if (directionVector > max) max = directionVector;
+        }
+
+        if (max == northDotVector) {
+            antag.setState(Antagonist.State.FACEUP);
+            antag.getPosition().y += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        } else if (max == northEastDotVector) {
+            antag.setState(Antagonist.State.FACERIGHT);
+            antag.getPosition().x += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+            antag.getPosition().y += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        } else if (max == eastDotVector) {
+            antag.setState(Antagonist.State.FACERIGHT);
+            antag.getPosition().x += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        } else if (max == southEastDotVector) {
+            antag.setState(Antagonist.State.FACERIGHT);
+            antag.getPosition().x += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+            antag.getPosition().y -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        } else if (max == southDotVector) {
+            antag.setState(Antagonist.State.FACEDOWN);
+            antag.getPosition().y -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        } else if (max == southWestDotVector) {
+            antag.setState(Antagonist.State.FACELEFT);
+            antag.getPosition().x -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+            antag.getPosition().y -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        } else if (max == westDotVector) {
+            antag.setState(Antagonist.State.FACELEFT);
+            antag.getPosition().x -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        }
+//        }
     }
 
     private void keyboardControls() {

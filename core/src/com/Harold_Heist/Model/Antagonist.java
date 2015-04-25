@@ -10,7 +10,7 @@ public class Antagonist extends Rectangle{
 	}
 	
 	static final float SIZE = 32;
-    static final float SPEED = SIZE * 2.5f;
+    static final float SPEED = SIZE * 4;
 
     Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();

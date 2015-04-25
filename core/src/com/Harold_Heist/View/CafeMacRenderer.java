@@ -67,7 +67,6 @@ public class CafeMacRenderer {
     private Array<Food> foods;
 
     private ArrayList<Shape2D> collisionShapes;
-    private MapLayer objectLayer;
 
     public CafeMacRenderer(CafeMac cafeMac, boolean debug) {
         protag = cafeMac.getProtagonist();
@@ -298,6 +297,7 @@ public class CafeMacRenderer {
 
         if (antag.getState() == Antagonist.State.FACERIGHT) {
             spriteBatch.draw(Assets.antagRight, xCoordinate, yCoordinate, antagSize, antagSize);
+//            protag.getPosition().x += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
         } else if (antag.getState() == Antagonist.State.FACELEFT) {
             spriteBatch.draw(Assets.antagLeft, xCoordinate, yCoordinate, antagSize, antagSize);
         } else if (antag.getState() == Antagonist.State.FACEUP) {
@@ -314,56 +314,61 @@ public class CafeMacRenderer {
             float foodSize = food.getSize();
             int foodIndex = food.getFoodIndex();
 
-            for (Shape2D shape : collisionShapes) {
-                float shapeX;
-                float shapeY;
-                float shapeWidth;
-                float shapeHeight;
-                Rectangle rect;
-                Ellipse ellip;
-
-                if (shape.getClass() == Rectangle.class) {
-                    rect = (Rectangle) shape;
-                    shapeX = rect.getX();
-                    shapeY = rect.getY();
-                    shapeWidth = rect.getWidth();
-                    shapeHeight = rect.getHeight();
-
-                } else {
-                    ellip = (Ellipse) shape;
-                    shapeX = ellip.x;
-                    shapeY = ellip.y;
-                    shapeWidth = ellip.width;
-                    shapeHeight = ellip.height;
-                }
-
-                if ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
-                    cafeMac.removeFood(food.getPosition());
-                    cafeMac.addFood();
-                }
-
-                if ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
-                    cafeMac.removeFood(food.getPosition());
-                    cafeMac.addFood();
-                }
-
-                if ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
-                    cafeMac.removeFood(food.getPosition());
-                    cafeMac.addFood();
-                }
-
-                if ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
-                    cafeMac.removeFood(food.getPosition());
-                    cafeMac.addFood();
-
-                }
-            }
+            checkTableCollisions(food, foodX, foodY, foodSize);
 
             if (foodIndex == 0) spriteBatch.draw(Assets.foodApple, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);
             else if (foodIndex == 1) spriteBatch.draw(Assets.foodBanana, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);
             else if (foodIndex == 2) spriteBatch.draw(Assets.foodBacon, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);
             else if (foodIndex == 3) spriteBatch.draw(Assets.foodCake, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);
 
+        }
+    }
+
+    private void checkTableCollisions(Food food, float foodX, float foodY, float foodSize) {
+        for (Shape2D shape : collisionShapes) {
+            float shapeX;
+            float shapeY;
+            float shapeWidth;
+            float shapeHeight;
+            Rectangle rect;
+            Ellipse ellip;
+
+            if (shape.getClass() == Rectangle.class) {
+                rect = (Rectangle) shape;
+                shapeX = rect.getX();
+                shapeY = rect.getY();
+                shapeWidth = rect.getWidth();
+                shapeHeight = rect.getHeight();
+
+            } else {
+                ellip = (Ellipse) shape;
+                shapeX = ellip.x;
+                shapeY = ellip.y;
+                shapeWidth = ellip.width;
+                shapeHeight = ellip.height;
+            }
+
+            if ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
+                cafeMac.removeFood(food.getPosition());
+                cafeMac.addFood();
+            }
+
+            if ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
+                cafeMac.removeFood(food.getPosition());
+                cafeMac.addFood();
+            }
+
+            if ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
+                cafeMac.removeFood(food.getPosition());
+                cafeMac.addFood();
+            }
+
+            if ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
+                // can do a while loop to ensure the final fruit position is not on a table
+                cafeMac.removeFood(food.getPosition());
+                cafeMac.addFood();
+
+            }
         }
     }
 
