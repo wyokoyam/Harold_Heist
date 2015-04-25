@@ -70,14 +70,14 @@ public class GameScreen implements Screen{
         double northWestDotVector = (-Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
 
         ArrayList<Double> directionVectors = new ArrayList<Double>();
-        directionVectors.add(southDotVector);
-        directionVectors.add(southWestDotVector);
-        directionVectors.add(westDotVector);
-        directionVectors.add(northWestDotVector);
         directionVectors.add(northDotVector);
         directionVectors.add(northEastDotVector);
         directionVectors.add(eastDotVector);
         directionVectors.add(southEastDotVector);
+        directionVectors.add(southDotVector);
+        directionVectors.add(southWestDotVector);
+        directionVectors.add(westDotVector);
+        directionVectors.add(northWestDotVector);
 
         double max = Integer.MIN_VALUE;
         for (Double directionVector : directionVectors) {
