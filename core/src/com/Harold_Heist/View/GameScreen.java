@@ -63,11 +63,11 @@ public class GameScreen implements Screen{
         double northDotVector = 1 * unitCircleY;
         double northEastDotVector = (Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
         double eastDotVector = 1 * unitCircleX;
-        double southEastDotVector = (Math.sqrt(2)/2 * unitCircleX) + (-Math.sqrt(2)/2 * unitCircleY);
+        double southEastDotVector = (Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
         double southDotVector = -1 * unitCircleY;
-        double southWestDotVector = (-Math.sqrt(2)/2 * unitCircleX) + (-Math.sqrt(2)/2 * unitCircleY);
+        double southWestDotVector = (Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
         double westDotVector = -1 * unitCircleX;
-        double northWestDotVector = (-Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
+        double northWestDotVector = (Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
 
         ArrayList<Double> directionVectors = new ArrayList<Double>();
         directionVectors.add(northDotVector);
@@ -81,7 +81,10 @@ public class GameScreen implements Screen{
 
         double max = Integer.MIN_VALUE;
         for (Double directionVector : directionVectors) {
-            if (directionVector > max) max = directionVector;
+            if (directionVector > max){
+                max = directionVector;
+                System.out.println(max);
+            }
         }
 
         if (max == northDotVector) {
