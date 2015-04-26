@@ -45,9 +45,7 @@ public class CafeMac {
 
 	// Getters -----------
 
-	public Protagonist getProtagonist() {
-		return protag;
-	}
+	public Protagonist getProtagonist() { return protag; }
 
 	public Antagonist getAntagonist(){
 		return antag;

@@ -51,10 +51,10 @@ public class GameScreen implements Screen{
         if (cafeMac.getState() == CafeMac.State.STATE_GAMEOVER) {
             game.setScreen(new GameOverScreen(game));
         }
-        moveAntag();
+        moveAntag(antag);
     }
 
-    private void moveAntag() {
+    private void moveAntag(Antagonist antag) {
         double tanInRadians = Math.toRadians(antag.getPosition().y - protag.getPosition().y) / Math.toRadians(antag.getPosition().x - protag.getPosition().x);
         double degree = Math.toDegrees(Math.atan(tanInRadians));
         double unitCircleX = Math.cos(Math.toRadians(degree));
@@ -85,33 +85,79 @@ public class GameScreen implements Screen{
         }
 
         if (max == northDotVector) {
-            antag.setState(Antagonist.State.FACEUP);
-            antag.getPosition().y += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+            goNorth(antag);
+
         } else if (max == northEastDotVector) {
-            antag.setState(Antagonist.State.FACERIGHT);
-            antag.getPosition().x += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-            antag.getPosition().y += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+            goNorthEast(antag);
+
         } else if (max == eastDotVector) {
-            antag.setState(Antagonist.State.FACERIGHT);
-            antag.getPosition().x += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+            goEast(antag);
+
         } else if (max == southEastDotVector) {
-            antag.setState(Antagonist.State.FACERIGHT);
-            antag.getPosition().x += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-            antag.getPosition().y -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+            goSouthEast(antag);
+
         } else if (max == southDotVector) {
-            antag.setState(Antagonist.State.FACEDOWN);
-            antag.getPosition().y -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+            goSouth(antag);
+
         } else if (max == southWestDotVector) {
-            antag.setState(Antagonist.State.FACELEFT);
-            antag.getPosition().x -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-            antag.getPosition().y -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+            goSouthWest(antag);
+
         } else if (max == westDotVector) {
-            antag.setState(Antagonist.State.FACELEFT);
-            antag.getPosition().x -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+            goWest(antag);
+
         }
-//        }
+          else if (max == northWestDotVector) {
+            goNorthWest(antag);
+        }
+
     }
 
+    // Directional Methods For Antagonist
+    private void goNorth(Antagonist antag){
+        antag.setState(Antagonist.State.FACEUP);
+        antag.getPosition().y += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+    }
+
+    private void goNorthEast(Antagonist antag){
+        antag.setState(Antagonist.State.FACERIGHT);
+        antag.getPosition().x += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        antag.getPosition().y += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+    }
+
+    private void goEast(Antagonist antag){
+        antag.setState(Antagonist.State.FACERIGHT);
+        antag.getPosition().x += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+    }
+
+    private void goSouthEast(Antagonist antag){
+        antag.setState(Antagonist.State.FACERIGHT);
+        antag.getPosition().x += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        antag.getPosition().y -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+    }
+
+    private void goSouth(Antagonist antag){
+        antag.setState(Antagonist.State.FACEDOWN);
+        antag.getPosition().y -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+    }
+
+    private void goSouthWest(Antagonist antag){
+        antag.setState(Antagonist.State.FACELEFT);
+        antag.getPosition().x -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        antag.getPosition().y -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+    }
+
+    private void goWest(Antagonist antag){
+        antag.setState(Antagonist.State.FACELEFT);
+        antag.getPosition().x -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+    }
+
+    private void goNorthWest(Antagonist antag){
+        antag.setState(Antagonist.State.FACELEFT);
+        antag.getPosition().x -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        antag.getPosition().y += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+    }
+
+    // Protagonist User Controls
     private void keyboardControls() {
         if (Gdx.input.isKeyPressed(Keys.LEFT)) {
             protag.setState(Protagonist.State.FACELEFT);
