@@ -132,7 +132,7 @@ public class CafeMacRenderer {
         drawProtag();
         drawAntag();
         drawFoods();
-        scoreFont.setColor(0, 0, 1, 0.8f);
+        scoreFont.setColor(0, 0, 0, .8f);
         scoreFont.draw(spriteBatch, gameScoreName, 710/widthRatio, 460/heightRatio);
 //        scoreFont.draw(spriteBatch, gameScoreName, 710, 460);
 

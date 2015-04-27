@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import java.util.ArrayList;
 
 
@@ -26,6 +25,8 @@ public class GameScreen implements Screen{
 	private Protagonist protag;
 	private Antagonist antag;
     private Viewport viewport;
+
+
 
 	public GameScreen(HaroldHeist game) {
         this.game = game;
@@ -51,23 +52,24 @@ public class GameScreen implements Screen{
         if (cafeMac.getState() == CafeMac.State.STATE_GAMEOVER) {
             game.setScreen(new GameOverScreen(game));
         }
-        moveAntag(antag);
+            moveAntag();
     }
 
-    private void moveAntag(Antagonist antag) {
-        double tanInRadians = Math.toRadians(antag.getPosition().y - protag.getPosition().y) / Math.toRadians(antag.getPosition().x - protag.getPosition().x);
-        double degree = Math.toDegrees(Math.atan(tanInRadians));
-        double unitCircleX = Math.cos(Math.toRadians(degree));
-        double unitCircleY = Math.sin(Math.toRadians(degree));
+    private void moveAntag() {
+        double deltaY = antag.getPosition().y - protag.getPosition().y;
+        double deltaX = antag.getPosition().x - protag.getPosition().x;
+        double magVec = Math.hypot(deltaX, deltaY);
+        double unitCircleX = deltaX / magVec;
+        double unitCircleY = deltaY / magVec;
 
-        double northDotVector = 1 * unitCircleY;
+        double northDotVector = unitCircleY;
         double northEastDotVector = (Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
-        double eastDotVector = 1 * unitCircleX;
-        double southEastDotVector = (Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
-        double southDotVector = -1 * unitCircleY;
-        double southWestDotVector = (Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
-        double westDotVector = -1 * unitCircleX;
-        double northWestDotVector = (Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
+        double eastDotVector = unitCircleX;
+        double southEastDotVector = (Math.sqrt(2)/2 * unitCircleX) - (Math.sqrt(2)/2 * unitCircleY);
+        double southDotVector = -unitCircleY;
+        double southWestDotVector = -(Math.sqrt(2)/2 * unitCircleX) - (Math.sqrt(2)/2 * unitCircleY);
+        double westDotVector = -unitCircleX;
+        double northWestDotVector = -(Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
 
         ArrayList<Double> directionVectors = new ArrayList<Double>();
         directionVectors.add(northDotVector);
@@ -83,81 +85,36 @@ public class GameScreen implements Screen{
         for (Double directionVector : directionVectors) {
             if (directionVector > max){
                 max = directionVector;
-                System.out.println(max);
+//                System.out.println(max); // Vector test line
             }
         }
 
         if (max == northDotVector) {
-            goNorth(antag);
+            antag.goNorth();
 
         } else if (max == northEastDotVector) {
-            goNorthEast(antag);
+            antag.goNorthEast();
 
         } else if (max == eastDotVector) {
-            goEast(antag);
+            antag.goEast();
 
         } else if (max == southEastDotVector) {
-            goSouthEast(antag);
+            antag.goSouthEast();
 
         } else if (max == southDotVector) {
-            goSouth(antag);
+            antag.goSouth();
 
         } else if (max == southWestDotVector) {
-            goSouthWest(antag);
+            antag.goSouthWest();
 
         } else if (max == westDotVector) {
-            goWest(antag);
+            antag.goWest();
 
         }
           else if (max == northWestDotVector) {
-            goNorthWest(antag);
+            antag.goNorthWest();
         }
 
-    }
-
-    // Directional Methods For Antagonist
-    private void goNorth(Antagonist antag){
-        antag.setState(Antagonist.State.FACEUP);
-        antag.getPosition().y += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-    }
-
-    private void goNorthEast(Antagonist antag){
-        antag.setState(Antagonist.State.FACERIGHT);
-        antag.getPosition().x += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-        antag.getPosition().y += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-    }
-
-    private void goEast(Antagonist antag){
-        antag.setState(Antagonist.State.FACERIGHT);
-        antag.getPosition().x += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-    }
-
-    private void goSouthEast(Antagonist antag){
-        antag.setState(Antagonist.State.FACERIGHT);
-        antag.getPosition().x += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-        antag.getPosition().y -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-    }
-
-    private void goSouth(Antagonist antag){
-        antag.setState(Antagonist.State.FACEDOWN);
-        antag.getPosition().y -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-    }
-
-    private void goSouthWest(Antagonist antag){
-        antag.setState(Antagonist.State.FACELEFT);
-        antag.getPosition().x -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-        antag.getPosition().y -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-    }
-
-    private void goWest(Antagonist antag){
-        antag.setState(Antagonist.State.FACELEFT);
-        antag.getPosition().x -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-    }
-
-    private void goNorthWest(Antagonist antag){
-        antag.setState(Antagonist.State.FACELEFT);
-        antag.getPosition().x -= Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-        antag.getPosition().y += Antagonist.getSpeed() * Gdx.graphics.getDeltaTime();
     }
 
     // Protagonist User Controls
