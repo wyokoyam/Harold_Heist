@@ -1,5 +1,7 @@
 package com.Harold_Heist.Model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -44,5 +46,26 @@ public class Protagonist extends Rectangle {
 	public static float getSize() {
 		return SIZE;
 	}
-	
+
+    public void keyboardControlsProtag() {
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            this.setState(Protagonist.State.FACELEFT);
+            this.getPosition().x -= Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            this.setState(Protagonist.State.FACERIGHT);
+            this.getPosition().x += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            this.setState(Protagonist.State.FACEDOWN);
+            this.getPosition().y -= Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            this.setState(Protagonist.State.FACEUP);
+            this.getPosition().y += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        }
+    }
+
+
 }
