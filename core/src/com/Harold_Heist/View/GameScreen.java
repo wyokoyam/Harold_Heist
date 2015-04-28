@@ -33,7 +33,7 @@ public class GameScreen implements Screen{
         cafeMac = new CafeMac();
         protag = cafeMac.getProtagonist();
         antag = cafeMac.getAntagonist();
-        renderer = new CafeMacRenderer(cafeMac, false);
+        renderer = new CafeMacRenderer(cafeMac, true);
         cam = new OrthographicCamera();
         viewport = new ScreenViewport(cam);
     }
@@ -56,11 +56,18 @@ public class GameScreen implements Screen{
     }
 
     private void moveAntag() {
-        double deltaY = antag.getPosition().y - protag.getPosition().y;
-        double deltaX = antag.getPosition().x - protag.getPosition().x;
-        double magVec = Math.hypot(deltaX, deltaY);
-        double unitCircleX = deltaX / magVec;
-        double unitCircleY = deltaY / magVec;
+
+        double tanInRadians = Math.toRadians(antag.getPosition().y - protag.getPosition().y) / Math.toRadians(antag.getPosition().x - protag.getPosition().x);
+        double degreeBetweenProtagAntag = Math.toDegrees(Math.atan(tanInRadians));
+        System.out.println(degreeBetweenProtagAntag);
+        double unitCircleX = Math.cos(Math.toRadians(degreeBetweenProtagAntag));
+        double unitCircleY = Math.sin(Math.toRadians(degreeBetweenProtagAntag));
+
+//        double deltaY = antag.getPosition().y - protag.getPosition().y;
+//        double deltaX = antag.getPosition().x - protag.getPosition().x;
+//        double magVec = Math.hypot(deltaX, deltaY);
+//        double unitCircleX = deltaX / magVec;
+//        double unitCircleY = deltaY / magVec;
 
         double northDotVector = unitCircleY;
         double northEastDotVector = (Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);

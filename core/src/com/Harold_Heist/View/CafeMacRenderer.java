@@ -11,13 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
-import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Ellipse;
@@ -267,10 +261,10 @@ public class CafeMacRenderer {
             charSize = antag.getSize();
         }
 
-        if (charX < 0) protag.getPosition().x = 0;
+        if (charX < 0) character.x = 0;
         if (charX + charSize > screenWidth) character.x = screenWidth - charSize;
 
-        if (charY < 0) protag.getPosition().y = 0;
+        if (charY < 0) character.y = 0;
         if (charY + charSize > screenHeight) character.y = screenHeight - charSize;
     }
 
@@ -314,7 +308,7 @@ public class CafeMacRenderer {
             float foodSize = food.getSize();
             int foodIndex = food.getFoodIndex();
 
-            checkTableCollisions(food, foodX, foodY, foodSize);
+            checkFoodTableCollisions(food, foodX, foodY, foodSize);
 
             if (foodIndex == 0) spriteBatch.draw(Assets.foodApple, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);
             else if (foodIndex == 1) spriteBatch.draw(Assets.foodBanana, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);
@@ -324,7 +318,7 @@ public class CafeMacRenderer {
         }
     }
 
-    private void checkTableCollisions(Food food, float foodX, float foodY, float foodSize) {
+    private void checkFoodTableCollisions(Food food, float foodX, float foodY, float foodSize) {
         for (Shape2D shape : collisionShapes) {
             float shapeX;
             float shapeY;
