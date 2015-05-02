@@ -52,6 +52,9 @@ public class CafeMacRenderer {
         this.screenHeight = h;
     }
 
+    public int getGameScore(){return this.gameScore;}
+
+
     private TiledMap tiledMap;
     private BatchTiledMapRenderer tiledMapRenderer;
 

@@ -51,7 +51,9 @@ public class GameScreen implements Screen{
         if (cafeMac.getState() == CafeMac.State.STATE_GAMEOVER) {
             game.setScreen(new GameOverScreen(game));
         }
+        if(renderer.getGameScore() > 0) {
             moveAntag();
+        }
     }
 
     private void moveAntag() {

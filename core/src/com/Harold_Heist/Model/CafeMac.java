@@ -80,7 +80,7 @@ public class CafeMac {
 	}
 
 	private void createCafeMac() {
-        protag = new Protagonist(new Vector2(300, 300));
+        protag = new Protagonist(new Vector2(50, 50));
         antag = new Antagonist(new Vector2(1, 1));
 
 //        avoidCollisionShapes();
