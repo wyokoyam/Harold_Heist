@@ -27,7 +27,6 @@ public class GameScreen implements Screen{
     private Viewport viewport;
 
 
-
 	public GameScreen(HaroldHeist game) {
         this.game = game;
         cafeMac = new CafeMac();
