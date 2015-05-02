@@ -9,7 +9,6 @@
     <facet type="java-gradle" name="Java-Gradle">
       <configuration>
         <option name="BUILD_FOLDER_PATH" value="$MODULE_DIR$/build" />
-        <option name="BUILDABLE" value="true" />
       </configuration>
     </facet>
   </component>
@@ -46,3 +45,4 @@
     <orderEntry type="library" exported="" scope="RUNTIME" name="gwt-servlet-2.6.0" level="project" />
   </component>
 </module>
+

@@ -275,6 +275,7 @@ public class CafeMacRenderer {
         float xCoordinate = protag.getPosition().x;
         float yCoordinate = protag.getPosition().y;
         float protagSize = Protagonist.getSize();
+        float protagWidth = Protagonist.getProtagWidth();
 
         if (protag.getState() == Protagonist.State.FACERIGHT) {
             spriteBatch.draw(Assets.protagRight, xCoordinate, yCoordinate, protagSize, protagSize);
@@ -311,7 +312,7 @@ public class CafeMacRenderer {
             float foodSize = food.getSize();
             int foodIndex = food.getFoodIndex();
 
-            checkFoodTableCollisions(food, foodX, foodY, foodSize);
+//            checkFoodTableCollisions(food, foodX, foodY, foodSize);
 
             if (foodIndex == 0) spriteBatch.draw(Assets.foodApple, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);
             else if (foodIndex == 1) spriteBatch.draw(Assets.foodBanana, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);

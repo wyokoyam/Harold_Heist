@@ -35,10 +35,10 @@ public class Assets {
         foodBacon = new Texture(Gdx.files.internal("graphics/foodBacon.png"));
         foodCake = new Texture(Gdx.files.internal("graphics/foodCake.png"));
 
-        protagRight = new Texture(Gdx.files.internal("graphics/protagRight.png"));
-        protagLeft = new Texture(Gdx.files.internal("graphics/protagLeft.png"));
+        protagRight = new Texture(Gdx.files.internal("graphics/protagRight2.png"));
+        protagLeft = new Texture(Gdx.files.internal("graphics/protagLeft2.png"));
         protagUp = new Texture(Gdx.files.internal("graphics/protagUp.png"));
-        protagDown = new Texture(Gdx.files.internal("graphics/protagDown.png"));
+        protagDown = new Texture(Gdx.files.internal("graphics/protagDown3.png"));
 
         antagRight =  new Texture(Gdx.files.internal("graphics/antagRight.png"));
         antagLeft = new Texture(Gdx.files.internal("graphics/antagLeft.png"));

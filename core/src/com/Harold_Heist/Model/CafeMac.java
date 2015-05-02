@@ -83,8 +83,8 @@ public class CafeMac {
         protag = new Protagonist(new Vector2(50, 50));
         antag = new Antagonist(new Vector2(1, 1));
 
-//        avoidCollisionShapes();
-        addCollisionShapes();
+        avoidCollisionShapes();
+//        addCollisionShapes();
         avoidProtagAntagPositions();
         avoidWalls();
 

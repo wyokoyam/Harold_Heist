@@ -10,7 +10,8 @@ public class Protagonist extends Rectangle {
 		FACELEFT, FACERIGHT, FACEUP, FACEDOWN;
 	}
 
-	static final float SIZE = 32;
+	static final float SIZE = 40;
+    static final float WIDTH = 20;
     static final float SPEED = SIZE * 5.5f;	// unit per second
 
     Vector2 	position = new Vector2();
@@ -30,6 +31,8 @@ public class Protagonist extends Rectangle {
 	public Rectangle getBounds() {
 		return bounds;
 	}
+
+    public static float getProtagWidth() {return WIDTH;}
 	
 	public static float getSpeed() {
 		return SPEED;
@@ -47,7 +50,7 @@ public class Protagonist extends Rectangle {
 		return SIZE;
 	}
 
-    public void keyboardControlsProtag() {
+    public void keyboardControls() {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             this.setState(Protagonist.State.FACELEFT);
             this.getPosition().x -= Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
