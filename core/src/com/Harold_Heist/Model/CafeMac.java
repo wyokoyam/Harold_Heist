@@ -86,7 +86,7 @@ public class CafeMac {
         avoidCollisionShapes();
 //        addCollisionShapes();
         avoidProtagAntagPositions();
-        avoidWalls();
+//        avoidWalls();
 
         for (int foodIndex = 0; foodIndex < 4; foodIndex++) {
             for (int i = 0; i < 3; i++) {
@@ -103,13 +103,19 @@ public class CafeMac {
                 foodArray.removeIndex(i);
             }
         }
+//        for (int x = 0; x < Food.SIZE; x++) {
+//            for (int y = 0; y < Food.SIZE; y++) {
+//                takenPositions.remove(new Vector2(foodPosition.x + x, foodPosition.y + y));
+//            }
+//        }
     }
 
-    public void addFood() {
+    public Food addFood() {
         Random rand = new Random();
         Vector2 position = getFreePosition();
         Food food = new Food(position, rand.nextInt(4));
         foodArray.add(food);
+        return food;
     }
 
     private Vector2 getFreePosition() {

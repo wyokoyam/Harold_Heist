@@ -206,51 +206,39 @@ public class CafeMacRenderer {
 
         // collision left of object
         if (object1X + object1Size > object2X && object1X + object1Size < object2X + 10 && object1Y + object1Size > object2Y && object1Y < object2Y + object2Size) {
-            if (protagAndAntag) cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
-            else {
-                cafeMac.removeFood(object2Position);
-                gameScore++;
-                gameScoreName = "SCORE: " + gameScore;
-                cafeMac.addFood();
-//                Assets.eatingSound.play();
-            }
+            if (protagAndAntag) gameOver();
+            else eatFood(object2Position);
         }
 
         // collision right of object
         else if (object1X < object2X + object2Size && object1X > object2X + object2Size - 10 && object1Y + object1Size > object2Y && object1Y < object2Y + object2Size) {
-            if (protagAndAntag) cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
-            else {
-                cafeMac.removeFood(object2Position);
-                gameScore++;
-                gameScoreName = "SCORE: " + gameScore;
-                cafeMac.addFood();
-//                Assets.eatingSound.play();
-            }
+            if (protagAndAntag) gameOver();
+            else eatFood(object2Position);
         }
 
         // collision top of object
         else if (object1X + object1Size > object2X && object1X < object2X + object2Size && object1Y < object2Y + object2Size && object1Y > object2Y + object2Size - 10) {
-            if (protagAndAntag) cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
-            else {
-                cafeMac.removeFood(object2Position);
-                gameScore++;
-                gameScoreName = "SCORE: " + gameScore;
-                cafeMac.addFood();
-//                Assets.eatingSound.play();
-            }
+            if (protagAndAntag) gameOver();
+            else eatFood(object2Position);
         }
 
         // collision below object
         else if (object1X + object1Size > object2X && object1X < object2X + object2Size && object1Y + object1Size > object2Y && object1Y + object1Size < object2Y + 10) {
-            if (protagAndAntag) cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
-            else {
-                cafeMac.removeFood(object2Position);
-                gameScore++;
-                gameScoreName = "SCORE: " + gameScore;
-                cafeMac.addFood();
-//                Assets.eatingSound.play();
-            }
+            if (protagAndAntag) gameOver();
+            else eatFood(object2Position);
         }
+    }
+
+    private void gameOver() {
+        cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
+    }
+
+    private void eatFood(Vector2 foodPosition) {
+        cafeMac.removeFood(foodPosition);
+        gameScore++;
+        gameScoreName = "SCORE: " + gameScore;
+        cafeMac.addFood();
+//        Assets.eatingSound.play();
     }
 
 
@@ -312,7 +300,7 @@ public class CafeMacRenderer {
             float foodSize = food.getSize();
             int foodIndex = food.getFoodIndex();
 
-//            checkFoodTableCollisions(food, foodX, foodY, foodSize);
+            checkFoodCollisions(food, foodX, foodY, foodSize);
 
             if (foodIndex == 0) spriteBatch.draw(Assets.foodApple, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);
             else if (foodIndex == 1) spriteBatch.draw(Assets.foodBanana, foodX, foodY, food.getSize() / widthRatio, food.getSize() / widthRatio);
@@ -322,7 +310,116 @@ public class CafeMacRenderer {
         }
     }
 
-    private void checkFoodTableCollisions(Food food, float foodX, float foodY, float foodSize) {
+    private void checkFoodCollisions(Food food, float foodX, float foodY, float foodSize) {
+
+        // Protag and antag initial position collisions
+
+        float protagX = protag.getPosition().x;
+        float protagY = protag.getPosition().y;
+        float protagSize = protag.getSize();
+        float antagX = antag.getPosition().x;
+        float antagY = antag.getPosition().y;
+        float antagSize = antag.getSize();
+
+        // Protag collisions
+
+        // check bottom left of food
+        while ((foodX >= protagX && foodX <= protagX + protagSize) && (foodY >= protagY && foodY <= protagY + protagSize)) {
+            cafeMac.removeFood(food.getPosition());
+            Food newFood = cafeMac.addFood();
+            foodX = newFood.getPosition().x;
+            foodY = newFood.getPosition().y;
+        }
+
+        // check bottom right
+        while ((foodX + foodSize >= protagX && foodX + foodSize <= protagX + protagSize) && (foodY >= protagY && foodY <= protagY + protagSize)) {
+            cafeMac.removeFood(food.getPosition());
+            Food newFood = cafeMac.addFood();
+            foodX = newFood.getPosition().x;
+            foodY = newFood.getPosition().y;
+        }
+
+        // check upper left
+        while ((foodX >= protagX && foodX <= protagX + protagSize) && (foodY + foodSize >= protagY && foodY + foodSize <= protagY + protagSize)) {
+            cafeMac.removeFood(food.getPosition());
+            Food newFood = cafeMac.addFood();
+            foodX = newFood.getPosition().x;
+            foodY = newFood.getPosition().y;
+        }
+
+        // Antag collisions
+
+        // check bottom left of food
+        while ((foodX >= antagX && foodX <= antagX + antagSize) && (foodY >= antagY && foodY <= antagY + antagSize)) {
+            cafeMac.removeFood(food.getPosition());
+            Food newFood = cafeMac.addFood();
+            foodX = newFood.getPosition().x;
+            foodY = newFood.getPosition().y;
+        }
+
+        // check bottom right
+        while ((foodX + foodSize >= antagX && foodX + foodSize <= antagX + antagSize) && (foodY >= antagY && foodY <= antagY + antagSize)) {
+            cafeMac.removeFood(food.getPosition());
+            Food newFood = cafeMac.addFood();
+            foodX = newFood.getPosition().x;
+            foodY = newFood.getPosition().y;
+        }
+
+        // check upper left
+        while ((foodX >= antagX && foodX <= antagX + antagSize) && (foodY + foodSize >= antagY && foodY + foodSize <= antagY + antagSize)) {
+            cafeMac.removeFood(food.getPosition());
+            Food newFood = cafeMac.addFood();
+            foodX = newFood.getPosition().x;
+            foodY = newFood.getPosition().y;
+        }
+
+        // check upper right
+
+        while ((foodX + foodSize >= antagX && foodX + foodSize <= antagX + antagSize) && (foodY + foodSize >= antagY && foodY + foodSize <= antagY + antagSize)) {
+            // can do a while loop to ensure the final fruit position is not on a table
+            cafeMac.removeFood(food.getPosition());
+            Food newFood = cafeMac.addFood();
+            foodX = newFood.getPosition().x;
+            foodY = newFood.getPosition().y;
+
+        }
+
+        // Wall Collisions:
+
+        // bottom wall
+        while ((foodX >= 0 && foodX + foodSize <= screenWidth) && foodY < 0) {
+            cafeMac.removeFood(food.getPosition());
+            Food newFood = cafeMac.addFood();
+            foodX = newFood.getPosition().x;
+            foodY = newFood.getPosition().y;
+        }
+
+        // top wall
+        while ((foodX >= 0 && foodX + foodSize <= screenWidth) && foodY + foodSize > screenHeight) {
+            cafeMac.removeFood(food.getPosition());
+            Food newFood = cafeMac.addFood();
+            foodX = newFood.getPosition().x;
+            foodY = newFood.getPosition().y;
+        }
+//
+//        // left wall
+        while ((foodY >= 0 && foodY + foodSize <= screenHeight) && foodX < 0) {
+            cafeMac.removeFood(food.getPosition());
+            Food newFood = cafeMac.addFood();
+            foodX = newFood.getPosition().x;
+            foodY = newFood.getPosition().y;
+        }
+//
+//        // right wall
+        while ((foodY >= 0 && foodY + foodSize <= screenHeight) && foodX + foodSize > screenWidth) {
+            cafeMac.removeFood(food.getPosition());
+            Food newFood = cafeMac.addFood();
+            foodX = newFood.getPosition().x;
+            foodY = newFood.getPosition().y;
+        }
+
+        // table collisions
+
         for (Shape2D shape : collisionShapes) {
             float shapeX;
             float shapeY;
@@ -346,25 +443,38 @@ public class CafeMacRenderer {
                 shapeHeight = ellip.height;
             }
 
-            if ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
+            // check bottom left of food
+            while ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
                 cafeMac.removeFood(food.getPosition());
-                cafeMac.addFood();
+                Food newFood = cafeMac.addFood();
+                foodX = newFood.getPosition().x;
+                foodY = newFood.getPosition().y;
             }
 
-            if ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
+            // check bottom right
+            while ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
                 cafeMac.removeFood(food.getPosition());
-                cafeMac.addFood();
+                Food newFood = cafeMac.addFood();
+                foodX = newFood.getPosition().x;
+                foodY = newFood.getPosition().y;
             }
 
-            if ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
+            // check upper left
+            while ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
                 cafeMac.removeFood(food.getPosition());
-                cafeMac.addFood();
+                Food newFood = cafeMac.addFood();
+                foodX = newFood.getPosition().x;
+                foodY = newFood.getPosition().y;
             }
 
-            if ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
+            // check upper right
+
+            while ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
                 // can do a while loop to ensure the final fruit position is not on a table
                 cafeMac.removeFood(food.getPosition());
-                cafeMac.addFood();
+                Food newFood = cafeMac.addFood();
+                foodX = newFood.getPosition().x;
+                foodY = newFood.getPosition().y;
 
             }
         }
