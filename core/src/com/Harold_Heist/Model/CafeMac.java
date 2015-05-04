@@ -63,11 +63,11 @@ public class CafeMac {
         return tiledMap;
     }
 
-    public ArrayList<Shape2D> getCollisonShapes() {
+    public ArrayList<Shape2D> getCollisionShapes() {
         return collisionShapes;
     }
 
-
+    public ArrayList<Vector2> getTakenPositions() { return takenPositions;}
     // --------------------
 
     // Setters -----------
@@ -83,9 +83,9 @@ public class CafeMac {
         protag = new Protagonist(new Vector2(50, 50));
         antag = new Antagonist(new Vector2(1, 1));
 
-        avoidCollisionShapes();
-//        addCollisionShapes();
-        avoidProtagAntagPositions();
+//        avoidCollisionShapes();
+        addCollisionShapes();
+//        avoidProtagAntagPositions();
 //        avoidWalls();
 
         for (int foodIndex = 0; foodIndex < 4; foodIndex++) {

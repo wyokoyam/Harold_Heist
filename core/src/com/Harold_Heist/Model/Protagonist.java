@@ -10,8 +10,7 @@ public class Protagonist extends Rectangle {
 		FACELEFT, FACERIGHT, FACEUP, FACEDOWN;
 	}
 
-	static final float SIZE = 40;
-    static final float WIDTH = 20;
+	static final float SIZE = 32;
     static final float SPEED = SIZE * 5.5f;	// unit per second
 
     Vector2 	position = new Vector2();
@@ -32,8 +31,6 @@ public class Protagonist extends Rectangle {
 		return bounds;
 	}
 
-    public static float getProtagWidth() {return WIDTH;}
-	
 	public static float getSpeed() {
 		return SPEED;
 	}
