@@ -59,6 +59,7 @@ public class CafeMacRenderer {
 
     private Protagonist protag;
     private Antagonist antag;
+    private Antagonist evilTwinAntag;
     private Food food;
     private Array<Food> foods;
 
@@ -67,6 +68,7 @@ public class CafeMacRenderer {
     public CafeMacRenderer(CafeMac cafeMac, boolean debug) {
         protag = cafeMac.getProtagonist();
         antag = cafeMac.getAntagonist();
+        evilTwinAntag = cafeMac.getEvilTwin();
         foods = cafeMac.getFoodArray();
         this.cafeMac = cafeMac;
         tiledMap = cafeMac.getTiledMap();
@@ -127,6 +129,8 @@ public class CafeMacRenderer {
         spriteBatch.begin();
         drawProtag();
         drawAntag();
+        if (gameScore > 4){
+            drawEvilTwin(); }
         drawFoods();
         scoreFont.setColor(0, 0, 0, .8f);
         scoreFont.draw(spriteBatch, gameScoreName, 710 / widthRatio, 460 / heightRatio);
@@ -286,6 +290,23 @@ public class CafeMacRenderer {
         } else if (antag.getState() == Antagonist.State.FACEUP) {
             spriteBatch.draw(Assets.antagUp, xCoordinate, yCoordinate, antagSize, antagSize);
         } else if (antag.getState() == Antagonist.State.FACEDOWN) {
+            spriteBatch.draw(Assets.antagDown, xCoordinate, yCoordinate, antagSize, antagSize);
+        }
+    }
+
+    private void drawEvilTwin() {
+        float xCoordinate = evilTwinAntag.getPosition().x;
+        float yCoordinate = evilTwinAntag.getPosition().y;
+        float antagSize = Antagonist.getSize();
+
+        if (evilTwinAntag.getState() == Antagonist.State.FACERIGHT) {
+            spriteBatch.draw(Assets.antagRight, xCoordinate, yCoordinate, antagSize, antagSize);
+//            protag.getPosition().x += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
+        } else if (evilTwinAntag.getState() == Antagonist.State.FACELEFT) {
+            spriteBatch.draw(Assets.antagLeft, xCoordinate, yCoordinate, antagSize, antagSize);
+        } else if (evilTwinAntag.getState() == Antagonist.State.FACEUP) {
+            spriteBatch.draw(Assets.antagUp, xCoordinate, yCoordinate, antagSize, antagSize);
+        } else if (evilTwinAntag.getState() == Antagonist.State.FACEDOWN) {
             spriteBatch.draw(Assets.antagDown, xCoordinate, yCoordinate, antagSize, antagSize);
         }
     }

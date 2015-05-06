@@ -30,6 +30,7 @@ public class CafeMac {
     Protagonist protag;
 	/** Our heroes autonomous nemesis **/
 	Antagonist antag;
+    Antagonist evilTwinAntag;
     /** Foods **/
     Array<Food> foodArray = new Array<Food>();
     /** Positions that already contains object **/
@@ -50,6 +51,8 @@ public class CafeMac {
 	public Antagonist getAntagonist(){
 		return antag;
 	}
+
+    public Antagonist getEvilTwin(){ return evilTwinAntag; }
 
     public Array<Food> getFoodArray() {
         return foodArray;
@@ -82,7 +85,7 @@ public class CafeMac {
 	private void createCafeMac() {
         protag = new Protagonist(new Vector2(50, 50));
         antag = new Antagonist(new Vector2(1, 1));
-
+        evilTwinAntag = new Antagonist(new Vector2(100, 100));
 //        avoidCollisionShapes();
         addCollisionShapes();
 //        avoidProtagAntagPositions();
