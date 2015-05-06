@@ -363,6 +363,7 @@ public class CafeMacRenderer {
 
         // check upper left
         while ((foodX >= protagStartX && foodX <= protagStartX + protagSize) && (foodY + foodSize >= protagStartY && foodY + foodSize <= protagStartY + protagSize)) {
+<<<<<<< HEAD
             Food newFood = removeThenAddNewFood(food);
             foodX = newFood.getPosition().x;
             foodY = newFood.getPosition().y;
@@ -372,6 +373,8 @@ public class CafeMacRenderer {
 
         while ((foodX + foodSize >= protagStartX && foodX + foodSize <= protagStartX + protagSize) && (foodY + foodSize >= protagStartY && foodY + foodSize <= protagStartY + protagSize)) {
             // can do a while loop to ensure the final fruit position is not on a table
+=======
+>>>>>>> d10931e8bd1da2309e5476b1099ea7b8e6b8333d
             Food newFood = removeThenAddNewFood(food);
             foodX = newFood.getPosition().x;
             foodY = newFood.getPosition().y;
