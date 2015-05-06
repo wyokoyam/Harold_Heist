@@ -84,9 +84,15 @@ public class CafeMac {
 	}
 
 	private void createCafeMac() {
+<<<<<<< HEAD
         protag = new Protagonist(new Vector2(50, 50));
         antag = new Antagonist(new Vector2(1, 1));
         evilTwinAntag = new Antagonist(new Vector2(100, 100));
+=======
+        protag = new Protagonist(new Vector2(Protagonist.START_X, Protagonist.START_Y));
+        antag = new Antagonist(new Vector2(Antagonist.START_X, Antagonist.START_Y));
+
+>>>>>>> d10931e8bd1da2309e5476b1099ea7b8e6b8333d
 //        avoidCollisionShapes();
         addCollisionShapes();
 //        avoidProtagAntagPositions();

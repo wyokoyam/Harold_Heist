@@ -30,9 +30,7 @@ public class CafeMac {
     Protagonist protag;
 	/** Our heroes autonomous nemesis **/
 	Antagonist antag;
-    Antagonist evilTwinAntag;
     /** Foods **/
-//    ArrayList<Food> foodArray = new ArrayList<Food>();
     Array<Food> foodArray = new Array<Food>();
     /** Positions that already contains object **/
     ArrayList<Vector2> takenPositions = new ArrayList<Vector2>();
@@ -52,8 +50,6 @@ public class CafeMac {
 	public Antagonist getAntagonist(){
 		return antag;
 	}
-
-    public Antagonist getEvilTwin(){ return evilTwinAntag; }
 
     public Array<Food> getFoodArray() {
         return foodArray;
@@ -86,7 +82,7 @@ public class CafeMac {
 	private void createCafeMac() {
         protag = new Protagonist(new Vector2(50, 50));
         antag = new Antagonist(new Vector2(1, 1));
-        evilTwinAntag = new Antagonist(new Vector2(100, 100));
+
 //        avoidCollisionShapes();
         addCollisionShapes();
 //        avoidProtagAntagPositions();
@@ -107,13 +103,6 @@ public class CafeMac {
                 foodArray.removeIndex(i);
             }
         }
-
-//        for (int i = 0; i < foodArray.size(); i++) {
-//            if (foodArray.get(i).getPosition().equals(foodPosition)) {
-//                foodArray.remove(i);
-//            }
-//        }
-
 //        for (int x = 0; x < Food.SIZE; x++) {
 //            for (int y = 0; y < Food.SIZE; y++) {
 //                takenPositions.remove(new Vector2(foodPosition.x + x, foodPosition.y + y));
@@ -124,7 +113,6 @@ public class CafeMac {
     public Food addFood() {
         Random rand = new Random();
         Vector2 position = getFreePosition();
-//        Vector2 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
         Food food = new Food(position, rand.nextInt(4));
         foodArray.add(food);
         return food;
@@ -137,39 +125,6 @@ public class CafeMac {
         Vector2 upperRight = new Vector2(position.x + Food.SIZE, position.y + Food.SIZE);
         Vector2 bottomRight = new Vector2(position.x + Food.SIZE, position.y);
 
-//        for (Food food: foodArray) {
-//            while ((foodX >= otherFoodX && foodX <= otherFoodX + otherFoodSize) && (foodY >= otherFoodY && foodY <= otherFoodY + otherFoodSize)) {
-//                Food newFood = removeThenAddNewFood(food);
-//                food = newFood;
-//                foodX = newFood.getPosition().x;
-//                foodY = newFood.getPosition().y;
-//            }
-//
-////            check bottom right
-//            while ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
-//                Food newFood = removeThenAddNewFood(food);
-//                foodX = newFood.getPosition().x;
-//                foodY = newFood.getPosition().y;
-//            }
-//
-//            // check upper left
-//
-//            while ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
-//                Food newFood = removeThenAddNewFood(food);
-//                foodX = newFood.getPosition().x;
-//                foodY = newFood.getPosition().y;
-//            }
-//
-//            // check upper right
-//
-//            while ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
-//                // can do a while loop to ensure the final fruit position is not on a table
-//                Food newFood = removeThenAddNewFood(food);
-//                foodX = newFood.getPosition().x;
-//                foodY = newFood.getPosition().y;
-//            }
-//        }
-//        }
         while (takenPositions.contains(position) || takenPositions.contains(upperLeft) || takenPositions.contains(upperRight) || takenPositions.contains(bottomRight)) {
             position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
             upperLeft = new Vector2(position.x, position.y + Food.SIZE);
