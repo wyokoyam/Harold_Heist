@@ -5,24 +5,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 
 public class GameOverScreen implements Screen {
 	
 	final HaroldHeist game;
 	OrthographicCamera camera;
+    private Texture backgroundTexture;
+
 
 	
 	public GameOverScreen(HaroldHeist game) {
 		this.game = game;
-		
+        backgroundTexture = new Texture(Gdx.files.internal("graphics/endScreen.png"));
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 560, 320);
 	}
-	
+
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -32,10 +34,10 @@ public class GameOverScreen implements Screen {
         
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
-        
         game.batch.begin();
-        game.font.draw(game.batch, "Game Over!", 250, 200);
-        game.font.draw(game.batch, "Click anywhere to get back to the main menu", 150, 150);
+        game.batch.draw(backgroundTexture, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        //game.font.draw(game.batch, "Game Over!", 250, 200);
+        //game.font.draw(game.batch, "Click anywhere to get back to the main menu", 150, 150);
         game.batch.end();
         
         if (Gdx.input.isTouched()) {
