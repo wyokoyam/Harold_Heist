@@ -60,7 +60,9 @@ public class CafeMacRenderer {
     private Protagonist protag;
     private Antagonist antag;
     private Food food;
+//    private ArrayList<Food> foods;
     private Array<Food> foods;
+
 
     private ArrayList<Shape2D> collisionShapes;
 
@@ -315,54 +317,64 @@ public class CafeMacRenderer {
 
         // Protag and antag initial position collisions
 
-        float protagX = protag.getPosition().x;
-        float protagY = protag.getPosition().y;
+        float protagStartX = protag.getStartPosition().x;
+        float protagStartY = protag.getStartPosition().y;
         float protagSize = protag.getSize();
-        float antagX = antag.getPosition().x;
-        float antagY = antag.getPosition().y;
+        float antagStartX = antag.getStartPosition().x;
+        float antagStartY = antag.getStartPosition().y;
         float antagSize = antag.getSize();
 
         // Protag collisions
 
         // check bottom left of food
-        while ((foodX >= protagX && foodX <= protagX + protagSize) && (foodY >= protagY && foodY <= protagY + protagSize)) {
+        while ((foodX >= protagStartX && foodX <= protagStartX + protagSize) && (foodY >= protagStartX && foodY <= protagStartX + protagSize)) {
             Food newFood = removeThenAddNewFood(food);
             foodX = newFood.getPosition().x;
             foodY = newFood.getPosition().y;
         }
 
         // check bottom right
-        while ((foodX + foodSize >= protagX && foodX + foodSize <= protagX + protagSize) && (foodY >= protagY && foodY <= protagY + protagSize)) {
+        while ((foodX + foodSize >= protagStartX && foodX + foodSize <= protagStartX + protagSize) && (foodY >= protagStartY && foodY <= protagStartY + protagSize)) {
             Food newFood = removeThenAddNewFood(food);
             foodX = newFood.getPosition().x;
             foodY = newFood.getPosition().y;
         }
 
         // check upper left
-        while ((foodX >= protagX && foodX <= protagX + protagSize) && (foodY + foodSize >= protagY && foodY + foodSize <= protagY + protagSize)) {
+        while ((foodX >= protagStartX && foodX <= protagStartX + protagSize) && (foodY + foodSize >= protagStartY && foodY + foodSize <= protagStartY + protagSize)) {
             Food newFood = removeThenAddNewFood(food);
             foodX = newFood.getPosition().x;
             foodY = newFood.getPosition().y;
+        }
+
+         // check upper right
+
+        while ((foodX + foodSize >= protagStartX && foodX + foodSize <= protagStartX + protagSize) && (foodY + foodSize >= protagStartY && foodY + foodSize <= protagStartY + protagSize)) {
+            // can do a while loop to ensure the final fruit position is not on a table
+            Food newFood = removeThenAddNewFood(food);
+            foodX = newFood.getPosition().x;
+            foodY = newFood.getPosition().y;
+
         }
 
         // Antag collisions
 
         // check bottom left of food
-        while ((foodX >= antagX && foodX <= antagX + antagSize) && (foodY >= antagY && foodY <= antagY + antagSize)) {
+        while ((foodX >= antagStartX && foodX <= antagStartX + antagSize) && (foodY >= antagStartY && foodY <= antagStartY + antagSize)) {
             Food newFood = removeThenAddNewFood(food);
             foodX = newFood.getPosition().x;
             foodY = newFood.getPosition().y;
         }
 
         // check bottom right
-        while ((foodX + foodSize >= antagX && foodX + foodSize <= antagX + antagSize) && (foodY >= antagY && foodY <= antagY + antagSize)) {
+        while ((foodX + foodSize >= antagStartX && foodX + foodSize <= antagStartX + antagSize) && (foodY >= antagStartY && foodY <= antagStartY + antagSize)) {
             Food newFood = removeThenAddNewFood(food);
             foodX = newFood.getPosition().x;
             foodY = newFood.getPosition().y;
         }
 
         // check upper left
-        while ((foodX >= antagX && foodX <= antagX + antagSize) && (foodY + foodSize >= antagY && foodY + foodSize <= antagY + antagSize)) {
+        while ((foodX >= antagStartX && foodX <= antagStartX + antagSize) && (foodY + foodSize >= antagStartY && foodY + foodSize <= antagStartY + antagSize)) {
             Food newFood = removeThenAddNewFood(food);
             foodX = newFood.getPosition().x;
             foodY = newFood.getPosition().y;
@@ -370,7 +382,7 @@ public class CafeMacRenderer {
 
         // check upper right
 
-        while ((foodX + foodSize >= antagX && foodX + foodSize <= antagX + antagSize) && (foodY + foodSize >= antagY && foodY + foodSize <= antagY + antagSize)) {
+        while ((foodX + foodSize >= antagStartX && foodX + foodSize <= antagStartX + antagSize) && (foodY + foodSize >= antagStartY && foodY + foodSize <= antagStartY + antagSize)) {
             // can do a while loop to ensure the final fruit position is not on a table
             Food newFood = removeThenAddNewFood(food);
             foodX = newFood.getPosition().x;
@@ -448,12 +460,6 @@ public class CafeMacRenderer {
                 foodY = newFood.getPosition().y;
             }
 
-            while ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
-                Food newFood = removeThenAddNewFood(food);
-                foodX = newFood.getPosition().x;
-                foodY = newFood.getPosition().y;
-            }
-
             // check upper left
 
             while ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
@@ -464,7 +470,6 @@ public class CafeMacRenderer {
 
             // check upper right
 
-
             while ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
                 // can do a while loop to ensure the final fruit position is not on a table
                 Food newFood = removeThenAddNewFood(food);
@@ -472,6 +477,47 @@ public class CafeMacRenderer {
                 foodY = newFood.getPosition().y;
             }
         }
+
+//        Array<Food> otherFoods = foods;
+//        // Other food collisions
+//        for (Food otherFood : otherFoods) {
+//
+//            float otherFoodX = otherFood.getPosition().x;
+//            float otherFoodY = otherFood.getPosition().y;
+//            float otherFoodSize = otherFood.getSize();
+//
+//            // check bottom left of food
+//            while ((foodX >= otherFoodX && foodX <= otherFoodX + otherFoodSize) && (foodY >= otherFoodY && foodY <= otherFoodY + otherFoodSize)) {
+//                Food newFood = removeThenAddNewFood(food);
+//                food = newFood;
+//                foodX = newFood.getPosition().x;
+//                foodY = newFood.getPosition().y;
+//            }
+
+            // check bottom right
+//            while ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
+//                Food newFood = removeThenAddNewFood(food);
+//                foodX = newFood.getPosition().x;
+//                foodY = newFood.getPosition().y;
+//            }
+//
+//            // check upper left
+//
+//            while ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
+//                Food newFood = removeThenAddNewFood(food);
+//                foodX = newFood.getPosition().x;
+//                foodY = newFood.getPosition().y;
+//            }
+//
+//            // check upper right
+//
+//            while ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
+//                // can do a while loop to ensure the final fruit position is not on a table
+//                Food newFood = removeThenAddNewFood(food);
+//                foodX = newFood.getPosition().x;
+//                foodY = newFood.getPosition().y;
+//            }
+//        }
 
     }
 

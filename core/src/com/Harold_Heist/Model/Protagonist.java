@@ -12,6 +12,8 @@ public class Protagonist extends Rectangle {
 
 	static final float SIZE = 32;
     static final float SPEED = SIZE * 5.5f;	// unit per second
+    static final float START_X = 50;
+    static final float START_Y = 50;
 
     Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();
@@ -21,13 +23,17 @@ public class Protagonist extends Rectangle {
 		this.position = position;
 		this.bounds.height = SIZE;
 		this.bounds.width = SIZE;
+
 	}
 	
 	public Vector2 getPosition() {
 		return position;
 	}
-	
-	public Rectangle getBounds() {
+
+    public Vector2 getStartPosition() {return new Vector2(START_X, START_Y);}
+
+
+    public Rectangle getBounds() {
 		return bounds;
 	}
 

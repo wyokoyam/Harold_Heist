@@ -12,6 +12,8 @@ public class Antagonist extends Rectangle{
 	
 	static final float SIZE = 32;
     static final float SPEED = SIZE * 4;
+    static final float START_X = 1;
+    static final float START_Y = 1;
 
     Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();
@@ -27,6 +29,8 @@ public class Antagonist extends Rectangle{
 	public Vector2 getPosition() {
 		return position;
 	}
+
+    public Vector2 getStartPosition() {return new Vector2(START_X, START_Y);}
 	
 	public Rectangle getBounds() {
 		return bounds;
