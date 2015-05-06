@@ -87,10 +87,7 @@ public class CafeMac {
         protag = new Protagonist(new Vector2(50, 50));
         antag = new Antagonist(new Vector2(1, 1));
         evilTwinAntag = new Antagonist(new Vector2(100, 100));
-//        avoidCollisionShapes();
         addCollisionShapes();
-//        avoidProtagAntagPositions();
-//        avoidWalls();
 
         for (int foodIndex = 0; foodIndex < 4; foodIndex++) {
             for (int i = 0; i < 3; i++) {
@@ -107,24 +104,11 @@ public class CafeMac {
                 foodArray.removeIndex(i);
             }
         }
-
-//        for (int i = 0; i < foodArray.size(); i++) {
-//            if (foodArray.get(i).getPosition().equals(foodPosition)) {
-//                foodArray.remove(i);
-//            }
-//        }
-
-//        for (int x = 0; x < Food.SIZE; x++) {
-//            for (int y = 0; y < Food.SIZE; y++) {
-//                takenPositions.remove(new Vector2(foodPosition.x + x, foodPosition.y + y));
-//            }
-//        }
     }
 
     public Food addFood() {
         Random rand = new Random();
         Vector2 position = getFreePosition();
-//        Vector2 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
         Food food = new Food(position, rand.nextInt(4));
         foodArray.add(food);
         return food;
@@ -133,55 +117,44 @@ public class CafeMac {
     private Vector2 getFreePosition() {
         Random rand = new Random();
         Vector2 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
-        Vector2 upperLeft = new Vector2(position.x, position.y + Food.SIZE);
-        Vector2 upperRight = new Vector2(position.x + Food.SIZE, position.y + Food.SIZE);
-        Vector2 bottomRight = new Vector2(position.x + Food.SIZE, position.y);
+        float foodX = position.x;
+        float foodY = position.y;
+        float foodSize = Food.SIZE;
 
-//        for (Food food: foodArray) {
-//            while ((foodX >= otherFoodX && foodX <= otherFoodX + otherFoodSize) && (foodY >= otherFoodY && foodY <= otherFoodY + otherFoodSize)) {
-//                Food newFood = removeThenAddNewFood(food);
-//                food = newFood;
-//                foodX = newFood.getPosition().x;
-//                foodY = newFood.getPosition().y;
-//            }
+        for (int i = 0; i < foodArray.size; i++) {
+            Food otherFood = foodArray.get(i);
+            float otherFoodX = otherFood.getPosition().x;
+            float otherFoodY = otherFood.getPosition().y;
+            float otherFoodSize = otherFood.getSize();
 //
-////            check bottom right
-//            while ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
-//                Food newFood = removeThenAddNewFood(food);
-//                foodX = newFood.getPosition().x;
-//                foodY = newFood.getPosition().y;
-//            }
-//
-//            // check upper left
-//
-//            while ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
-//                Food newFood = removeThenAddNewFood(food);
-//                foodX = newFood.getPosition().x;
-//                foodY = newFood.getPosition().y;
-//            }
-//
-//            // check upper right
-//
-//            while ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
-//                // can do a while loop to ensure the final fruit position is not on a table
-//                Food newFood = removeThenAddNewFood(food);
-//                foodX = newFood.getPosition().x;
-//                foodY = newFood.getPosition().y;
-//            }
-//        }
-//        }
-        while (takenPositions.contains(position) || takenPositions.contains(upperLeft) || takenPositions.contains(upperRight) || takenPositions.contains(bottomRight)) {
-            position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
-            upperLeft = new Vector2(position.x, position.y + Food.SIZE);
-            upperRight = new Vector2(position.x + Food.SIZE, position.y + Food.SIZE);
-            bottomRight = new Vector2(position.x + Food.SIZE, position.y);
-        }
+//            // check bottom left of food
+            while ((foodX >= otherFoodX && foodX <= otherFoodX + otherFoodSize) && (foodY >= otherFoodY && foodY <= otherFoodY + otherFoodSize)) {
+                position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+                foodX = position.x;
+                foodY = position.y;
+            }
 
-        if (!takenPositions.contains(position) || (!takenPositions.contains(upperLeft)) || (!takenPositions.contains(upperRight)) || (!takenPositions.contains(bottomRight))) {
-            for (int x = 0; x < Food.SIZE; x++) {
-                for (int y = 0; y < Food.SIZE; y++) {
-                    takenPositions.add(new Vector2(position.x + x, position.y + y));
-                }
+            // check bottom right
+            while ((foodX + foodSize >= otherFoodX && foodX + foodSize <= otherFoodX + otherFoodSize) && (foodY >= otherFoodY && foodY <= otherFoodY + otherFoodSize)) {
+                position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+                foodX = position.x;
+                foodY = position.y;
+            }
+
+            // check upper left
+
+            while ((foodX >= otherFoodX && foodX <= otherFoodX + otherFoodSize) && (foodY + foodSize >= otherFoodY && foodY + foodSize <= otherFoodY + otherFoodSize)) {
+                position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+                foodX = position.x;
+                foodY = position.y;
+            }
+
+            // check upper right
+
+            while ((foodX + foodSize >= otherFoodX && foodX + foodSize <= otherFoodX + otherFoodSize) && (foodY + foodSize >= otherFoodY && foodY + foodSize <= otherFoodY + otherFoodSize)) {
+                position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+                foodX = position.x;
+                foodY = position.y;
             }
         }
         return position;
@@ -205,65 +178,4 @@ public class CafeMac {
         }
     }
 
-    private void avoidProtagAntagPositions() {
-        for (int x = 0; x < Protagonist.SIZE; x++) {
-            for (int y = 0; y < Protagonist.SIZE; y++) {
-                takenPositions.add(new Vector2(protag.x + x, protag.y + y));
-                takenPositions.add(new Vector2(antag.x + x, antag.y + y));
-            }
-        }
-    }
-
-    private void avoidWalls() {
-        float screenWidth = Gdx.graphics.getWidth();
-        float screenHeight = Gdx.graphics.getHeight();
-        for (float x = 0; x < screenWidth; x++) {
-            for (float y = 0; y < Food.SIZE; y++) {
-                takenPositions.add(new Vector2(x, y));
-            }
-            for (float y = screenHeight; y > screenHeight - Food.SIZE; y--) {
-                takenPositions.add(new Vector2(x, y));
-            }
-        }
-        for (float y = 0; y < screenHeight; y++) {
-            for (float x = 0; x < Food.SIZE; x++) {
-                takenPositions.add(new Vector2(x, y));
-            }
-            for (float x = screenWidth; x > screenWidth - Food.SIZE; x--) {
-                takenPositions.add(new Vector2(x, y));
-            }
-        }
-    }
-
-    private void avoidCollisionShapes() {
-        addCollisionShapes();
-        float shapeX;
-        float shapeY;
-        float shapeWidth;
-        float shapeHeight;
-        Rectangle rect;
-        Ellipse ellip;
-        for (Shape2D shape: collisionShapes) {
-            if (shape.getClass() == Rectangle.class) {
-                rect = (Rectangle) shape;
-                shapeX = rect.getX();
-                shapeY = rect.getY();
-                shapeWidth = rect.getWidth();
-                shapeHeight = rect.getHeight();
-
-            } else {
-                ellip = (Ellipse) shape;
-                shapeX = ellip.x;
-                shapeY = ellip.y;
-                shapeWidth = ellip.width;
-                shapeHeight = ellip.height;
-            }
-
-            for (int x = 0; x < shapeWidth; x++) {
-                for (int y = 0; y < shapeHeight; y++) {
-                    takenPositions.add(new Vector2(shapeX + x, shapeY + y));
-                }
-            }
-        }
-    }
 }
