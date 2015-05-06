@@ -19,6 +19,7 @@ public class GameScreen implements Screen{
 	private OrthographicCamera cam;
 	private Protagonist protag;
 	private Antagonist antag;
+    private Antagonist evilTwin;
     private Viewport viewport;
 
 
@@ -27,6 +28,7 @@ public class GameScreen implements Screen{
         cafeMac = new CafeMac();
         protag = cafeMac.getProtagonist();
         antag = cafeMac.getAntagonist();
+        evilTwin = cafeMac.getEvilTwin();
         renderer = new CafeMacRenderer(cafeMac, true);
         cam = new OrthographicCamera();
         viewport = new ScreenViewport(cam);
@@ -48,6 +50,9 @@ public class GameScreen implements Screen{
         }
         if(renderer.getGameScore() > 0) {
             moveAntag();
+        }
+        if(renderer.getGameScore() > 4){
+            moveEvilTwin();
         }
     }
 
@@ -113,7 +118,69 @@ public class GameScreen implements Screen{
 
     }
 
-	@Override
+    private void moveEvilTwin() {
+
+        double deltaY = protag.getPosition().y - evilTwin.getPosition().y;
+        double deltaX = protag.getPosition().x - evilTwin.getPosition().x;
+        double magVec = Math.hypot(deltaX, deltaY);
+        double unitCircleX = deltaX / magVec;
+        double unitCircleY = deltaY / magVec;
+
+        double northDotVector = unitCircleY;
+        double northEastDotVector = (Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
+        double eastDotVector = unitCircleX;
+        double southEastDotVector = (Math.sqrt(2)/2 * unitCircleX) - (Math.sqrt(2)/2 * unitCircleY);
+        double southDotVector = -unitCircleY;
+        double southWestDotVector = -(Math.sqrt(2)/2 * unitCircleX) - (Math.sqrt(2)/2 * unitCircleY);
+        double westDotVector = -unitCircleX;
+        double northWestDotVector = -(Math.sqrt(2)/2 * unitCircleX) + (Math.sqrt(2)/2 * unitCircleY);
+
+        ArrayList<Double> directionVectors = new ArrayList<Double>();
+        directionVectors.add(northDotVector);
+        directionVectors.add(northEastDotVector);
+        directionVectors.add(eastDotVector);
+        directionVectors.add(southEastDotVector);
+        directionVectors.add(southDotVector);
+        directionVectors.add(southWestDotVector);
+        directionVectors.add(westDotVector);
+        directionVectors.add(northWestDotVector);
+
+        double max = Integer.MIN_VALUE;
+        for (Double directionVector : directionVectors) {
+            if (directionVector > max){
+                max = directionVector;
+            }
+        }
+
+        if (max == northDotVector) {
+            evilTwin.goNorth();
+
+        } else if (max == northEastDotVector) {
+            evilTwin.goNorthEast();
+
+        } else if (max == eastDotVector) {
+            evilTwin.goEast();
+
+        } else if (max == southEastDotVector) {
+            evilTwin.goSouthEast();
+
+        } else if (max == southDotVector) {
+            evilTwin.goSouth();
+
+        } else if (max == southWestDotVector) {
+            evilTwin.goSouthWest();
+
+        } else if (max == westDotVector) {
+            evilTwin.goWest();
+
+        }
+        else if (max == northWestDotVector) {
+            evilTwin.goNorthWest();
+        }
+    }
+
+
+    @Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
 		renderer.setSize(width, height);
