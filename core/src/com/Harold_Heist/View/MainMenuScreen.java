@@ -46,7 +46,7 @@ public class MainMenuScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         
         game.batch.begin();
-        game.batch.draw(backgroundTexture, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.draw(backgroundTexture, 0, 0, 560, 320);
         //game.font.draw(game.batch, "Welcome to Harold Heist!!", 190, 200);
         //game.font.draw(game.batch, "Click anywhere to begin", 190, 150);
         game.batch.draw(Settings.soundEnabled ? Assets.soundOn : Assets.soundOff, 0, 0, 20, 20);
