@@ -212,26 +212,42 @@ public class CafeMacRenderer {
 
         // collision left of object
         if (object1X + object1Size > object2X && object1X + object1Size < object2X + 10 && object1Y + object1Size > object2Y && object1Y < object2Y + object2Size) {
-            if (protagAndAntag) gameOver();
-            else eatFood(object2Position);
+            if (protagAndAntag) {
+                gameOver();
+            } else {
+                Assets.eatingSound.play();
+                eatFood(object2Position);
+                }
         }
 
         // collision right of object
         else if (object1X < object2X + object2Size && object1X > object2X + object2Size - 10 && object1Y + object1Size > object2Y && object1Y < object2Y + object2Size) {
-            if (protagAndAntag) gameOver();
-            else eatFood(object2Position);
+            if (protagAndAntag) {
+                gameOver();
+            } else {
+                Assets.eatingSound.play();
+                eatFood(object2Position);
+            }
         }
 
         // collision top of object
         else if (object1X + object1Size > object2X && object1X < object2X + object2Size && object1Y < object2Y + object2Size && object1Y > object2Y + object2Size - 10) {
-            if (protagAndAntag) gameOver();
-            else eatFood(object2Position);
+            if (protagAndAntag) {
+                gameOver();
+            } else {
+                Assets.eatingSound.play();
+                eatFood(object2Position);
+            }
         }
 
         // collision below object
         else if (object1X + object1Size > object2X && object1X < object2X + object2Size && object1Y + object1Size > object2Y && object1Y + object1Size < object2Y + 10) {
-            if (protagAndAntag) gameOver();
-            else eatFood(object2Position);
+            if (protagAndAntag) {
+                gameOver();
+            } else {
+                Assets.eatingSound.play();
+                eatFood(object2Position);
+            }
         }
     }
 
