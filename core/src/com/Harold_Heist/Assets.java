@@ -58,11 +58,13 @@ public class Assets {
 
 		soundOn = new Texture(Gdx.files.internal("graphics/soundOn.png"));
 		soundOff = new Texture(Gdx.files.internal("graphics/soundOff.png"));
-//        eatingSound = Gdx.audio.newSound(Gdx.files.internal("music/eatingSound.mp3"));
+        eatingSound = Gdx.audio.newSound(Gdx.files.internal("music/appleBite.wav"));
         catchyMusic = Gdx.audio.newMusic(Gdx.files.internal("music/catchyMusic.mp3"));
 
 		catchyMusic.setLooping(true);
 		catchyMusic.play();
+
+
 	}
 
     public static void dispose() {
