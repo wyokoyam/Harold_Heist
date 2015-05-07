@@ -7,9 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
-/**
- * Created by Blaise on 5/6/2015.
- */
 public class InstructionsScreen implements Screen {
 
     final HaroldHeist game;

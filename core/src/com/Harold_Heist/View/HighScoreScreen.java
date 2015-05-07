@@ -7,9 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 
-/**
- * Created by Blaise on 5/6/2015.
- */
 public class HighScoreScreen implements Screen {
 
     final HaroldHeist game;
@@ -17,7 +14,7 @@ public class HighScoreScreen implements Screen {
     private Texture backgroundTexture;
 
 
-    public HighScoreScreen(HaroldHeist game) {
+    public HighScoreScreen(HaroldHeist game){
         this.game = game;
         backgroundTexture = new Texture(Gdx.files.internal("graphics/highScore.png"));
         camera = new OrthographicCamera();

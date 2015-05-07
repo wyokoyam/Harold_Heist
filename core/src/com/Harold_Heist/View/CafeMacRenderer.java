@@ -23,7 +23,6 @@ import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
 
-
 public class CafeMacRenderer {
 
     private static final float CAMERA_WIDTH = 25f;
@@ -52,7 +51,9 @@ public class CafeMacRenderer {
         this.screenHeight = h;
     }
 
-    public int getGameScore() {return this.gameScore;}
+    public int getGameScore() {
+        return this.gameScore;
+    }
 
     private TiledMap tiledMap;
     private BatchTiledMapRenderer tiledMapRenderer;
@@ -61,7 +62,6 @@ public class CafeMacRenderer {
     private Antagonist antag;
     private Antagonist evilTwinAntag;
     private Food food;
-//    private ArrayList<Food> foods;
     private Array<Food> foods;
 
 
@@ -132,8 +132,9 @@ public class CafeMacRenderer {
         spriteBatch.begin();
         drawProtag();
         drawAntag();
-        if (gameScore > 9){
-            drawEvilTwin(); }
+        if (gameScore > 9) {
+            drawEvilTwin();
+        }
         drawFoods();
         scoreFont.setColor(0, 0, 0, .8f);
         scoreFont.draw(spriteBatch, gameScoreName, 620 / widthRatio, 460 / heightRatio);
@@ -217,7 +218,7 @@ public class CafeMacRenderer {
             } else {
                 Assets.eatingSound.play();
                 eatFood(object2Position);
-                }
+            }
         }
 
         // collision right of object
@@ -331,8 +332,8 @@ public class CafeMacRenderer {
 
     private void drawFoods() {
         for (Food food : foods) {
-            float foodX = food.getPosition().x ;
-            float foodY = food.getPosition().y ;
+            float foodX = food.getPosition().x;
+            float foodY = food.getPosition().y;
             float foodSize = food.getSize();
             int foodIndex = food.getFoodIndex();
 
@@ -341,13 +342,13 @@ public class CafeMacRenderer {
             float newFoodY = newFood.getPosition().y;
 
             if (foodIndex == 0)
-                spriteBatch.draw(Assets.foodApple, newFoodX, newFoodY, foodSize , foodSize );
+                spriteBatch.draw(Assets.foodApple, newFoodX, newFoodY, foodSize, foodSize);
             else if (foodIndex == 1)
-                spriteBatch.draw(Assets.foodBanana, newFoodX, newFoodY, foodSize , foodSize );
+                spriteBatch.draw(Assets.foodBanana, newFoodX, newFoodY, foodSize, foodSize);
             else if (foodIndex == 2)
-                spriteBatch.draw(Assets.foodBacon, newFoodX, newFoodY, foodSize , foodSize );
+                spriteBatch.draw(Assets.foodBacon, newFoodX, newFoodY, foodSize, foodSize);
             else if (foodIndex == 3)
-                spriteBatch.draw(Assets.foodCake, newFoodX, newFoodY, foodSize , foodSize );
+                spriteBatch.draw(Assets.foodCake, newFoodX, newFoodY, foodSize, foodSize);
 
         }
     }
@@ -391,7 +392,7 @@ public class CafeMacRenderer {
             foodY = newFood.getPosition().y;
         }
 
-         // check upper right
+        // check upper right
 
         while ((foodX + foodSize >= protagStartX && foodX + foodSize <= protagStartX + protagSize) && (foodY + foodSize >= protagStartY && foodY + foodSize <= protagStartY + protagSize)) {
             // can do a while loop to ensure the final fruit position is not on a table
@@ -428,7 +429,6 @@ public class CafeMacRenderer {
         }
 
         // check upper right
-
         while ((foodX + foodSize >= antagStartX && foodX + foodSize <= antagStartX + antagSize) && (foodY + foodSize >= antagStartY && foodY + foodSize <= antagStartY + antagSize)) {
             // can do a while loop to ensure the final fruit position is not on a table
             newFood = removeThenAddNewFood(food.getPosition());
@@ -455,7 +455,7 @@ public class CafeMacRenderer {
             foodX = newFood.getPosition().x;
             foodY = newFood.getPosition().y;
         }
-//
+
 //        // left wall
         while ((foodY >= 0 && foodY + foodSize <= screenHeight) && foodX < 0) {
             newFood = removeThenAddNewFood(food.getPosition());
@@ -463,7 +463,7 @@ public class CafeMacRenderer {
             foodX = newFood.getPosition().x;
             foodY = newFood.getPosition().y;
         }
-//
+
 //        // right wall
         while ((foodY >= 0 && foodY + foodSize <= screenHeight) && foodX + foodSize > screenWidth) {
             newFood = removeThenAddNewFood(food.getPosition());
@@ -473,7 +473,6 @@ public class CafeMacRenderer {
         }
 
         // table collisions
-
         float shapeX;
         float shapeY;
         float shapeWidth;
@@ -514,7 +513,6 @@ public class CafeMacRenderer {
             }
 
             // check upper left
-
             while ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
                 newFood = removeThenAddNewFood(food.getPosition());
                 food = newFood;
@@ -523,7 +521,6 @@ public class CafeMacRenderer {
             }
 
             // check upper right
-
             while ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
                 newFood = removeThenAddNewFood(food.getPosition());
                 food = newFood;
@@ -531,6 +528,7 @@ public class CafeMacRenderer {
                 foodY = newFood.getPosition().y;
             }
         }
+
         return food;
     }
 
@@ -573,8 +571,6 @@ public class CafeMacRenderer {
         // Outline evil twin
         Rectangle evilTwinAntagBounds = evilTwinAntag.getBounds();
         debugRenderer.rect(evilTwinAntag.getPosition().x / widthRatio, evilTwinAntag.getPosition().y / heightRatio, evilTwinAntagBounds.width, evilTwinAntagBounds.height);
-
         debugRenderer.end();
     }
-
 }

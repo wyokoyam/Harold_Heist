@@ -21,22 +21,21 @@ public class Antagonist extends Rectangle{
 		this.position = position;
 		this.bounds.height = SIZE;
 		this.bounds.width = SIZE;
-		
 	}
 	
-	public Vector2 getPosition() {return position; }
+	public Vector2 getPosition(){return position; }
 
-    public Vector2 getStartPosition() {return new Vector2(START_X, START_Y);}
+    public Vector2 getStartPosition(){return new Vector2(START_X, START_Y);}
 	
-	public Rectangle getBounds() {return bounds; }
+	public Rectangle getBounds(){return bounds; }
 	
-	public static float getSpeed() {return SPEED; }
+	public static float getSpeed(){return SPEED; }
 	
-	public static float getSize() {return SIZE; }
+	public static float getSize(){return SIZE; }
 	
-	public State getState() {return state; }
+	public State getState(){return state; }
 	
-	public void setState(State state) {this.state = state; }
+	public void setState(State state){this.state = state; }
 
     public void goNorth(){
         this.setState(Antagonist.State.FACEUP);
