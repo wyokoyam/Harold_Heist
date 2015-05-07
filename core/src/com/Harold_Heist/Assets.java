@@ -17,6 +17,12 @@ public class Assets {
 	public static Texture antagUp;
 	public static Texture antagDown;
 
+    public static Texture evilTwinRight;
+    public static Texture evilTwinLeft;
+    public static Texture evilTwinUp;
+    public static Texture evilTwinDown;
+
+
     public static Texture foodBanana;
     public static Texture foodApple;
     public static Texture foodBacon;
@@ -44,7 +50,12 @@ public class Assets {
         antagLeft = new Texture(Gdx.files.internal("graphics/antagLeft.png"));
         antagUp = new Texture(Gdx.files.internal("graphics/antagUp.png"));
 		antagDown = new Texture(Gdx.files.internal("graphics/antagDown.png"));
-		
+
+        evilTwinRight = new Texture(Gdx.files.internal("graphics/ghostAntagRight.png"));
+        evilTwinLeft = new Texture(Gdx.files.internal("graphics/ghostAntagLeft.png"));
+        evilTwinUp = new Texture(Gdx.files.internal("graphics/ghostAntagUp.png"));
+        evilTwinDown = new Texture(Gdx.files.internal("graphics/ghostAntagDown.png"));
+
 		soundOn = new Texture(Gdx.files.internal("graphics/soundOn.png"));
 		soundOff = new Texture(Gdx.files.internal("graphics/soundOff.png"));
 //        eatingSound = Gdx.audio.newSound(Gdx.files.internal("music/eatingSound.mp3"));

@@ -307,14 +307,14 @@ public class CafeMacRenderer {
         float antagSize = Antagonist.getSize();
 
         if (evilTwinAntag.getState() == Antagonist.State.FACERIGHT) {
-            spriteBatch.draw(Assets.antagRight, xCoordinate, yCoordinate, antagSize, antagSize);
+            spriteBatch.draw(Assets.evilTwinRight, xCoordinate, yCoordinate, antagSize, antagSize);
 //            protag.getPosition().x += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
         } else if (evilTwinAntag.getState() == Antagonist.State.FACELEFT) {
-            spriteBatch.draw(Assets.antagLeft, xCoordinate, yCoordinate, antagSize, antagSize);
+            spriteBatch.draw(Assets.evilTwinLeft, xCoordinate, yCoordinate, antagSize, antagSize);
         } else if (evilTwinAntag.getState() == Antagonist.State.FACEUP) {
-            spriteBatch.draw(Assets.antagUp, xCoordinate, yCoordinate, antagSize, antagSize);
+            spriteBatch.draw(Assets.evilTwinUp, xCoordinate, yCoordinate, antagSize, antagSize);
         } else if (evilTwinAntag.getState() == Antagonist.State.FACEDOWN) {
-            spriteBatch.draw(Assets.antagDown, xCoordinate, yCoordinate, antagSize, antagSize);
+            spriteBatch.draw(Assets.evilTwinDown, xCoordinate, yCoordinate, antagSize, antagSize);
         }
     }
 
