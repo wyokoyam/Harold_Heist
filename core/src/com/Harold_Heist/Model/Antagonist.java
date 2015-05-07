@@ -1,15 +1,11 @@
 package com.Harold_Heist.Model;
 
-import com.Harold_Heist.Model.Protagonist.State;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Antagonist extends Rectangle{
-	public enum State {
-		FACELEFT, FACERIGHT, FACEUP, FACEDOWN;
-	}
-	
+
 	static final float SIZE = 32;
     static final float SPEED = SIZE * 4;
     static final float START_X = 1;
@@ -18,6 +14,8 @@ public class Antagonist extends Rectangle{
     Vector2 	position = new Vector2();
 	Rectangle 	bounds = new Rectangle();
 	State state = State.FACERIGHT;
+
+    public enum State {FACELEFT, FACERIGHT, FACEUP, FACEDOWN; }
 	
 	public Antagonist(Vector2 position){
 		this.position = position;
@@ -26,31 +24,19 @@ public class Antagonist extends Rectangle{
 		
 	}
 	
-	public Vector2 getPosition() {
-		return position;
-	}
+	public Vector2 getPosition() {return position; }
 
     public Vector2 getStartPosition() {return new Vector2(START_X, START_Y);}
 	
-	public Rectangle getBounds() {
-		return bounds;
-	}
+	public Rectangle getBounds() {return bounds; }
 	
-	public static float getSpeed() {
-		return SPEED;
-	}
+	public static float getSpeed() {return SPEED; }
 	
-	public static float getSize() {
-		return SIZE;
-	}
+	public static float getSize() {return SIZE; }
 	
-	public State getState() {
-		return state;
-	}
+	public State getState() {return state; }
 	
-	public void setState(State state) {
-		this.state = state;
-	}
+	public void setState(State state) {this.state = state; }
 
     public void goNorth(){
         this.setState(Antagonist.State.FACEUP);

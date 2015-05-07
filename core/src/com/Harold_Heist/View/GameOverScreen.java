@@ -29,7 +29,7 @@ public class GameOverScreen implements Screen {
 	}
 
 	@Override
-	public void render(float delta) {
+	public void render(float delta){
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
@@ -41,7 +41,7 @@ public class GameOverScreen implements Screen {
         game.font.draw(game.batch, "Score: " + Integer.toString(renderer.getGameScore()), 250, 70);
         game.batch.end();
         
-        if (Gdx.input.isTouched()) {
+        if (Gdx.input.isTouched()){
         	game.setScreen(new MainMenuScreen(game));
         	dispose();
         }

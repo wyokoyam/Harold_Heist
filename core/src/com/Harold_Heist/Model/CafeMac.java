@@ -2,8 +2,6 @@ package com.Harold_Heist.Model;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Vector;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -19,18 +17,13 @@ import com.badlogic.gdx.utils.Array;
 
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
-
 public class CafeMac {
-
-    public enum State {
-        STATE_RUNNING, STATE_GAMEOVER;
-    }
 
 	/** Our player controlled hero **/
     Protagonist protag;
 	/** Our heroes autonomous nemesis **/
 	Antagonist antag;
-    Antagonist evilTwinAntag;
+    Antagonist evilTwin;
     /** Foods **/
 //    ArrayList<Food> foodArray = new ArrayList<Food>();
     Array<Food> foodArray = new Array<Food>();
@@ -43,35 +36,27 @@ public class CafeMac {
     MapObjects collisionObjects;
     ArrayList<Shape2D> collisionShapes;
 
+    public enum State {STATE_RUNNING, STATE_GAMEOVER; }
+
     State state = State.STATE_RUNNING;
 
 	// Getters -----------
 
-	public Protagonist getProtagonist() { return protag; }
+	public Protagonist getProtagonist() {return protag; }
 
-	public Antagonist getAntagonist(){
-		return antag;
-	}
+	public Antagonist getAntagonist(){return antag; }
 
-    public Antagonist getEvilTwin(){ return evilTwinAntag; }
+    public Antagonist getEvilTwin(){return evilTwin; }
 
-    public Array<Food> getFoodArray() {
-        return foodArray;
-    }
+    public Array<Food> getFoodArray(){return foodArray; }
 
-    public State getState() {
-        return state;
-    }
+    public State getState(){return state; }
 
-    public TiledMap getTiledMap() {
-        return tiledMap;
-    }
+    public TiledMap getTiledMap(){return tiledMap; }
 
-    public ArrayList<Shape2D> getCollisionShapes() {
-        return collisionShapes;
-    }
+    public ArrayList<Shape2D> getCollisionShapes() {return collisionShapes; }
 
-    public ArrayList<Vector2> getTakenPositions() { return takenPositions;}
+    public ArrayList<Vector2> getTakenPositions(){return takenPositions; }
     // --------------------
 
     // Setters -----------
@@ -79,14 +64,12 @@ public class CafeMac {
     public void setState(State state) {this.state = state;}
 
     // --------------------
-	public CafeMac() {
-		createCafeMac();
-	}
+	public CafeMac(){ createCafeMac(); }
 
 	private void createCafeMac() {
         protag = new Protagonist(new Vector2(50, 50));
         antag = new Antagonist(new Vector2(1, 1));
-        evilTwinAntag = new Antagonist(new Vector2(330, 500));
+        evilTwin = new EvilTwin(new Vector2(330, 500));
         addCollisionShapes();
 
         for (int foodIndex = 0; foodIndex < 4; foodIndex++) {
@@ -106,16 +89,15 @@ public class CafeMac {
         }
     }
 
-    public Food addFood() {
+    public Food addFood(){
         Random rand = new Random();
         Vector2 position = getFreePosition();
-//        Vector2 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
         Food food = new Food(position, rand.nextInt(4));
         foodArray.add(food);
         return food;
     }
 
-    private Vector2 getFreePosition() {
+    private Vector2 getFreePosition(){
         Random rand = new Random();
         Vector2 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
         float foodX = position.x;
@@ -127,8 +109,8 @@ public class CafeMac {
             float otherFoodX = otherFood.getPosition().x;
             float otherFoodY = otherFood.getPosition().y;
             float otherFoodSize = otherFood.getSize();
-//
-//            // check bottom left of food
+
+            // check bottom left of food
             while ((foodX >= otherFoodX && foodX <= otherFoodX + otherFoodSize) && (foodY >= otherFoodY && foodY <= otherFoodY + otherFoodSize)) {
                 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
                 foodX = position.x;
@@ -151,32 +133,32 @@ public class CafeMac {
             }
 
             // check upper right
-
             while ((foodX + foodSize >= otherFoodX && foodX + foodSize <= otherFoodX + otherFoodSize) && (foodY + foodSize >= otherFoodY && foodY + foodSize <= otherFoodY + otherFoodSize)) {
                 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
                 foodX = position.x;
                 foodY = position.y;
             }
         }
+
         return position;
     }
 
-    private void addCollisionShapes() {
+    private void addCollisionShapes(){
         objectLayer = tiledMap.getLayers().get("Collision");
         collisionObjects = objectLayer.getObjects();
         collisionShapes = new ArrayList<Shape2D>();
 
-        for (MapObject obj : collisionObjects) {
-            if (obj.getClass() == RectangleMapObject.class) {
+        for (MapObject obj : collisionObjects){
+            if (obj.getClass() == RectangleMapObject.class){
                 RectangleMapObject rectObj = (RectangleMapObject) obj;
                 Rectangle rect = rectObj.getRectangle();
                 collisionShapes.add(rect);
-            } else {
+            }
+            else{
                 EllipseMapObject ellipseObj = (EllipseMapObject) obj;
                 Ellipse ellip = ellipseObj.getEllipse();
                 collisionShapes.add(ellip);
             }
         }
     }
-
 }
