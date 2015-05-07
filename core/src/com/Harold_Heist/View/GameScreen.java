@@ -51,7 +51,7 @@ public class GameScreen implements Screen{
         if(renderer.getGameScore() > 0) {
             moveAntag();
         }
-        if(renderer.getGameScore() > 4){
+        if(renderer.getGameScore() > 9){
             moveEvilTwin();
         }
     }

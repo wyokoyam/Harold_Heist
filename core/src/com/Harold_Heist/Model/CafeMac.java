@@ -86,7 +86,7 @@ public class CafeMac {
 	private void createCafeMac() {
         protag = new Protagonist(new Vector2(50, 50));
         antag = new Antagonist(new Vector2(1, 1));
-        evilTwinAntag = new Antagonist(new Vector2(100, 100));
+        evilTwinAntag = new Antagonist(new Vector2(1, 1));
         addCollisionShapes();
 
         for (int foodIndex = 0; foodIndex < 4; foodIndex++) {
