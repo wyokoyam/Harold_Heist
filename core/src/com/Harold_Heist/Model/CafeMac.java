@@ -109,6 +109,7 @@ public class CafeMac {
     public Food addFood() {
         Random rand = new Random();
         Vector2 position = getFreePosition();
+//        Vector2 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
         Food food = new Food(position, rand.nextInt(4));
         foodArray.add(food);
         return food;
