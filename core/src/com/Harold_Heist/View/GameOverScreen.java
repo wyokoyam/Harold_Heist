@@ -3,6 +3,7 @@ package com.Harold_Heist.View;
 import com.Harold_Heist.HaroldHeist;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,14 +13,14 @@ public class GameOverScreen implements Screen {
 	final HaroldHeist game;
 	OrthographicCamera camera;
     private Texture backgroundTexture;
-
-
+    private CafeMacRenderer renderer;
 	
-	public GameOverScreen(HaroldHeist game) {
+	public GameOverScreen(HaroldHeist game, CafeMacRenderer renderer) {
 		this.game = game;
         backgroundTexture = new Texture(Gdx.files.internal("graphics/endScreen.png"));
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 560, 320);
+        this.renderer = renderer;
 	}
 
 	@Override
@@ -36,8 +37,8 @@ public class GameOverScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
         game.batch.draw(backgroundTexture, 0, 0, 560, 320);
-        //game.font.draw(game.batch, "Game Over!", 250, 200);
-        //game.font.draw(game.batch, "Click anywhere to get back to the main menu", 150, 150);
+        game.font.setColor(Color.BLACK);
+        game.font.draw(game.batch, "Score: " + Integer.toString(renderer.getGameScore()), 250, 70);
         game.batch.end();
         
         if (Gdx.input.isTouched()) {

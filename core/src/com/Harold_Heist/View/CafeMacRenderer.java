@@ -104,6 +104,11 @@ public class CafeMacRenderer {
 
     }
 
+//    public static String getGameScoreName(){
+//        String scoreString = getGameScoreName();
+//        return scoreString;
+//    }
+
     public void render() {
 
         this.cam.update();
