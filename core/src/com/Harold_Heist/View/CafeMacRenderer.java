@@ -320,21 +320,23 @@ public class CafeMacRenderer {
             float foodSize = food.getSize();
             int foodIndex = food.getFoodIndex();
 
-            checkFoodCollisions(food, foodX, foodY, foodSize);
+            Food newFood = checkFoodCollisions(food, foodX, foodY, foodSize);
+            float newFoodX = newFood.getPosition().x;
+            float newFoodY = newFood.getPosition().y;
 
             if (foodIndex == 0)
-                spriteBatch.draw(Assets.foodApple, foodX, foodY, food.getSize() , food.getSize() );
+                spriteBatch.draw(Assets.foodApple, newFoodX, newFoodY, foodSize , foodSize );
             else if (foodIndex == 1)
-                spriteBatch.draw(Assets.foodBanana, foodX, foodY, food.getSize() , food.getSize() );
+                spriteBatch.draw(Assets.foodBanana, newFoodX, newFoodY, foodSize , foodSize );
             else if (foodIndex == 2)
-                spriteBatch.draw(Assets.foodBacon, foodX, foodY, food.getSize() , food.getSize() );
+                spriteBatch.draw(Assets.foodBacon, newFoodX, newFoodY, foodSize , foodSize );
             else if (foodIndex == 3)
-                spriteBatch.draw(Assets.foodCake, foodX, foodY, food.getSize() , food.getSize() );
+                spriteBatch.draw(Assets.foodCake, newFoodX, newFoodY, foodSize , foodSize );
 
         }
     }
 
-    private void checkFoodCollisions(Food food, float foodX, float foodY, float foodSize) {
+    private Food checkFoodCollisions(Food food, float foodX, float foodY, float foodSize) {
 
         // Protag and antag initial position collisions
 
@@ -513,7 +515,7 @@ public class CafeMacRenderer {
                 foodY = newFood.getPosition().y;
             }
         }
-
+        return food;
     }
 
     private Food removeThenAddNewFood(Vector2 foodPosition) {

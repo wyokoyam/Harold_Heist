@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="22" height="15" tilewidth="32" tileheight="32" nextobjectid="144">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="22" height="15" tilewidth="32" tileheight="32" nextobjectid="230">
  <tileset firstgid="1" name="weddingcarpet" tilewidth="32" tileheight="32">
   <image source="cafeMacTiles/weddingcarpet.png" width="96" height="128"/>
  </tileset>
@@ -82,20 +82,136 @@
   <object id="115" x="357" y="174.5" width="54" height="37">
    <ellipse/>
   </object>
-  <object id="125" x="196" y="-1" width="216" height="88">
-   <ellipse/>
-  </object>
   <object id="136" x="67" y="237.5" width="54" height="37">
    <ellipse/>
   </object>
   <object id="137" x="131" y="333.5" width="54" height="37">
    <ellipse/>
   </object>
-  <object id="138" x="611" y="64" width="88" height="349"/>
-  <object id="139" x="-73" y="229"/>
-  <object id="140" x="746" y="207"/>
-  <object id="141" x="248" y="137"/>
-  <object id="142" x="171" y="-34"/>
-  <object id="143" x="773" y="124"/>
+  <object id="138" x="608.516" y="156.396" width="89.4366" height="260.006" rotation="-0.281111"/>
+  <object id="147" x="192.956" y="0.259743" width="221.62" height="73.6509"/>
+  <object id="157" x="611.369" y="141.889" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="174" x="196.699" y="61.8023" width="12.8366" height="36.3252">
+   <ellipse/>
+  </object>
+  <object id="175" x="273.494" y="110.958" width="58.3161" height="14.9425"/>
+  <object id="176" x="199.399" y="65.8512" width="12.8366" height="36.3252">
+   <ellipse/>
+  </object>
+  <object id="177" x="203.11" y="69.2252" width="12.8366" height="36.3252">
+   <ellipse/>
+  </object>
+  <object id="178" x="207.496" y="71.587" width="12.8366" height="36.3252">
+   <ellipse/>
+  </object>
+  <object id="179" x="215.742" y="72.9401" width="15.6238" height="36.5396">
+   <ellipse/>
+  </object>
+  <object id="189" x="223.067" y="74.7395" width="15.6238" height="36.5396">
+   <ellipse/>
+  </object>
+  <object id="190" x="230.253" y="75.1367" width="15.8801" height="39.1022">
+   <ellipse/>
+  </object>
+  <object id="191" x="236.275" y="75.0085" width="16.2645" height="41.1523">
+   <ellipse/>
+  </object>
+  <object id="192" x="240.055" y="74.8804" width="16.777" height="42.6899">
+   <ellipse/>
+  </object>
+  <object id="193" x="247.358" y="75.0085" width="17.5458" height="45.1244">
+   <ellipse/>
+  </object>
+  <object id="194" x="251.458" y="74.6241" width="16.777" height="45.2525">
+   <ellipse/>
+  </object>
+  <object id="195" x="256.783" y="74.7873" width="17.1365" height="46.5708">
+   <ellipse/>
+  </object>
+  <object id="196" x="265.755" y="75.0255" width="17.1365" height="47.4063">
+   <ellipse/>
+  </object>
+  <object id="197" x="273.665" y="74.5306" width="58.5176" height="36.0978"/>
+  <object id="198" x="327.901" y="75.223" width="17.1365" height="47.4063">
+   <ellipse/>
+  </object>
+  <object id="199" x="336.767" y="74.0141" width="17.1365" height="47.4063">
+   <ellipse/>
+  </object>
+  <object id="200" x="346.84" y="71.7978" width="17.1365" height="47.4063">
+   <ellipse/>
+  </object>
+  <object id="201" x="357.72" y="70.186" width="17.1365" height="47.4063">
+   <ellipse/>
+  </object>
+  <object id="202" x="364.168" y="67.3653" width="17.1365" height="47.4063">
+   <ellipse/>
+  </object>
+  <object id="203" x="371.219" y="64.9475" width="17.1365" height="47.4063">
+   <ellipse/>
+  </object>
+  <object id="204" x="378.271" y="63.9402" width="17.1365" height="47.4063">
+   <ellipse/>
+  </object>
+  <object id="205" x="383.093" y="58.8313" width="17.1365" height="47.4063">
+   <ellipse/>
+  </object>
+  <object id="206" x="387.473" y="54.1137" width="17.1365" height="47.4063">
+   <ellipse/>
+  </object>
+  <object id="207" x="389.292" y="52.9909" width="17.1365" height="47.4063">
+   <ellipse/>
+  </object>
+  <object id="208" x="392.064" y="48.9794" width="17.1365" height="47.4063">
+   <ellipse/>
+  </object>
+  <object id="210" x="612.239" y="129.691" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="211" x="615.616" y="119.41" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="215" x="675.089" y="64.8174" width="25.2678" height="91.733"/>
+  <object id="216" x="617.788" y="113.446" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="218" x="619.929" y="109.123" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="219" x="623.007" y="104.786" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="220" x="625.525" y="100.589" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="221" x="628.183" y="97.2318" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="222" x="632.1" y="92.1955" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="223" x="635.597" y="88.5583" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="224" x="641.053" y="84.7811" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="225" x="646.23" y="80.1645" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="226" x="648.608" y="77.0868" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="227" x="653.644" y="74.8485" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="228" x="662.317" y="71.3511" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
+  <object id="229" x="666.794" y="68.5532" width="60.3291" height="30.2084">
+   <ellipse/>
+  </object>
  </objectgroup>
 </map>
