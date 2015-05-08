@@ -185,8 +185,6 @@ public class GameScreen implements Screen{
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
 		renderer.setSize(width, height);
-//        viewport.update(width, height);
-
     }
 
 	@Override

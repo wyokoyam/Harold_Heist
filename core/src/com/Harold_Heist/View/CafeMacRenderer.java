@@ -105,7 +105,6 @@ public class CafeMacRenderer {
     }
 
     public void render() {
-
         this.cam.update();
         tiledMapRenderer.setView(this.cam);
         tiledMapRenderer.render();
@@ -114,20 +113,9 @@ public class CafeMacRenderer {
         collisionHandler();
     }
 
-    private void collisionHandler() {
-        for (Shape2D shape : collisionShapes) {
-            obstacleCollisionHandler(protag.getPosition(), shape, true);
-            obstacleCollisionHandler(antag.getPosition(), shape, false);
-        }
-        wallCollisionHandler(protag.getPosition(), true);
-        wallCollisionHandler(antag.getPosition(), false);
-        objectCollisionHandler(protag.getPosition(), antag.getPosition(), true);
-        objectCollisionHandler(protag.getPosition(), evilTwinAntag.getPosition(), true);
-        for (Food food : cafeMac.getFoodArray()) {
-            objectCollisionHandler(protag.getPosition(), food.getPosition(), false);
-        }
-    }
-
+    /**
+     * Draws objects to the screen
+     */
     private void draw() {
         spriteBatch.begin();
         drawProtag();
@@ -143,9 +131,154 @@ public class CafeMacRenderer {
         spriteBatch.end();
     }
 
-    private void obstacleCollisionHandler(Vector2 character, Shape2D shape, boolean isProtag) {
-        float charX = character.x;
-        float charY = character.y;
+    /**
+     * Draws the protagonist
+     */
+    private void drawProtag() {
+        float xCoordinate = protag.getPosition().x;
+        float yCoordinate = protag.getPosition().y;
+        float protagSize = Protagonist.getSize();
+
+        if (protag.getState() == Protagonist.State.FACERIGHT) {
+            spriteBatch.draw(Assets.protagRight, xCoordinate, yCoordinate, protagSize, protagSize);
+        } else if (protag.getState() == Protagonist.State.FACELEFT) {
+            spriteBatch.draw(Assets.protagLeft, xCoordinate, yCoordinate, protagSize, protagSize);
+        } else if (protag.getState() == Protagonist.State.FACEUP) {
+            spriteBatch.draw(Assets.protagUp, xCoordinate, yCoordinate, protagSize, protagSize);
+        } else if (protag.getState() == Protagonist.State.FACEDOWN) {
+            spriteBatch.draw(Assets.protagDown, xCoordinate, yCoordinate, protagSize, protagSize);
+        }
+    }
+
+    /**
+     * Draws the antagonist
+     */
+    private void drawAntag() {
+        float xCoordinate = antag.getPosition().x;
+        float yCoordinate = antag.getPosition().y;
+        float antagSize = Antagonist.getSize();
+
+        if (antag.getState() == Antagonist.State.FACERIGHT) {
+            spriteBatch.draw(Assets.antagRight, xCoordinate, yCoordinate, antagSize, antagSize);
+        } else if (antag.getState() == Antagonist.State.FACELEFT) {
+            spriteBatch.draw(Assets.antagLeft, xCoordinate, yCoordinate, antagSize, antagSize);
+        } else if (antag.getState() == Antagonist.State.FACEUP) {
+            spriteBatch.draw(Assets.antagUp, xCoordinate, yCoordinate, antagSize, antagSize);
+        } else if (antag.getState() == Antagonist.State.FACEDOWN) {
+            spriteBatch.draw(Assets.antagDown, xCoordinate, yCoordinate, antagSize, antagSize);
+        }
+    }
+
+    /**
+     * Draws the evil twin
+     */
+    private void drawEvilTwin() {
+        float xCoordinate = evilTwinAntag.getPosition().x;
+        float yCoordinate = evilTwinAntag.getPosition().y;
+        float antagSize = Antagonist.getSize();
+
+        if (evilTwinAntag.getState() == Antagonist.State.FACERIGHT) {
+            spriteBatch.draw(Assets.evilTwinRight, xCoordinate, yCoordinate, antagSize, antagSize);
+        } else if (evilTwinAntag.getState() == Antagonist.State.FACELEFT) {
+            spriteBatch.draw(Assets.evilTwinLeft, xCoordinate, yCoordinate, antagSize, antagSize);
+        } else if (evilTwinAntag.getState() == Antagonist.State.FACEUP) {
+            spriteBatch.draw(Assets.evilTwinUp, xCoordinate, yCoordinate, antagSize, antagSize);
+        } else if (evilTwinAntag.getState() == Antagonist.State.FACEDOWN) {
+            spriteBatch.draw(Assets.evilTwinDown, xCoordinate, yCoordinate, antagSize, antagSize);
+        }
+    }
+
+    /**
+     * Draws the foods
+     */
+    private void drawFoods() {
+        for (Food food : foods) {
+            float foodX = food.getPosition().x;
+            float foodY = food.getPosition().y;
+            float foodSize = food.getSize();
+            int foodIndex = food.getFoodIndex();
+
+            Food newFood = checkFoodCollisions(food, foodX, foodY, foodSize);
+            float newFoodX = newFood.getPosition().x;
+            float newFoodY = newFood.getPosition().y;
+
+            if (foodIndex == 0)
+                spriteBatch.draw(Assets.foodApple, newFoodX, newFoodY, foodSize, foodSize);
+            else if (foodIndex == 1)
+                spriteBatch.draw(Assets.foodBanana, newFoodX, newFoodY, foodSize, foodSize);
+            else if (foodIndex == 2)
+                spriteBatch.draw(Assets.foodBacon, newFoodX, newFoodY, foodSize, foodSize);
+            else if (foodIndex == 3)
+                spriteBatch.draw(Assets.foodCake, newFoodX, newFoodY, foodSize, foodSize);
+
+        }
+    }
+
+    /**
+     * Debug mode
+     */
+    private void drawDebug() {
+
+        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        debugRenderer.setColor(new Color(0, 1, 0, 1));
+
+        //Outline the foods
+        for (Food food : foods) {
+            debugRenderer.rect(food.getPosition().x / widthRatio, food.getPosition().y / heightRatio, food.getSize() / widthRatio, food.getSize() / widthRatio);
+        }
+
+        // Outline the shapes
+        for (Shape2D shape : collisionShapes) {
+            if (shape.getClass() == Rectangle.class) {
+                Rectangle rect = (Rectangle) shape;
+                debugRenderer.rect(rect.getX(), rect.getY(), rect.width, rect.height);
+
+            } else {
+                Ellipse ellip = (Ellipse) shape;
+                debugRenderer.rect(ellip.x, ellip.y, ellip.width, ellip.height);
+            }
+        }
+
+        // Outline protagonist
+        Rectangle protagBounds = protag.getBounds();
+        debugRenderer.rect(protag.getPosition().x / widthRatio, protag.getPosition().y / heightRatio, protagBounds.width, protagBounds.height);
+
+        // Outline antagonist
+        Rectangle antagBounds = antag.getBounds();
+        debugRenderer.rect(antag.getPosition().x / widthRatio, antag.getPosition().y / heightRatio, antagBounds.width, antagBounds.height);
+
+        // Outline evil twin
+        Rectangle evilTwinAntagBounds = evilTwinAntag.getBounds();
+        debugRenderer.rect(evilTwinAntag.getPosition().x / widthRatio, evilTwinAntag.getPosition().y / heightRatio, evilTwinAntagBounds.width, evilTwinAntagBounds.height);
+        debugRenderer.end();
+    }
+
+    /**
+     * Big method that calls all the collision handling methods
+     */
+    private void collisionHandler() {
+        for (Shape2D shape : collisionShapes) {
+            obstacleCollisionHandler(protag.getPosition(), shape, true);
+            obstacleCollisionHandler(antag.getPosition(), shape, false);
+        }
+        wallCollisionHandler(protag.getPosition(), true);
+        wallCollisionHandler(antag.getPosition(), false);
+        objectCollisionHandler(protag.getPosition(), antag.getPosition(), true);
+        objectCollisionHandler(protag.getPosition(), evilTwinAntag.getPosition(), true);
+        for (Food food : cafeMac.getFoodArray()) {
+            objectCollisionHandler(protag.getPosition(), food.getPosition(), false);
+        }
+    }
+
+    /**
+     * Handles collision so that protagonist/antagonist can't walk through tables/food stations
+     * @param characterPosition
+     * @param shape
+     * @param isProtag
+     */
+    private void obstacleCollisionHandler(Vector2 characterPosition, Shape2D shape, boolean isProtag) {
+        float charX = characterPosition.x;
+        float charY = characterPosition.y;
         float charSize;
         if (isProtag) {
             charSize = protag.getSize();
@@ -177,22 +310,22 @@ public class CafeMacRenderer {
 
         // collision left of object
         if (charX + charSize > shapeX && charX + charSize < shapeX + 10 && charY + charSize > shapeY && charY < shapeY + shapeHeight) {
-            character.x = shapeX - charSize;
+            characterPosition.x = shapeX - charSize;
         }
 
         // collision right of object
         else if (charX < shapeX + shapeWidth && charX > shapeX + shapeWidth - 10 && charY + charSize > shapeY && charY < shapeY + shapeHeight) {
-            character.x = shapeX + shapeWidth;
+            characterPosition.x = shapeX + shapeWidth;
         }
 
         // collision top of object
         else if (charX + charSize > shapeX && charX < shapeX + shapeWidth && charY < shapeY + shapeHeight && charY > shapeY + shapeHeight - 10) {
-            character.y = shapeY + shapeHeight;
+            characterPosition.y = shapeY + shapeHeight;
         }
 
         // collision below object
         else if (charX + charSize > shapeX && charX < shapeX + shapeWidth && charY + charSize > shapeY && charY + charSize < shapeY + 10) {
-            character.y = shapeY - charSize;
+            characterPosition.y = shapeY - charSize;
         }
     }
 
@@ -216,7 +349,6 @@ public class CafeMacRenderer {
             if (protagAndAntag) {
                 gameOver();
             } else {
-                Assets.eatingSound.play();
                 eatFood(object2Position);
             }
         }
@@ -226,7 +358,6 @@ public class CafeMacRenderer {
             if (protagAndAntag) {
                 gameOver();
             } else {
-                Assets.eatingSound.play();
                 eatFood(object2Position);
             }
         }
@@ -236,7 +367,6 @@ public class CafeMacRenderer {
             if (protagAndAntag) {
                 gameOver();
             } else {
-                Assets.eatingSound.play();
                 eatFood(object2Position);
             }
         }
@@ -246,26 +376,19 @@ public class CafeMacRenderer {
             if (protagAndAntag) {
                 gameOver();
             } else {
-                Assets.eatingSound.play();
                 eatFood(object2Position);
             }
         }
     }
 
-    private void gameOver() {
-        cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
-    }
-
-    private void eatFood(Vector2 foodPosition) {
-        removeThenAddNewFood(foodPosition);
-        gameScore++;
-        gameScoreName = "SCORE: " + gameScore;
-//        Assets.eatingSound.play();
-    }
-
-    private void wallCollisionHandler(Vector2 character, boolean isProtag) {
-        float charX = character.x;
-        float charY = character.y;
+    /**
+     * Handles collision so that protagonist/antagonist can't walk walls
+     * @param characterPosition
+     * @param isProtag
+     */
+    private void wallCollisionHandler(Vector2 characterPosition, boolean isProtag) {
+        float charX = characterPosition.x;
+        float charY = characterPosition.y;
         float charSize;
         if (isProtag) {
             charSize = protag.getSize();
@@ -273,175 +396,30 @@ public class CafeMacRenderer {
             charSize = antag.getSize();
         }
 
-        if (charX < 0) character.x = 0;
-        if (charX + charSize > screenWidth) character.x = screenWidth - charSize;
+        if (charX < 0) characterPosition.x = 0;
+        if (charX + charSize > screenWidth) characterPosition.x = screenWidth - charSize;
 
-        if (charY < 0) character.y = 0;
-        if (charY + charSize > screenHeight) character.y = screenHeight - charSize;
+        if (charY < 0) characterPosition.y = 0;
+        if (charY + charSize > screenHeight) characterPosition.y = screenHeight - charSize;
     }
 
-    private void drawProtag() {
-        float xCoordinate = protag.getPosition().x;
-        float yCoordinate = protag.getPosition().y;
-        float protagSize = Protagonist.getSize();
-
-        if (protag.getState() == Protagonist.State.FACERIGHT) {
-            spriteBatch.draw(Assets.protagRight, xCoordinate, yCoordinate, protagSize, protagSize);
-        } else if (protag.getState() == Protagonist.State.FACELEFT) {
-            spriteBatch.draw(Assets.protagLeft, xCoordinate, yCoordinate, protagSize, protagSize);
-        } else if (protag.getState() == Protagonist.State.FACEUP) {
-            spriteBatch.draw(Assets.protagUp, xCoordinate, yCoordinate, protagSize, protagSize);
-        } else if (protag.getState() == Protagonist.State.FACEDOWN) {
-            spriteBatch.draw(Assets.protagDown, xCoordinate, yCoordinate, protagSize, protagSize);
-        }
-    }
-
-    private void drawAntag() {
-        float xCoordinate = antag.getPosition().x;
-        float yCoordinate = antag.getPosition().y;
-        float antagSize = Antagonist.getSize();
-
-        if (antag.getState() == Antagonist.State.FACERIGHT) {
-            spriteBatch.draw(Assets.antagRight, xCoordinate, yCoordinate, antagSize, antagSize);
-//            protag.getPosition().x += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-        } else if (antag.getState() == Antagonist.State.FACELEFT) {
-            spriteBatch.draw(Assets.antagLeft, xCoordinate, yCoordinate, antagSize, antagSize);
-        } else if (antag.getState() == Antagonist.State.FACEUP) {
-            spriteBatch.draw(Assets.antagUp, xCoordinate, yCoordinate, antagSize, antagSize);
-        } else if (antag.getState() == Antagonist.State.FACEDOWN) {
-            spriteBatch.draw(Assets.antagDown, xCoordinate, yCoordinate, antagSize, antagSize);
-        }
-    }
-
-    private void drawEvilTwin() {
-        float xCoordinate = evilTwinAntag.getPosition().x;
-        float yCoordinate = evilTwinAntag.getPosition().y;
-        float antagSize = Antagonist.getSize();
-
-        if (evilTwinAntag.getState() == Antagonist.State.FACERIGHT) {
-            spriteBatch.draw(Assets.evilTwinRight, xCoordinate, yCoordinate, antagSize, antagSize);
-//            protag.getPosition().x += Protagonist.getSpeed() * Gdx.graphics.getDeltaTime();
-        } else if (evilTwinAntag.getState() == Antagonist.State.FACELEFT) {
-            spriteBatch.draw(Assets.evilTwinLeft, xCoordinate, yCoordinate, antagSize, antagSize);
-        } else if (evilTwinAntag.getState() == Antagonist.State.FACEUP) {
-            spriteBatch.draw(Assets.evilTwinUp, xCoordinate, yCoordinate, antagSize, antagSize);
-        } else if (evilTwinAntag.getState() == Antagonist.State.FACEDOWN) {
-            spriteBatch.draw(Assets.evilTwinDown, xCoordinate, yCoordinate, antagSize, antagSize);
-        }
-    }
-
-    private void drawFoods() {
-        for (Food food : foods) {
-            float foodX = food.getPosition().x;
-            float foodY = food.getPosition().y;
-            float foodSize = food.getSize();
-            int foodIndex = food.getFoodIndex();
-
-            Food newFood = checkFoodCollisions(food, foodX, foodY, foodSize);
-            float newFoodX = newFood.getPosition().x;
-            float newFoodY = newFood.getPosition().y;
-
-            if (foodIndex == 0)
-                spriteBatch.draw(Assets.foodApple, newFoodX, newFoodY, foodSize, foodSize);
-            else if (foodIndex == 1)
-                spriteBatch.draw(Assets.foodBanana, newFoodX, newFoodY, foodSize, foodSize);
-            else if (foodIndex == 2)
-                spriteBatch.draw(Assets.foodBacon, newFoodX, newFoodY, foodSize, foodSize);
-            else if (foodIndex == 3)
-                spriteBatch.draw(Assets.foodCake, newFoodX, newFoodY, foodSize, foodSize);
-
-        }
-    }
-
+    /**
+     * Takes in a food at the inputted location, checks if it is out of bounds or over a table.
+     * If yes, return a new food at a valid position. If not, return the original food.
+     * @param food
+     * @param foodX
+     * @param foodY
+     * @param foodSize
+     * @return
+     */
     private Food checkFoodCollisions(Food food, float foodX, float foodY, float foodSize) {
 
-        // Protag and antag initial position collisions
-
-        float protagStartX = protag.getStartPosition().x;
-        float protagStartY = protag.getStartPosition().y;
-        float protagSize = protag.getSize();
-        float antagStartX = antag.getStartPosition().x;
-        float antagStartY = antag.getStartPosition().y;
-        float antagSize = antag.getSize();
-
         Food newFood = food;
-
-        // Protag collisions
-
-        // check bottom left of food
-        while ((foodX >= protagStartX && foodX <= protagStartX + protagSize) && (foodY >= protagStartX && foodY <= protagStartX + protagSize)) {
-            newFood = removeThenAddNewFood(food.getPosition());
-            food = newFood;
-            foodX = newFood.getPosition().x;
-            foodY = newFood.getPosition().y;
-        }
-
-        // check bottom right
-        while ((foodX + foodSize >= protagStartX && foodX + foodSize <= protagStartX + protagSize) && (foodY >= protagStartY && foodY <= protagStartY + protagSize)) {
-            newFood = removeThenAddNewFood(food.getPosition());
-            food = newFood;
-            foodX = newFood.getPosition().x;
-            foodY = newFood.getPosition().y;
-        }
-
-        // check upper left
-        while ((foodX >= protagStartX && foodX <= protagStartX + protagSize) && (foodY + foodSize >= protagStartY && foodY + foodSize <= protagStartY + protagSize)) {
-            newFood = removeThenAddNewFood(food.getPosition());
-            food = newFood;
-            foodX = newFood.getPosition().x;
-            foodY = newFood.getPosition().y;
-        }
-
-        // check upper right
-
-        while ((foodX + foodSize >= protagStartX && foodX + foodSize <= protagStartX + protagSize) && (foodY + foodSize >= protagStartY && foodY + foodSize <= protagStartY + protagSize)) {
-            // can do a while loop to ensure the final fruit position is not on a table
-            newFood = removeThenAddNewFood(food.getPosition());
-            food = newFood;
-            foodX = newFood.getPosition().x;
-            foodY = newFood.getPosition().y;
-        }
-
-        // Antag collisions
-
-        // check bottom left of food
-        while ((foodX >= antagStartX && foodX <= antagStartX + antagSize) && (foodY >= antagStartY && foodY <= antagStartY + antagSize)) {
-            newFood = removeThenAddNewFood(food.getPosition());
-            food = newFood;
-            foodX = newFood.getPosition().x;
-            foodY = newFood.getPosition().y;
-        }
-
-        // check bottom right
-        while ((foodX + foodSize >= antagStartX && foodX + foodSize <= antagStartX + antagSize) && (foodY >= antagStartY && foodY <= antagStartY + antagSize)) {
-            newFood = removeThenAddNewFood(food.getPosition());
-            food = newFood;
-            foodX = newFood.getPosition().x;
-            foodY = newFood.getPosition().y;
-        }
-
-        // check upper left
-        while ((foodX >= antagStartX && foodX <= antagStartX + antagSize) && (foodY + foodSize >= antagStartY && foodY + foodSize <= antagStartY + antagSize)) {
-            newFood = removeThenAddNewFood(food.getPosition());
-            food = newFood;
-            foodX = newFood.getPosition().x;
-            foodY = newFood.getPosition().y;
-        }
-
-        // check upper right
-        while ((foodX + foodSize >= antagStartX && foodX + foodSize <= antagStartX + antagSize) && (foodY + foodSize >= antagStartY && foodY + foodSize <= antagStartY + antagSize)) {
-            // can do a while loop to ensure the final fruit position is not on a table
-            newFood = removeThenAddNewFood(food.getPosition());
-            food = newFood;
-            foodX = newFood.getPosition().x;
-            foodY = newFood.getPosition().y;
-
-        }
 
         // Wall Collisions:
 
         // bottom wall
-        while ((foodX >= 0 && foodX + foodSize <= screenWidth) && foodY < 0) {
+        while (foodY < 0) {
             newFood = removeThenAddNewFood(food.getPosition());
             food = newFood;
             foodX = newFood.getPosition().x;
@@ -449,7 +427,7 @@ public class CafeMacRenderer {
         }
 
         // top wall
-        while ((foodX >= 0 && foodX + foodSize <= screenWidth) && foodY + foodSize > screenHeight) {
+        while (foodY + foodSize > screenHeight) {
             newFood = removeThenAddNewFood(food.getPosition());
             food = newFood;
             foodX = newFood.getPosition().x;
@@ -457,7 +435,7 @@ public class CafeMacRenderer {
         }
 
 //        // left wall
-        while ((foodY >= 0 && foodY + foodSize <= screenHeight) && foodX < 0) {
+        while (foodX < 0) {
             newFood = removeThenAddNewFood(food.getPosition());
             food = newFood;
             foodX = newFood.getPosition().x;
@@ -465,7 +443,7 @@ public class CafeMacRenderer {
         }
 
 //        // right wall
-        while ((foodY >= 0 && foodY + foodSize <= screenHeight) && foodX + foodSize > screenWidth) {
+        while (foodX + foodSize > screenWidth) {
             newFood = removeThenAddNewFood(food.getPosition());
             food = newFood;
             foodX = newFood.getPosition().x;
@@ -504,7 +482,7 @@ public class CafeMacRenderer {
                 foodY = newFood.getPosition().y;
             }
 
-            // check bottom right
+            // check bottom right of food
             while ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY >= shapeY && foodY <= shapeY + shapeHeight)) {
                 newFood = removeThenAddNewFood(food.getPosition());
                 food = newFood;
@@ -512,7 +490,7 @@ public class CafeMacRenderer {
                 foodY = newFood.getPosition().y;
             }
 
-            // check upper left
+            // check upper left of food
             while ((foodX >= shapeX && foodX <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
                 newFood = removeThenAddNewFood(food.getPosition());
                 food = newFood;
@@ -520,7 +498,7 @@ public class CafeMacRenderer {
                 foodY = newFood.getPosition().y;
             }
 
-            // check upper right
+            // check upper right of food
             while ((foodX + foodSize >= shapeX && foodX + foodSize <= shapeX + shapeWidth) && (foodY + foodSize >= shapeY && foodY + foodSize <= shapeY + shapeHeight)) {
                 newFood = removeThenAddNewFood(food.getPosition());
                 food = newFood;
@@ -532,45 +510,31 @@ public class CafeMacRenderer {
         return food;
     }
 
+    /**
+     * Switches to the Game Over Screen
+     */
+    private void gameOver() {
+        cafeMac.setState(CafeMac.State.STATE_GAMEOVER);
+    }
+
+    /**
+     * Removes the food, increases the score, and adds another food in a different position
+     * @param foodPosition
+     */
+    private void eatFood(Vector2 foodPosition) {
+        removeThenAddNewFood(foodPosition);
+        gameScore++;
+        gameScoreName = "SCORE: " + gameScore;
+        Assets.eatingSound.play();
+    }
+
+    /**
+     * Removes the food at the specified the position, and returns a new food
+     * @param foodPosition
+     * @return
+     */
     private Food removeThenAddNewFood(Vector2 foodPosition) {
         cafeMac.removeFood(foodPosition);
         return cafeMac.addFood();
-    }
-
-
-    private void drawDebug() {
-
-        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
-        debugRenderer.setColor(new Color(0, 1, 0, 1));
-
-        //Outline the foods
-        for (Food food : foods) {
-            debugRenderer.rect(food.getPosition().x / widthRatio, food.getPosition().y / heightRatio, food.getSize() / widthRatio, food.getSize() / widthRatio);
-        }
-
-        // Outline the shapes
-        for (Shape2D shape : collisionShapes) {
-            if (shape.getClass() == Rectangle.class) {
-                Rectangle rect = (Rectangle) shape;
-                debugRenderer.rect(rect.getX(), rect.getY(), rect.width, rect.height);
-
-            } else {
-                Ellipse ellip = (Ellipse) shape;
-                debugRenderer.rect(ellip.x, ellip.y, ellip.width, ellip.height);
-            }
-        }
-
-        // Outline protagonist
-        Rectangle protagBounds = protag.getBounds();
-        debugRenderer.rect(protag.getPosition().x / widthRatio, protag.getPosition().y / heightRatio, protagBounds.width, protagBounds.height);
-
-        // Outline antagonist
-        Rectangle antagBounds = antag.getBounds();
-        debugRenderer.rect(antag.getPosition().x / widthRatio, antag.getPosition().y / heightRatio, antagBounds.width, antagBounds.height);
-
-        // Outline evil twin
-        Rectangle evilTwinAntagBounds = evilTwinAntag.getBounds();
-        debugRenderer.rect(evilTwinAntag.getPosition().x / widthRatio, evilTwinAntag.getPosition().y / heightRatio, evilTwinAntagBounds.width, evilTwinAntagBounds.height);
-        debugRenderer.end();
     }
 }

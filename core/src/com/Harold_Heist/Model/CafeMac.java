@@ -19,16 +19,10 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 public class CafeMac {
 
-	/** Our player controlled hero **/
     Protagonist protag;
-	/** Our heroes autonomous nemesis **/
 	Antagonist antag;
     Antagonist evilTwin;
-    /** Foods **/
-//    ArrayList<Food> foodArray = new ArrayList<Food>();
     Array<Food> foodArray = new Array<Food>();
-    /** Positions that already contains object **/
-    ArrayList<Vector2> takenPositions = new ArrayList<Vector2>();
 
     TiledMap tiledMap = new TmxMapLoader().load("graphics/cafeMacMap.tmx");
 
@@ -56,17 +50,13 @@ public class CafeMac {
 
     public ArrayList<Shape2D> getCollisionShapes() {return collisionShapes; }
 
-    public ArrayList<Vector2> getTakenPositions(){return takenPositions; }
-    // --------------------
-
     // Setters -----------
 
     public void setState(State state) {this.state = state;}
 
     // --------------------
-	public CafeMac(){ createCafeMac(); }
 
-	private void createCafeMac() {
+	public CafeMac(){
         protag = new Protagonist(new Vector2(50, 50));
         antag = new Antagonist(new Vector2(1, 1));
         evilTwin = new EvilTwin(new Vector2(330, 500));
@@ -81,14 +71,10 @@ public class CafeMac {
         }
     }
 
-    public void removeFood(Vector2 foodPosition) {
-        for (int i = 0; i < foodArray.size; i++) {
-            if (foodArray.get(i).getPosition().equals(foodPosition)) {
-                foodArray.removeIndex(i);
-            }
-        }
-    }
-
+    /**
+     * Creates a food at a valid position, adds it to the food array, and returns the food
+     * @return
+     */
     public Food addFood(){
         Random rand = new Random();
         Vector2 position = getFreePosition();
@@ -97,12 +83,32 @@ public class CafeMac {
         return food;
     }
 
+    /**
+     * Removes the food at the inputted position
+     * @param foodPosition
+     */
+    public void removeFood(Vector2 foodPosition) {
+        for (int i = 0; i < foodArray.size; i++) {
+            if (foodArray.get(i).getPosition().equals(foodPosition)) {
+                foodArray.removeIndex(i);
+            }
+        }
+    }
+
+    /**
+     * Returns a valid position for a food
+     * (not over other foods or over the starting positions of protagonist and antagonist)
+     * @return
+     */
+
     private Vector2 getFreePosition(){
         Random rand = new Random();
         Vector2 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
         float foodX = position.x;
         float foodY = position.y;
         float foodSize = Food.SIZE;
+
+        /* Checks to see if the current position overlaps with any food. If yes, get a new random position. */
 
         for (int i = 0; i < foodArray.size; i++) {
             Food otherFood = foodArray.get(i);
@@ -117,14 +123,14 @@ public class CafeMac {
                 foodY = position.y;
             }
 
-            // check bottom right
+            // check bottom right of food
             while ((foodX + foodSize >= otherFoodX && foodX + foodSize <= otherFoodX + otherFoodSize) && (foodY >= otherFoodY && foodY <= otherFoodY + otherFoodSize)) {
                 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
                 foodX = position.x;
                 foodY = position.y;
             }
 
-            // check upper left
+            // check upper left of food
 
             while ((foodX >= otherFoodX && foodX <= otherFoodX + otherFoodSize) && (foodY + foodSize >= otherFoodY && foodY + foodSize <= otherFoodY + otherFoodSize)) {
                 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
@@ -132,7 +138,7 @@ public class CafeMac {
                 foodY = position.y;
             }
 
-            // check upper right
+            // check upper right of food
             while ((foodX + foodSize >= otherFoodX && foodX + foodSize <= otherFoodX + otherFoodSize) && (foodY + foodSize >= otherFoodY && foodY + foodSize <= otherFoodY + otherFoodSize)) {
                 position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
                 foodX = position.x;
@@ -140,9 +146,85 @@ public class CafeMac {
             }
         }
 
+        /* Checks to see if the current position overlaps with starting position of protag and antag.
+        If yes, get a new random position. */
+
+        float protagStartX = protag.getStartPosition().x;
+        float protagStartY = protag.getStartPosition().y;
+        float protagSize = protag.getSize();
+        float antagStartX = antag.getStartPosition().x;
+        float antagStartY = antag.getStartPosition().y;
+        float antagSize = antag.getSize();
+
+        // Protag collisions
+
+        // check bottom left of food
+        while ((foodX >= protagStartX && foodX <= protagStartX + protagSize) && (foodY >= protagStartY && foodY <= protagStartY + protagSize)) {
+            position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+            foodX = position.x;
+            foodY = position.y;
+        }
+
+        // check bottom right of food
+        while ((foodX + foodSize >= protagStartX && foodX + foodSize <= protagStartX + protagSize) && (foodY >= protagStartY && foodY <= protagStartY + protagSize)) {
+            position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+            foodX = position.x;
+            foodY = position.y;
+        }
+
+        // check upper left of food
+        while ((foodX >= protagStartX && foodX <= protagStartX + protagSize) && (foodY + foodSize >= protagStartY && foodY + foodSize <= protagStartY + protagSize)) {
+            position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+            foodX = position.x;
+            foodY = position.y;
+        }
+
+        // check upper right of food
+
+        while ((foodX + foodSize >= protagStartX && foodX + foodSize <= protagStartX + protagSize) && (foodY + foodSize >= protagStartY && foodY + foodSize <= protagStartY + protagSize)) {
+            // can do a while loop to ensure the final fruit position is not on a table
+            position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+            foodX = position.x;
+            foodY = position.y;
+        }
+
+        // Antag collisions
+
+        // check bottom left of food
+        while ((foodX >= antagStartX && foodX <= antagStartX + antagSize) && (foodY >= antagStartY && foodY <= antagStartY + antagSize)) {
+            position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+            foodX = position.x;
+            foodY = position.y;
+        }
+
+        // check bottom right of food
+        while ((foodX + foodSize >= antagStartX && foodX + foodSize <= antagStartX + antagSize) && (foodY >= antagStartY && foodY <= antagStartY + antagSize)) {
+            position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+            foodX = position.x;
+            foodY = position.y;
+        }
+
+        // check upper left of food
+        while ((foodX >= antagStartX && foodX <= antagStartX + antagSize) && (foodY + foodSize >= antagStartY && foodY + foodSize <= antagStartY + antagSize)) {
+            position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+            foodX = position.x;
+            foodY = position.y;
+        }
+
+        // check upper right of food
+        while ((foodX + foodSize >= antagStartX && foodX + foodSize <= antagStartX + antagSize) && (foodY + foodSize >= antagStartY && foodY + foodSize <= antagStartY + antagSize)) {
+            // can do a while loop to ensure the final fruit position is not on a table
+            position = new Vector2(rand.nextInt(Gdx.graphics.getWidth()), rand.nextInt(Gdx.graphics.getHeight()));
+            foodX = position.x;
+            foodY = position.y;
+        }
+
         return position;
     }
 
+    /**
+     * Gets shapes from the tiled map and adds it to the collision shapes array
+     */
     private void addCollisionShapes(){
         objectLayer = tiledMap.getLayers().get("Collision");
         collisionObjects = objectLayer.getObjects();
